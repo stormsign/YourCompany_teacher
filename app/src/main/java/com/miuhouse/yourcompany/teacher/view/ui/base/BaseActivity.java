@@ -63,9 +63,9 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
 
         myTitlebar = new MyTitlebar(this);
         ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                Util.dip2px(this, getResources().getDimension(R.dimen.height_toolbar))
-                        +
-                        Util.getStatusBarHeight(this));
+//                Util.dip2px(this, getResources().getDimension(R.dimen.height_toolbar))
+//                        +
+                        Util.getStatusBarHeight(this)*2);
         myTitlebar.setLayoutParams(params);
         myTitlebar.setOnMyTitlebarClickListener(this);
         myTitlebar.setTitle(setTitle());
