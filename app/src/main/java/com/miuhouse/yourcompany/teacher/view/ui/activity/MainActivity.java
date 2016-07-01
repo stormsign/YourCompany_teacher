@@ -1,41 +1,37 @@
 package com.miuhouse.yourcompany.teacher.view.ui.activity;
 
-import android.view.Menu;
-import android.view.MenuItem;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.RelativeLayout;
 
 import com.miuhouse.yourcompany.teacher.R;
+import com.miuhouse.yourcompany.teacher.utils.L;
 import com.miuhouse.yourcompany.teacher.view.ui.base.BaseActivity;
-import com.miuhouse.yourcompany.teacher.view.widget.MyTitlebar;
 
 
 public class MainActivity extends BaseActivity {
 
-    private MyTitlebar myTitlebar;
+    private RelativeLayout content;
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+    protected void onSaveInstanceState(Bundle outState) {}
+
+    @Override
+    protected void initTitle() {}
+
+    @Override
+    protected String setTitle() {
+        return "主页";
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+    protected String setRight() {
+        return "按钮";
     }
 
     @Override
     protected void initViewAndEvents() {
+        content = (RelativeLayout) findViewById(R.id.content);
     }
 
     @Override
@@ -43,5 +39,21 @@ public class MainActivity extends BaseActivity {
         return R.layout.activity_main;
     }
 
+    @Override
+    protected View getOverrideParentView() {
+        return content;
+    }
+
+    @Override
+    public void onBackClick() {
+        L.i("back or finish!!!");
+        showError("dd");
+    }
+
+    @Override
+    public void onRightClick() {
+        L.i("right!!!");
+        hideLoading();
+    }
 
 }
