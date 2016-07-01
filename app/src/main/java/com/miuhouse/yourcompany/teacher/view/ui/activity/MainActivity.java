@@ -34,6 +34,8 @@ public class MainActivity extends BaseActivity {
         content = (RelativeLayout) findViewById(R.id.content);
     }
 
+
+
     @Override
     protected int getContentLayoutId() {
         return R.layout.activity_main;
