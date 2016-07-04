@@ -23,6 +23,11 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {}
 
+//    @Override
+//    protected void initTitle() {
+//
+//    }
+
     @Override
     protected String setTitle() {
         return "主页";
