@@ -3,7 +3,6 @@ package com.miuhouse.yourcompany.teacher.view.widget;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.CornerPathEffect;
 import android.graphics.Paint;
 import android.graphics.Path;
@@ -105,7 +104,8 @@ public class ViewPagerIndicator extends LinearLayout {
 
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
-        mPaint.setColor(Color.parseColor("#ffffffff"));
+//        mPaint.setColor(Color.parseColor("#ffffffff"));
+        mPaint.setColor(getResources().getColor(android.R.color.holo_orange_dark));
         mPaint.setStyle(Paint.Style.FILL);
         mPaint.setPathEffect(new CornerPathEffect(3));
     }
@@ -117,12 +117,14 @@ public class ViewPagerIndicator extends LinearLayout {
         if (count == 0){
             return ;
         }
+
         //设置每个tab的宽度
         for (int i = 0;i<count;i++){
             View view = getChildAt(i);
             LayoutParams params = (LayoutParams) view.getLayoutParams();
             params.width = getScreenWidth()/mTabVisibleCount;
             view.setLayoutParams(params);
+//            view.setBackgroundColor(getResources().getColor(android.R.color.holo_orange_dark));
         }
         //设置点击事件
         setItemClickEvent();
@@ -307,12 +309,14 @@ public class ViewPagerIndicator extends LinearLayout {
     }
 
     private View generateTextView(int res) {
-        ImageView tv = new ImageView(getContext());
-        LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        ImageView imageView = new ImageView(getContext());
+        LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.width = getScreenWidth() / mTabVisibleCount;
-        tv.setImageResource(res);
-        tv.setLayoutParams(params);
-        return tv;
+        params.gravity = Gravity.CENTER;
+        imageView.setImageResource(res);
+        imageView.setLayoutParams(params);
+        imageView.setBackgroundColor(getResources().getColor(android.R.color.holo_orange_dark));
+        return imageView;
     }
 
 
@@ -331,23 +335,6 @@ public class ViewPagerIndicator extends LinearLayout {
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

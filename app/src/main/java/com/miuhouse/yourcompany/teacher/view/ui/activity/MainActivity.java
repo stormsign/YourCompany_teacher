@@ -20,18 +20,14 @@ public class MainActivity extends BaseActivity {
     private RelativeLayout content;
     private ViewPagerIndicator mPages;
     private List<Integer> imgResList = null;
+    private List<String> titleList = null;
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {}
 
-//    @Override
-//    protected void initTitle() {
-//
-//    }
-
     @Override
     protected void initTitle() {
-        super.initTitle();
+
     }
 
     @Override
@@ -48,14 +44,20 @@ public class MainActivity extends BaseActivity {
     protected void initViewAndEvents() {
         content = (RelativeLayout) findViewById(R.id.content);
         imgResList = new ArrayList<>();
+        titleList = new ArrayList<>();
         imgResList.add(android.R.drawable.ic_dialog_email);
         imgResList.add(android.R.drawable.ic_dialog_email);
         imgResList.add(android.R.drawable.ic_dialog_email);
+//        titleList.add("订单");
+//        titleList.add("看看");
+//        titleList.add("版本");
         mPages = (ViewPagerIndicator) findViewById(R.id.pages);
         ViewPager pager = new ViewPager(this);
         mPages.setViewPager(pager, 0);
         mPages.setTabItemImgs(imgResList);
+//        mPages.setTabItemTitles(titleList);
     }
+
 
 
 
