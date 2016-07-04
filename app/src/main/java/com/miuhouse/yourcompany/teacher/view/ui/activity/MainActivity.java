@@ -27,7 +27,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initTitle() {
-
+        super.initTitle();
     }
 
     @Override

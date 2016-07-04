@@ -8,7 +8,9 @@
         android:id="@+id/edit_user"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:hint="用户名"
+        android:hint="请输入手机号码"
+        android:phoneNumber="true"
+        android:textColor="@android:color/black"
         android:textColorHint="@android:color/black"
         android:textSize="14sp" />
 
@@ -16,15 +18,30 @@
         android:id="@+id/edit_password"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:hint="用户名"
+        android:hint="请输入帐号密码"
         android:password="true"
         android:textColorHint="@android:color/black"
         android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tv_reset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="忘记密码?点击找回" />
 
     <Button
         android:id="@+id/btn_login"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="@android:color/holo_red_dark" />
+        android:background="@android:color/holo_red_dark"
+        android:text="登录" />
 
+    <TextView
+        android:id="@+id/tv_regist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="注册新用户"
+
+        />
 </LinearLayout>

@@ -1,11 +1,16 @@
 package com.miuhouse.yourcompany.teacher.view.widget;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.CornerPathEffect;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.StateListDrawable;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.AttributeSet;
@@ -316,7 +321,27 @@ public class ViewPagerIndicator extends LinearLayout {
         imageView.setImageResource(res);
         imageView.setLayoutParams(params);
         imageView.setBackgroundColor(getResources().getColor(android.R.color.holo_orange_dark));
+        setImageTintSelector(imageView, res);
         return imageView;
+    }
+
+    private void setImageTintSelector(ImageView imageView, int resId) {
+        Drawable drawable = ContextCompat.getDrawable(getContext(),resId);
+        int [] colors = new int[]{ContextCompat.getColor(getContext(), android.R.color.holo_orange_light)
+                                    ,ContextCompat.getColor(getContext(), android.R.color.white)};
+        int [][] states = new int[2][];
+        states[0] = new int [] {android.R.attr.state_pressed};
+        states[1] = new int []{};
+        ColorStateList colorStateList = new ColorStateList(states, colors);
+        StateListDrawable stateListDrawable = new StateListDrawable();
+        stateListDrawable.addState(states[0], drawable);
+        stateListDrawable.addState(states[1], drawable);
+        Drawable.ConstantState constantState = stateListDrawable.getConstantState();
+        drawable = DrawableCompat.wrap(constantState == null ?
+            stateListDrawable :
+            constantState.newDrawable().mutate());
+        DrawableCompat.setTintList(drawable, colorStateList);
+        imageView.setImageDrawable(drawable);
     }
 
 
