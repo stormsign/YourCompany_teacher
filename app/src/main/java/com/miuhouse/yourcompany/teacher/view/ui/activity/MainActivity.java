@@ -24,6 +24,11 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {}
 
+//    @Override
+//    protected void initTitle() {
+//
+//    }
+
     @Override
     protected void initTitle() {
         super.initTitle();
