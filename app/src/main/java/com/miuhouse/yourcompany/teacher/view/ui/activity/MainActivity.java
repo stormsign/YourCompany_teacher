@@ -1,23 +1,27 @@
 package com.miuhouse.yourcompany.teacher.view.ui.activity;
 
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.miuhouse.yourcompany.teacher.R;
 import com.miuhouse.yourcompany.teacher.utils.L;
 import com.miuhouse.yourcompany.teacher.view.ui.base.BaseActivity;
+import com.miuhouse.yourcompany.teacher.view.widget.ViewPagerIndicator;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MainActivity extends BaseActivity {
 
     private RelativeLayout content;
+    private ViewPagerIndicator mPages;
+    private List<Integer> imgResList = null;
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {}
-
-    @Override
-    protected void initTitle() {}
 
     @Override
     protected String setTitle() {
@@ -32,6 +36,14 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void initViewAndEvents() {
         content = (RelativeLayout) findViewById(R.id.content);
+        imgResList = new ArrayList<>();
+        imgResList.add(android.R.drawable.ic_dialog_email);
+        imgResList.add(android.R.drawable.ic_dialog_email);
+        imgResList.add(android.R.drawable.ic_dialog_email);
+        mPages = (ViewPagerIndicator) findViewById(R.id.pages);
+        ViewPager pager = new ViewPager(this);
+        mPages.setViewPager(pager, 0);
+        mPages.setTabItemImgs(imgResList);
     }
 
 
