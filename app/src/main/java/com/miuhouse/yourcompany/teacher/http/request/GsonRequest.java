@@ -12,6 +12,7 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.miuhouse.yourcompany.teacher.utils.Constants;
+import com.miuhouse.yourcompany.teacher.utils.L;
 import com.miuhouse.yourcompany.teacher.utils.Util;
 
 import org.json.JSONException;
@@ -93,7 +94,7 @@ public class GsonRequest<T> extends Request<T> {
             String charset = HttpHeaderParser.parseCharset(response.headers);
             Cache.Entry entry = HttpHeaderParser.parseCacheHeaders(response);
             String jsonString = new String(response.data, charset);
-            Log.i("TAG","jsonString="+jsonString);
+            L.i("jsonString="+jsonString);
             if (typeToken == null) {
                 T fromJson = mGson.fromJson(jsonString, clazz);
                 return Response.success(fromJson, entry);
