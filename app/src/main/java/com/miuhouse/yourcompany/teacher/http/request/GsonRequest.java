@@ -1,5 +1,7 @@
 package com.miuhouse.yourcompany.teacher.http.request;
 
+import android.util.Log;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.Cache;
 import com.android.volley.NetworkResponse;
@@ -91,6 +93,7 @@ public class GsonRequest<T> extends Request<T> {
             String charset = HttpHeaderParser.parseCharset(response.headers);
             Cache.Entry entry = HttpHeaderParser.parseCacheHeaders(response);
             String jsonString = new String(response.data, charset);
+            Log.i("TAG","jsonString="+jsonString);
             if (typeToken == null) {
                 T fromJson = mGson.fromJson(jsonString, clazz);
                 return Response.success(fromJson, entry);

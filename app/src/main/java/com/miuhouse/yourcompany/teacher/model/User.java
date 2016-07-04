@@ -1,17 +1,19 @@
 package com.miuhouse.yourcompany.teacher.model;
 
+import java.io.Serializable;
+
 /**
  * Created by kings on 7/1/2016.
  */
-public class User {
+public class User implements Serializable {
     private String name;
-    private long id;
+    private String id;
 
     public String getName() {
         return name;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
@@ -19,7 +21,7 @@ public class User {
         this.name = name;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 }

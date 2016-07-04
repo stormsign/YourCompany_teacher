@@ -9,6 +9,7 @@ import com.android.volley.toolbox.Volley;
 import com.miuhouse.yourcompany.teacher.application.App;
 import com.miuhouse.yourcompany.teacher.http.request.GsonRequest;
 import com.miuhouse.yourcompany.teacher.http.request.StringRequest;
+import com.miuhouse.yourcompany.teacher.model.User;
 
 import java.util.Map;
 
@@ -19,7 +20,11 @@ import okhttp3.OkHttpClient;
  */
 public class VolleyManager {
 
+
     private RequestQueue mRequestQueue;
+
+
+
     //静态内部类单例模式
     private static class Holder{
         private final static VolleyManager INSTANCE = new VolleyManager(App.getContext());

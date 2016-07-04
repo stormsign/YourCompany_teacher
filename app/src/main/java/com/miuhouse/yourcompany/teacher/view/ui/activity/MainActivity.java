@@ -1,5 +1,6 @@
 package com.miuhouse.yourcompany.teacher.view.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.View;
@@ -22,6 +23,11 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {}
+
+    @Override
+    protected void initTitle() {
+        super.initTitle();
+    }
 
     @Override
     protected String setTitle() {
@@ -67,7 +73,8 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onRightClick() {
         L.i("right!!!");
-        hideLoading();
+//        hideLoading();
+        startActivity(new Intent(MainActivity.this,LoginActivity.class));
     }
 
 }
