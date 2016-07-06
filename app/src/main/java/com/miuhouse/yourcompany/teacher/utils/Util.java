@@ -4,8 +4,11 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.net.ConnectivityManager;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+
+import com.miuhouse.yourcompany.teacher.application.App;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -83,16 +86,11 @@ public class Util {
         int result = 0;
 //        应该是从配置文件中获取状态栏高度
         int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (resourceId > 0){
+        if (resourceId > 0) {
             result = context.getResources().getDimensionPixelSize(resourceId);
         }
         return result;
     }
-
-
-
-
-
 
 
     public static Bitmap createImageThumbnail(Context context, String largeImagePath, int square_size) throws IOException {
@@ -103,10 +101,10 @@ public class Util {
         BitmapFactory.Options bmOptions = new BitmapFactory.Options();
         bmOptions.inJustDecodeBounds = true;
         BitmapFactory.decodeFile(largeImagePath, bmOptions);
-        // Log.i("TAG", "bitmap:width=" + bitmap.getWidth() + "height=" + bitmap.getHeight());
+        // L.i("TAG", "bitmap:width=" + bitmap.getWidth() + "height=" + bitmap.getHeight());
         // Determine how much to scale down the image
 
-        // Log.i("TAG", "calculateInSampleSize=" + calculateInSampleSize(bmOptions, 300, 600));
+        // L.i("TAG", "calculateInSampleSize=" + calculateInSampleSize(bmOptions, 300, 600));
         // Decode the image file into a Bitmap sized to fill the View
         bmOptions.inSampleSize = calculateInSampleSize(bmOptions, 600, 600);
         bmOptions.inJustDecodeBounds = false;
@@ -115,14 +113,14 @@ public class Util {
         // options.inJustDecodeBounds = false;
         // options.inSampleSize = 5;
         // 原始图片bitmap
-        Log.i("TAG", "largeImagePath=" + largeImagePath);
+        L.i("TAG", "largeImagePath=" + largeImagePath);
         Bitmap cur_bitmap = getBitmapByPath(largeImagePath, bmOptions);
         // Bitmap cur_bitmap = revitionImageSize(largeImagePath);
-        Log.i("TAG", "cur_bitmap=" + cur_bitmap.getByteCount());
+        L.i("TAG", "cur_bitmap=" + cur_bitmap.getByteCount());
         if (cur_bitmap == null)
             return null;
-        Log.i("TAG", "cur_bitmap+width=" + cur_bitmap.getWidth());
-        Log.i("TAG", "cur_bitmap+height=" + cur_bitmap.getHeight());
+        L.i("TAG", "cur_bitmap+width=" + cur_bitmap.getWidth());
+        L.i("TAG", "cur_bitmap+height=" + cur_bitmap.getHeight());
         // 原始图片的高宽
         int[] cur_img_size = new int[]{cur_bitmap.getWidth(), cur_bitmap.getHeight()};
         // 计算原始图片缩放后的宽高
@@ -155,7 +153,7 @@ public class Util {
      * @return
      */
     public static Bitmap getBitmapByPath(String filePath) {
-        Log.i("TAG", "filePath=" + filePath);
+        L.i("TAG", "filePath=" + filePath);
         return getBitmapByPath(filePath, null);
     }
 
@@ -170,7 +168,7 @@ public class Util {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (OutOfMemoryError e) {
-            Log.i("TAG", "OUTOFmEMORYError=" + e.getMessage());
+            L.i("TAG", "OUTOFmEMORYError=" + e.getMessage());
             e.printStackTrace();
         } finally {
             try {
@@ -222,6 +220,7 @@ public class Util {
         bm.compress(Bitmap.CompressFormat.PNG, 100, baos);
         return baos.toByteArray();
     }
+
     /**
      * 判断给定字符串是否空白串。 空白串是指由空格、制表符、回车符、换行符组成的字符串 若输入字符串为null或空字符串，返回true
      *
@@ -240,6 +239,7 @@ public class Util {
         }
         return true;
     }
+
     /**
      * 验证是不是手机号
      *
@@ -256,4 +256,12 @@ public class Util {
         return b;
     }
 
+    public static boolean hasInternet() {
+        boolean flag;
+        if (((ConnectivityManager) App.getContext().getSystemService(Context.CONNECTIVITY_SERVICE)).getActiveNetworkInfo() != null)
+            flag = true;
+        else
+            flag = false;
+        return flag;
+    }
 }

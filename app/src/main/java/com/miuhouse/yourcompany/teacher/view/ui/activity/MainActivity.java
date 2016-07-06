@@ -1,14 +1,23 @@
 package com.miuhouse.yourcompany.teacher.view.ui.activity;
 
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.NotificationCompat;
 import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.miuhouse.yourcompany.teacher.R;
+import com.miuhouse.yourcompany.teacher.factory.FragmentFactory;
 import com.miuhouse.yourcompany.teacher.utils.L;
+import com.miuhouse.yourcompany.teacher.view.ui.adapter.MainPageAdapter;
 import com.miuhouse.yourcompany.teacher.view.ui.base.BaseActivity;
+import com.miuhouse.yourcompany.teacher.view.ui.base.BaseFragment;
 import com.miuhouse.yourcompany.teacher.view.widget.ViewPagerIndicator;
 
 import java.util.ArrayList;
@@ -51,10 +60,19 @@ public class MainActivity extends BaseActivity {
 //        titleList.add("订单");
 //        titleList.add("看看");
 //        titleList.add("版本");
-        mPages = (ViewPagerIndicator) findViewById(R.id.pages);
-        ViewPager pager = new ViewPager(this);
-        mPages.setViewPager(pager, 0);
+
+
+        List<Fragment> fragmentList = new ArrayList<Fragment>();
+        fragmentList.add(FragmentFactory.getFragment(BaseFragment.MESSAGESFRAGMENT));
+        fragmentList.add(FragmentFactory.getFragment(BaseFragment.ORDERSFRAGMENT));
+        fragmentList.add(FragmentFactory.getFragment(BaseFragment.ACCOUNTFRAGMENT));
+
+        mPages = (ViewPagerIndicator) findViewById(R.id.pageIndicator);
+        ViewPager pager = (ViewPager) findViewById(R.id.pages);
+        MainPageAdapter adapter = new MainPageAdapter(getSupportFragmentManager(), fragmentList);
         mPages.setTabItemImgs(imgResList);
+        pager.setAdapter(adapter);
+        mPages.setViewPager(pager, 0);
 //        mPages.setTabItemTitles(titleList);
     }
 
@@ -81,7 +99,37 @@ public class MainActivity extends BaseActivity {
     public void onRightClick() {
         L.i("right!!!");
 //        hideLoading();
-        startActivity(new Intent(MainActivity.this,LoginActivity.class));
+        startActivity(new Intent(MainActivity.this, LoginActivity.class));
+
+        showNotification();
+    }
+
+    private void showNotification() {
+        NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+        builder.setSmallIcon(R.mipmap.asy);
+        builder.setContentTitle("ContentTitle");
+        builder.setContentText("ContentText");
+//        builder.setSubText("subtext");
+//        Notification notification = builder.build();
+        builder.setAutoCancel(true);
+        builder.setTicker("ticker");
+        builder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.btn_selected));
+        Notification notification = null;
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+            notification = builder.getNotification();
+        }else{
+            notification = builder.build();
+        }
+        notification.flags = Notification.FLAG_AUTO_CANCEL
+                | Notification.FLAG_INSISTENT;
+        notification.defaults = Notification.DEFAULT_SOUND
+                | Notification.DEFAULT_LIGHTS
+                | Notification.DEFAULT_VIBRATE;
+        nm.notify(190, notification);
+
+
+
     }
 
 }

@@ -203,7 +203,7 @@ public class ViewPagerIndicator extends LinearLayout {
             @Override
             public void onPageSelected(int position) {
 //                设置字体颜色高亮
-                resetTextViewColor();
+                resetTextViewColor(position);
                 highListTextView(position);
                 if (myOnPageChangeListener != null) {
                     myOnPageChangeListener.onPageSelected(position);
@@ -221,13 +221,20 @@ public class ViewPagerIndicator extends LinearLayout {
         highListTextView(position);
 
     }
+
+
 //    重置文本颜色
-    private void resetTextViewColor() {
+    private void resetTextViewColor(int position) {
         for (int i = 0; i<getChildCount(); i++){
-            View view = getChildAt(i);
-            if (view instanceof TextView){
-                TextView tv = (TextView)view;
-                tv.setTextColor(COLOR_TEXT_NORMAL);
+            if (i!=position) {
+                View view = getChildAt(i);
+                if (view instanceof TextView) {
+                    TextView tv = (TextView) view;
+                    tv.setTextColor(COLOR_TEXT_NORMAL);
+                }
+                if (view instanceof ImageView) {
+                    view.setSelected(false);
+                }
             }
         }
     }
@@ -237,6 +244,9 @@ public class ViewPagerIndicator extends LinearLayout {
         if (view instanceof TextView){
             TextView tv = (TextView)view;
             tv.setTextColor(COLOR_TEXT_HIGHLIGHTCOLOR);
+        }
+        if (view instanceof ImageView){
+            view.setSelected(true);
         }
     }
 //    指示器跟随手指滚动，以及容器滚动
@@ -314,7 +324,7 @@ public class ViewPagerIndicator extends LinearLayout {
     }
 
     private View generateTextView(int res) {
-        ImageView imageView = new ImageView(getContext());
+        final ImageView imageView = new ImageView(getContext());
         LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.width = getScreenWidth() / mTabVisibleCount;
         params.gravity = Gravity.CENTER;
@@ -325,12 +335,13 @@ public class ViewPagerIndicator extends LinearLayout {
         return imageView;
     }
 
+//    代码实现着色选择器
     private void setImageTintSelector(ImageView imageView, int resId) {
         Drawable drawable = ContextCompat.getDrawable(getContext(),resId);
-        int [] colors = new int[]{ContextCompat.getColor(getContext(), android.R.color.holo_orange_light)
+        int [] colors = new int[]{ContextCompat.getColor(getContext(), android.R.color.holo_red_light)
                                     ,ContextCompat.getColor(getContext(), android.R.color.white)};
-        int [][] states = new int[2][];
-        states[0] = new int [] {android.R.attr.state_pressed};
+        int [][] states = new int[colors.length][];
+        states[0] = new int [] {android.R.attr.state_selected};
         states[1] = new int []{};
         ColorStateList colorStateList = new ColorStateList(states, colors);
         StateListDrawable stateListDrawable = new StateListDrawable();

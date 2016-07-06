@@ -1,12 +1,12 @@
 package com.miuhouse.yourcompany.teacher.http.request;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.miuhouse.yourcompany.teacher.application.App;
 import com.miuhouse.yourcompany.teacher.http.listener.ProgressListener;
 import com.miuhouse.yourcompany.teacher.http.requestbody.ProgressRequestBody;
 import com.miuhouse.yourcompany.teacher.listener.OnLoadCallBack;
+import com.miuhouse.yourcompany.teacher.utils.L;
 import com.miuhouse.yourcompany.teacher.utils.Util;
 
 import org.json.JSONException;
@@ -89,7 +89,7 @@ public class UploadRequest {
         progressBody = new ProgressRequestBody(body, new ProgressListener() {
             @Override
             public void onProgress(long bytesRead, long totalBytes, boolean done) {
-                Log.i("TAG", "========== " + bytesRead + " / " + totalBytes + " =========");
+                L.i("TAG", "========== " + bytesRead + " / " + totalBytes + " =========");
             }
         });
     }
@@ -115,8 +115,8 @@ public class UploadRequest {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                Log.i("TAG", "==== uploading stop " + System.currentTimeMillis() + " ====");
-                Log.i("TAG", "--------RESPONSE 1 ----------\n" + response.body().toString());
+                L.i("TAG", "==== uploading stop " + System.currentTimeMillis() + " ====");
+                L.i("TAG", "--------RESPONSE 1 ----------\n" + response.body().toString());
                 onLoadCallBack.onLoadSuccess(response);
             }
 

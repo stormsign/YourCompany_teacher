@@ -1,14 +1,14 @@
 package com.miuhouse.yourcompany.teacher.presenter.impl;
 
-import android.util.Log;
-
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.miuhouse.yourcompany.teacher.interactor.GetUserInfo;
 import com.miuhouse.yourcompany.teacher.interactor.interf.IGetUser;
+import com.miuhouse.yourcompany.teacher.model.BaseBean;
 import com.miuhouse.yourcompany.teacher.model.User;
 import com.miuhouse.yourcompany.teacher.presenter.ILoginPresenter;
-import com.miuhouse.yourcompany.teacher.view.ui.activity.view.ILoginView;
+import com.miuhouse.yourcompany.teacher.utils.L;
+import com.miuhouse.yourcompany.teacher.view.ui.activity.interf.ILoginView;
 
 /**
  * 程序逻辑在Presenter里实现
@@ -21,7 +21,7 @@ public class LoginPresenter implements ILoginPresenter {
 
     public LoginPresenter(ILoginView iLoginView) {
         this.iLoginView = iLoginView;
-         getUser = new GetUserInfo();
+        getUser = new GetUserInfo();
     }
 
     @Override
@@ -35,11 +35,26 @@ public class LoginPresenter implements ILoginPresenter {
         getUser.getUserInfo(name, passwd, new Response.Listener<User>() {
             @Override
             public void onResponse(User response) {
-                Log.i("TAG", "user=" + response.getName());
+                L.i("TAG", "user=" + response.getName());
                 iLoginView.showLoginSuccess(response);
             }
         }, new Response.ErrorListener() {
 
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+    }
+
+    @Override
+    public void doRegist(String name, String password) {
+        getUser.getRegistInfo(name, password, new Response.Listener<BaseBean>() {
+            @Override
+            public void onResponse(BaseBean response) {
+
+            }
+        }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
 

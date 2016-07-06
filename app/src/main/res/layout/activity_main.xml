@@ -12,10 +12,16 @@
         android:layout_height="match_parent">
 
         <com.miuhouse.yourcompany.teacher.view.widget.ViewPagerIndicator
-            android:id="@+id/pages"
+            android:id="@+id/pageIndicator"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:item_count="3"/>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/pages"
+            android:layout_below="@id/pageIndicator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
     </RelativeLayout>
 

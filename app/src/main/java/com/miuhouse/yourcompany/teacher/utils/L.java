@@ -78,7 +78,7 @@ public class L {
 
     public static void w(String tag, String msg) {
         if (mDebuggable >= LEVEL_WARN) {
-            Log.i(tag, msg);
+            L.i(tag, msg);
         }
     }
 

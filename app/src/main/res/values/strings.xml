@@ -3,4 +3,5 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="tip_no_internet">当前没有可用的网络链接</string>
 </resources>
