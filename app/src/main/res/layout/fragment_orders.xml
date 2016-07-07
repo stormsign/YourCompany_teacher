@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgroundcolor_common">
+
+    <LinearLayout android:id="@+id/top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:background="@color/white"
+        android:elevation="6dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ico_waitingorderlist"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="有"
+            android:textColor="@color/textDarkthree"
+            android:textSize="16sp"
+            android:textStyle="bold"/>
+
+        <TextView android:id="@+id/orderCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/textOrange"
+            android:text="3"
+            android:textSize="16sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/textDarkthree"
+            android:text="个订单正在等待选择"
+            android:textSize="16sp"
+            android:textStyle="bold"/>
+
+    </LinearLayout>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/refresh"
+        android:layout_below="@id/top"
+        android:layout_above="@id/bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/orderList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <LinearLayout
+        android:id="@+id/bottom"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="center">
+
+        <RelativeLayout android:id="@+id/square"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="10dp">
+
+            <ImageView android:id="@+id/iconSquare"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/home_orderlist_n"
+                android:layout_centerHorizontal="true"/>
+
+            <TextView android:id="@+id/textSquare"
+                android:layout_below="@id/iconSquare"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="派单广场"
+                android:textSize="13sp"
+                android:textColor="@color/textDarktwo"
+                android:layout_centerHorizontal="true"/>
+
+        </RelativeLayout>
+        <View
+            android:layout_width="1dp"
+            android:layout_height="40dp"
+            android:background="@color/line"/>
+        <RelativeLayout android:id="@+id/myOrder"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="10dp">
+
+            <ImageView android:id="@+id/iconMyOrder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/home_account_s"
+                android:layout_centerHorizontal="true"/>
+
+            <TextView android:id="@+id/textMyOrder"
+                android:layout_below="@id/iconMyOrder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="我抢的单"
+                android:textSize="13sp"
+                android:textColor="@color/textDarktwo"
+                android:layout_centerHorizontal="true"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
