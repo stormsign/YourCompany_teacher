@@ -1,4 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="white">#FFF</color>
+    <!--主背景色-->
+    <color name="backgroundcolor_common">#F5F2EE</color>
+    <color name="text_selected">#888</color>
+
+    <!--主题颜色-->
+    <color name="themeColor">#FFFF9800</color>
+
+    <!--字体颜色  DE 87%,8F 56%,66 40%,4d 30%-->
+    <color name="textDarkone">#DE000000</color>
+    <color name="textDarktwo">#DE050505</color>
+    <color name="textDarkthree">#8F000000</color>
+    <color name="textDarkfour">#66050505</color>
+    <color name="textOrange">@color/themeColor</color>
+    <color name="textWhite">#F5FFFFFF</color>
+    <color name="textBlue">#FF0BA7EF</color>
+    <color name="line">#DFDFDF</color>
 </resources>

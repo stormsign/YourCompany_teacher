@@ -106,11 +106,10 @@ public class ViewPagerIndicator extends LinearLayout {
             mTabVisibleCount = COUNT_DEFAULT_TAB;
         }
         mTypedArray.recycle();
-
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
 //        mPaint.setColor(Color.parseColor("#ffffffff"));
-        mPaint.setColor(getResources().getColor(android.R.color.holo_orange_dark));
+        mPaint.setColor(getResources().getColor(R.color.white));
         mPaint.setStyle(Paint.Style.FILL);
         mPaint.setPathEffect(new CornerPathEffect(3));
     }
@@ -328,14 +327,40 @@ public class ViewPagerIndicator extends LinearLayout {
         LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.width = getScreenWidth() / mTabVisibleCount;
         params.gravity = Gravity.CENTER;
+        imageView.setPadding(0
+                , getResources().getDimensionPixelSize(R.dimen.home_indicator_padding)
+                , 0
+                , getResources().getDimensionPixelSize(R.dimen.home_indicator_padding));
         imageView.setImageResource(res);
         imageView.setLayoutParams(params);
-        imageView.setBackgroundColor(getResources().getColor(android.R.color.holo_orange_dark));
-        setImageTintSelector(imageView, res);
+//        imageView.setBackgroundColor(getResources().getColor(R.color.themeColor));
+//        setImageTintSelector(imageView, res);
+        setImageSelector(imageView, res);
         return imageView;
     }
 
-//    代码实现着色选择器
+    private void setImageSelector(ImageView imageView, int res) {
+        StateListDrawable drawable = new StateListDrawable();
+        drawable.addState(new int[]{-android.R.attr.state_selected}
+                , getResources().getDrawable(res));
+        switch (res) {
+            case R.mipmap.home_msg_n:
+                drawable.addState(new int[]{android.R.attr.state_selected}
+                        , getResources().getDrawable(R.mipmap.home_msg_s));
+                break;
+            case R.mipmap.home_orderlist_n:
+                drawable.addState(new int[]{android.R.attr.state_selected}
+                        , getResources().getDrawable(R.mipmap.home_orderlist_s));
+                break;
+            case R.mipmap.home_account_n:
+                drawable.addState(new int[]{android.R.attr.state_selected}
+                        , getResources().getDrawable(R.mipmap.home_account_s));
+                break;
+        }
+        imageView.setImageDrawable(drawable);
+    }
+
+    //    代码实现着色选择器
     private void setImageTintSelector(ImageView imageView, int resId) {
         Drawable drawable = ContextCompat.getDrawable(getContext(),resId);
         int [] colors = new int[]{ContextCompat.getColor(getContext(), android.R.color.holo_red_light)

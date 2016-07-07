@@ -1,7 +1,5 @@
 package com.miuhouse.yourcompany.teacher.view.ui.activity;
 
-import android.app.Activity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -10,12 +8,11 @@ import android.widget.Toast;
 
 import com.miuhouse.yourcompany.teacher.R;
 import com.miuhouse.yourcompany.teacher.model.User;
-import com.miuhouse.yourcompany.teacher.presenter.ILoginPresenter;
-import com.miuhouse.yourcompany.teacher.presenter.impl.LoginPresenter;
+import com.miuhouse.yourcompany.teacher.presenter.interf.ILoginPresenter;
+import com.miuhouse.yourcompany.teacher.presenter.LoginPresenter;
 import com.miuhouse.yourcompany.teacher.utils.Util;
 import com.miuhouse.yourcompany.teacher.view.ui.activity.interf.ILoginView;
 import com.miuhouse.yourcompany.teacher.view.ui.base.BaseActivity;
-import com.miuhouse.yourcompany.teacher.view.ui.base.BaseView;
 
 /**
  * Created by kings on 7/1/2016.
@@ -49,7 +46,7 @@ public class LoginActivity extends BaseActivity implements ILoginView, View.OnCl
         etName = (EditText) findViewById(R.id.edit_user);
         etPassword = (EditText) findViewById(R.id.edit_password);
         btnLogin = (Button) findViewById(R.id.btn_login);
-        findViewById(R.id.tv_regist).setOnClickListener(this);
+//        findViewById(R.id.tv_regist).setOnClickListener(this);
         loginPresenter = new LoginPresenter(this);
         btnLogin.setOnClickListener(this);
     }
@@ -75,9 +72,9 @@ public class LoginActivity extends BaseActivity implements ILoginView, View.OnCl
             case R.id.btn_login:
                 login();
                 break;
-            case R.id.tv_regist:
-                regist();
-                break;
+//            case R.id.tv_regist:
+//                regist();
+//                break;
         }
         ;
 

@@ -2,6 +2,7 @@ package com.miuhouse.yourcompany.teacher.view.ui.activity;
 
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Build;
@@ -36,7 +37,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initTitle() {
-        super.initTitle();
+//        super.initTitle();
     }
 
     @Override
@@ -54,13 +55,9 @@ public class MainActivity extends BaseActivity {
         content = (RelativeLayout) findViewById(R.id.content);
         imgResList = new ArrayList<>();
         titleList = new ArrayList<>();
-        imgResList.add(android.R.drawable.ic_dialog_email);
-        imgResList.add(android.R.drawable.ic_dialog_email);
-        imgResList.add(android.R.drawable.ic_dialog_email);
-//        titleList.add("订单");
-//        titleList.add("看看");
-//        titleList.add("版本");
-
+        imgResList.add(R.mipmap.home_msg_n);
+        imgResList.add(R.mipmap.home_orderlist_n);
+        imgResList.add(R.mipmap.home_account_n);
 
         List<Fragment> fragmentList = new ArrayList<Fragment>();
         fragmentList.add(FragmentFactory.getFragment(BaseFragment.MESSAGESFRAGMENT));
@@ -99,9 +96,9 @@ public class MainActivity extends BaseActivity {
     public void onRightClick() {
         L.i("right!!!");
 //        hideLoading();
-        startActivity(new Intent(MainActivity.this, LoginActivity.class));
+        startActivity(new Intent(MainActivity.this, LoginRegistActivity.class));
 
-        showNotification();
+//        showNotification();
     }
 
     private void showNotification() {
@@ -114,15 +111,18 @@ public class MainActivity extends BaseActivity {
 //        Notification notification = builder.build();
         builder.setAutoCancel(true);
         builder.setTicker("ticker");
-        builder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.btn_selected));
+//        builder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ico_map_radio_bus_pressd));
+        builder.setContentIntent(PendingIntent.getActivity(this
+                , 1
+                , new Intent(this, LoginRegistActivity.class)
+                , PendingIntent.FLAG_CANCEL_CURRENT));
         Notification notification = null;
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
             notification = builder.getNotification();
         }else{
             notification = builder.build();
         }
-        notification.flags = Notification.FLAG_AUTO_CANCEL
-                | Notification.FLAG_INSISTENT;
+        notification.flags = Notification.FLAG_AUTO_CANCEL;
         notification.defaults = Notification.DEFAULT_SOUND
                 | Notification.DEFAULT_LIGHTS
                 | Notification.DEFAULT_VIBRATE;

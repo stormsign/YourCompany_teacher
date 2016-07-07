@@ -39,7 +39,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
         initViewAndEvents();
 //        设置沉浸式消息栏
 
-        StatusCompat.compat(this, getResources().getColor(android.R.color.holo_orange_dark));
+        StatusCompat.compat(this, getResources().getColor(R.color.themeColor));
 //        由于4.4版本的状态栏是一个自定义view，因此在添加内容View，但又没有加标题栏时，内容View会覆盖状态栏
 //        因此这里也要单独处理
 //        没有加标题栏时，内容View可以设置fitSystemWindows

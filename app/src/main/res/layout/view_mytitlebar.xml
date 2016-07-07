@@ -14,20 +14,21 @@
         <ImageView
             android:id="@+id/back"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
             android:src="@mipmap/back_white"
-            android:padding="@dimen/padding_toolbar_back"
             android:layout_centerVertical="true"/>
+        <!--android:paddingLeft="@dimen/padding_toolbar_back"-->
+        <!--android:paddingRight="@dimen/padding_toolbar_back"-->
 
         <TextView
             android:id="@+id/title"
+            android:layout_toRightOf="@id/back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_gravity="center"
+            android:layout_centerVertical="true"
             android:textColor="@android:color/white"
-            android:textSize="17sp" />
+            android:textSize="18sp"/>
 
         <TextView
             android:id="@+id/right"
