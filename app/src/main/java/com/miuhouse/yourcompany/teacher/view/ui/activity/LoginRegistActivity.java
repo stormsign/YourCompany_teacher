@@ -10,6 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -23,15 +24,25 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.miuhouse.yourcompany.teacher.R;
+import com.miuhouse.yourcompany.teacher.model.BaseBean;
 import com.miuhouse.yourcompany.teacher.model.User;
 
 import com.miuhouse.yourcompany.teacher.presenter.LoginPresenter;
 import com.miuhouse.yourcompany.teacher.presenter.interf.ILoginPresenter;
+import com.miuhouse.yourcompany.teacher.utils.Constants;
+import com.miuhouse.yourcompany.teacher.utils.MyCount;
 import com.miuhouse.yourcompany.teacher.utils.Util;
 import com.miuhouse.yourcompany.teacher.view.ui.activity.interf.ILoginView;
 import com.miuhouse.yourcompany.teacher.view.ui.fragment.ProductTourFragment;
 import com.miuhouse.yourcompany.teacher.view.widget.LovelyCustomDialog;
 import com.nineoldandroids.view.ViewHelper;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import cn.smssdk.EventHandler;
+import cn.smssdk.SMSSDK;
 
 /**
  * Created by kings on 7/6/2016.
@@ -52,11 +63,17 @@ public class LoginRegistActivity extends AppCompatActivity implements ILoginView
     private Button btnRegist;
     private ProgressBar mProgressbar;
     private TextView tvReset;
+    private TextView tvCode;
     boolean isOpaque = true;
     private String etNameStr;
     private String etPasswordStr;
     private LovelyCustomDialog mDialog;
     private LinearLayout linearCode;
+    private EditText etCode;
+    private EventHandler eventHandler;
+    private boolean isMsg = false;
+    private MyCount mc;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +97,6 @@ public class LoginRegistActivity extends AppCompatActivity implements ILoginView
                 mDialog.show();
 
                 initDialogView(view);
-
                 LoginHandle();
             }
         });
@@ -138,8 +154,77 @@ public class LoginRegistActivity extends AppCompatActivity implements ILoginView
         loginPresenter = new LoginPresenter(this);
 
         buildCircles();
+        initSms();
     }
 
+    private void initSms() {
+        SMSSDK.initSDK(this, Constants.SMSSDK_APP_KEY, Constants.SMSSDK_APP_SECRET);
+        eventHandler = new EventHandler() {
+            @Override
+            public void onRegister() {
+                super.onRegister();
+            }
+
+            @Override
+            public void onUnregister() {
+                super.onUnregister();
+            }
+
+            @Override
+            public void beforeEvent(int i, Object o) {
+                super.beforeEvent(i, o);
+            }
+
+            @Override
+            public void afterEvent(int event, int result, Object data) {
+                Log.w("TAG", "event = " + event + "  result = " + result);
+                if (result == SMSSDK.RESULT_COMPLETE) {
+                    //回调完成
+                    if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {
+                        //提交验证码成功
+                        Map<String, Object> map = (HashMap<String, Object>) data;
+                        Log.w("TAG", "EVENT_SUBMIT_VERIFICATION_CODE " + map.toString());
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+//                            sendRequest();
+//                                goToStepTwo();
+                                loginPresenter.doRegist(etNameStr, etPasswordStr);
+
+                            }
+                        });
+                    } else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {
+                        //获取验证码成功
+                        isMsg = true;
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+//                            showToast(getResources().getString(R.string.verifycode_sent));
+                            }
+                        });
+                        Log.w("TAG", "get code success");
+                    } else if (event == SMSSDK.EVENT_GET_SUPPORTED_COUNTRIES) {
+                        //返回支持发送验证码的国家列表
+                        ArrayList<HashMap<String, Object>> countryList = (ArrayList<HashMap<String, Object>>) data;
+                        Log.d("TAG", "countryList = " + countryList.toString());
+                    }
+                } else {
+                    runOnUiThread(new Runnable() {
+
+                        @Override
+                        public void run() {
+//                        ToastUtils.showToast(activity, "验证码验证失败");
+//                        progress.dismissAllowingStateLoss();
+                        }
+                    });
+
+                    ((Throwable) data).printStackTrace();
+                }
+            }
+        };
+        SMSSDK.registerEventHandler(eventHandler);
+        SMSSDK.getSupportedCountries();
+    }
 
     public void initDialogView(View view) {
         mProgressbar = (ProgressBar) view.findViewById(R.id.progressbar);
@@ -148,6 +233,9 @@ public class LoginRegistActivity extends AppCompatActivity implements ILoginView
         login = (Button) view.findViewById(R.id.btn_login);
         linearCode = (LinearLayout) view.findViewById(R.id.linear_code);
         tvReset = (TextView) view.findViewById(R.id.tv_reset);
+        tvCode = (TextView) view.findViewById(R.id.tv_code);
+        etCode = (EditText) view.findViewById(R.id.edit_code);
+
         etName.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -247,11 +335,34 @@ public class LoginRegistActivity extends AppCompatActivity implements ILoginView
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                login();
+                regsit();
                 showProgressBar(true);
             }
         });
+        tvCode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendCode();
+            }
+        });
+    }
 
+    private void sendCode() {
+        if (Util.isEmpty(etNameStr)) {
+            etName.setError("请输入手机号码");
+            etName.requestFocus();
+            return;
+        }
+        if (!Util.isMobile(etNameStr)) {
+            etName.setError("手机号码格式不对");
+            etName.requestFocus();
+            return;
+        }
+        SMSSDK.getVerificationCode("86", etNameStr);
+        if (mc == null) {
+            mc = new MyCount(60000, 1000, tvCode, this); // 第一参数是总的时间，第二个是间隔时间 都是毫秒为单位
+        }
+        mc.start();
     }
 
     private void login() {
@@ -278,6 +389,39 @@ public class LoginRegistActivity extends AppCompatActivity implements ILoginView
         loginPresenter.doLogin(etName.getText().toString(), etPassword.getText().toString());
     }
 
+    private void regsit() {
+        if (!Util.hasInternet()) {
+            Toast.makeText(this, R.string.tip_no_internet, Toast.LENGTH_LONG).show();
+        }
+        String strPassword = etPassword.getText().toString().trim();
+        String strUser = etName.getText().toString().trim();
+        if (Util.isEmpty(strUser)) {
+            etName.setError("请输入手机号码");
+            etName.requestFocus();
+            return;
+        }
+        if (!Util.isMobile(strUser)) {
+            etName.setError("手机号码格式不对");
+            etName.requestFocus();
+            return;
+        }
+        if (Util.isEmpty(strPassword)) {
+            etPassword.setError("请输入密码");
+            etPassword.requestFocus();
+            return;
+        }
+        String vCode = etCode.getText().toString();
+
+//        sendRequest();
+
+        if (Util.isEmpty(vCode)) {
+            etCode.setError("请输入验证码");
+            return;
+        }
+        SMSSDK.submitVerificationCode(Constants.SMSSDK_COUNTRYCODE, etNameStr, vCode);
+
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -292,7 +436,7 @@ public class LoginRegistActivity extends AppCompatActivity implements ILoginView
         float scale = getResources().getDisplayMetrics().density;
         int padding = (int) (5 * scale + 0.5f);
 
-        for (int i = 0; i < NUM_PAGES ; i++) {
+        for (int i = 0; i < NUM_PAGES; i++) {
             ImageView circle = new ImageView(this);
             circle.setImageResource(R.mipmap.ic_swipe_indicator_white_18dp);
             circle.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -336,6 +480,14 @@ public class LoginRegistActivity extends AppCompatActivity implements ILoginView
         showProgressBar(false);
         if (user != null) {
             Toast.makeText(this, "登录成功", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    public void showRegistSuccess(BaseBean baseBean) {
+        showProgressBar(false);
+        if (baseBean != null) {
+            Toast.makeText(this, "注册成功", Toast.LENGTH_LONG).show();
         }
     }
 

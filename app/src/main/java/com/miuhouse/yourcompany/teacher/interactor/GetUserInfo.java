@@ -39,7 +39,7 @@ public class GetUserInfo implements IGetUser {
 
     @Override
     public void getRegistInfo(String name, String password, Response.Listener<BaseBean> listener, Response.ErrorListener errorListener) {
-        String urlPath = Constants.URL_VALUE + "register";
+        String urlPath = Constants.URL_VALUE + "regist";
         Map<String, Object> map = new HashMap<>();
         map.put("mobile", name);
         try {
@@ -50,6 +50,6 @@ public class GetUserInfo implements IGetUser {
         }
 //        map.put("deviceToken", SPUtils.getSPData("token", "token"));
         map.put("type", 4);
-        VolleyManager.getInstance().sendGsonRequest("login", urlPath, map, BaseBean.class, listener, errorListener);
+        VolleyManager.getInstance().sendGsonRequest("register", urlPath, map, BaseBean.class, listener, errorListener);
     }
 }

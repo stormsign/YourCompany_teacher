@@ -4,6 +4,7 @@ import com.miuhouse.yourcompany.teacher.interactor.OrderListInteractor;
 import com.miuhouse.yourcompany.teacher.interactor.interf.IOrderListInteractor;
 import com.miuhouse.yourcompany.teacher.listener.OnLoadCallBack;
 import com.miuhouse.yourcompany.teacher.presenter.interf.IOrderListPresenter;
+import com.miuhouse.yourcompany.teacher.utils.L;
 import com.miuhouse.yourcompany.teacher.view.ui.fragment.interf.IOrdersFragment;
 
 /**
@@ -21,26 +22,27 @@ public class OrderListPresenter implements IOrderListPresenter, OnLoadCallBack {
 
     @Override
     public void getAllList(int page) {
-
+        iOrderListInteractor.getAllOrders(page);
     }
 
     @Override
     public void getMyList(int page) {
-
+        iOrderListInteractor.getMyOrders(page);
     }
 
     @Override
     public void onPreLoad(String msg) {
-
+        iOrdersFragment.showLoading(null);
     }
 
     @Override
     public void onLoadSuccess(Object data) {
-
+        iOrdersFragment.refresh((OrderListInteractor.OrderListBean) data);
+        iOrdersFragment.hideLoading();
     }
 
     @Override
     public void onLoadFailed(String msg) {
-
+        L.i("error : "+msg);
     }
 }

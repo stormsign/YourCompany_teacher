@@ -35,7 +35,7 @@ public class LoginPresenter implements ILoginPresenter {
         getUser.getUserInfo(name, passwd, new Response.Listener<User>() {
             @Override
             public void onResponse(User response) {
-                L.i("TAG", "user=" + response.getName());
+//                L.i("TAG", "user=" + response.getName());
                 iLoginView.showLoginSuccess(response);
             }
         }, new Response.ErrorListener() {
@@ -52,7 +52,8 @@ public class LoginPresenter implements ILoginPresenter {
         getUser.getRegistInfo(name, password, new Response.Listener<BaseBean>() {
             @Override
             public void onResponse(BaseBean response) {
-
+                L.i("TAG", "user=" + response);
+                iLoginView.showRegistSuccess(response);
             }
         }, new Response.ErrorListener() {
             @Override

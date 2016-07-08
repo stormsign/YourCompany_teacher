@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.miuhouse.yourcompany.teacher.R;
 import com.miuhouse.yourcompany.teacher.interactor.OrderListInteractor;
-import com.miuhouse.yourcompany.teacher.model.OrderItemEntity;
+import com.miuhouse.yourcompany.teacher.model.OrderEntity;
 import com.miuhouse.yourcompany.teacher.presenter.OrderListPresenter;
 import com.miuhouse.yourcompany.teacher.presenter.interf.IOrderListPresenter;
 import com.miuhouse.yourcompany.teacher.view.ui.adapter.OrderListAdapter;
@@ -36,8 +36,11 @@ public class OrdersFragment extends BaseFragment implements IOrdersFragment, Swi
 
     private int page = 1;
 
-    private IOrderListPresenter iOrderListPresenter;
-    private List<OrderItemEntity> list;
+    private IOrderListPresenter orderListPresenter;
+    private List<OrderEntity> list;
+
+    private boolean isAllList = true;
+    private OrderListAdapter adapter;
 
     @Override
     public int getFragmentResourceId() {
@@ -46,7 +49,7 @@ public class OrdersFragment extends BaseFragment implements IOrdersFragment, Swi
 
     @Override
     public void getViews(View view) {
-        iOrderListPresenter = new OrderListPresenter(this);
+        orderListPresenter = new OrderListPresenter(this);
         mRefresh = (SwipeRefreshLayout) view.findViewById(R.id.refresh);
         rvOrderList = (RecyclerView) view.findViewById(R.id.orderList);
         mSquare = (RelativeLayout) view.findViewById(R.id.square);
@@ -63,29 +66,57 @@ public class OrdersFragment extends BaseFragment implements IOrdersFragment, Swi
         mRefresh.setColorSchemeResources(android.R.color.holo_orange_light);
         mRefresh.setOnRefreshListener(this);
         rvOrderList.setLayoutManager(new LinearLayoutManager(context));
-        OrderListAdapter adapter = new OrderListAdapter(context, list);
+        adapter = new OrderListAdapter(context, list);
+        rvOrderList.setAdapter(adapter);
+        rvOrderList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            private int lastVisibleItem;
+            private int firstVisibleItem;
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == RecyclerView.SCROLL_STATE_IDLE
+                        && lastVisibleItem + 1 == adapter.getItemCount()
+                        && firstVisibleItem != 0) {
+                    page += 1;
+//                    if (isAllList){
+//                        orderListPresenter.getAllList(page);
+//                    }else {
+//                        orderListPresenter.getMyList(page);
+//                    }
+                }
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                firstVisibleItem = ((LinearLayoutManager) recyclerView.getLayoutManager()).findFirstVisibleItemPosition();
+                lastVisibleItem = ((LinearLayoutManager) recyclerView.getLayoutManager()).findLastVisibleItemPosition();
+            }
+        });
+        isAllList = true;
+        changeList();
     }
 
     @Override
     public void refresh(OrderListInteractor.OrderListBean data) {
 
-        OrderItemEntity entity = new OrderItemEntity();
-        entity.setId("123456789");
-        entity.setClassCount(2);
-        entity.setDetail("。。。。。。。");
-        entity.setDistance("4.3");
-        entity.setHeader("http://p3.music.126.net/nUGiKZdgmElnsyx0ThbYrA==/2946691185724731.jpg?param=180y180");
-        entity.setName("螚安");
-        entity.setOrderTopic("二胡");
-        entity.setOrderType(1);
-        entity.setPrice(50);
-        entity.setStatus(1);
-        entity.setTime(System.currentTimeMillis());
-        for (int i = 0; i<10; i++) {
-            list.add(entity);
-        }
-
-
+        OrderEntity entity = new OrderEntity();
+//        entity.setId("123456789");
+//        entity.setClassCount(2);
+//        entity.setDetail("。。。。。。。");
+//        entity.setDistance("4.3");
+//        entity.setHeader("http://p3.music.126.net/nUGiKZdgmElnsyx0ThbYrA==/2946691185724731.jpg?param=180y180");
+//        entity.setName("螚安");
+//        entity.setOrderTopic("二胡");
+//        entity.setOrderType(1);
+//        entity.setPrice(50);
+//        entity.setStatus(1);
+//        entity.setTime(System.currentTimeMillis());
+//        for (int i = 0; i<10; i++) {
+//            list.add(entity);
+//        }
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -95,16 +126,32 @@ public class OrdersFragment extends BaseFragment implements IOrdersFragment, Swi
 
     @Override
     public void changeList() {
-
+        page = 1;
+        if (isAllList){
+            orderListPresenter.getAllList(page);
+        }else{
+            orderListPresenter.getMyList(page);
+        }
     }
 
     @Override
     public void onRefresh() {
-
+        if (mRefresh.isRefreshing()){
+            mRefresh.setRefreshing(false);
+        }
+        changeList();
     }
 
     @Override
     public void showLoading(String msg) {
+        if (!mRefresh.isRefreshing()){
+            mRefresh.post(new Runnable() {
+                @Override
+                public void run() {
+                    mRefresh.setRefreshing(true);
+                }
+            });
+        }
 //        super.showLoading(msg);
     }
 

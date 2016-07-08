@@ -17,9 +17,10 @@
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
             android:src="@mipmap/back_white"
+            android:paddingLeft="@dimen/padding_toolbar_back"
+            android:paddingRight="@dimen/padding_toolbar_back"
             android:layout_centerVertical="true"/>
-        <!--android:paddingLeft="@dimen/padding_toolbar_back"-->
-        <!--android:paddingRight="@dimen/padding_toolbar_back"-->
+
 
         <TextView
             android:id="@+id/title"

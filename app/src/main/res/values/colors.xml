@@ -17,4 +17,7 @@
     <color name="textWhite">#F5FFFFFF</color>
     <color name="textBlue">#FF0BA7EF</color>
     <color name="line">#DFDFDF</color>
+    <color name="text_black">#ff323232</color>
+    <color name="bg_userinfo">#feb28c</color>
+    <color name="view_line">#d8d8d8</color>
 </resources>

@@ -4,7 +4,6 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -69,7 +68,7 @@ public class MainActivity extends BaseActivity {
         MainPageAdapter adapter = new MainPageAdapter(getSupportFragmentManager(), fragmentList);
         mPages.setTabItemImgs(imgResList);
         pager.setAdapter(adapter);
-        mPages.setViewPager(pager, 0);
+        mPages.setViewPager(pager, 1);
 //        mPages.setTabItemTitles(titleList);
     }
 

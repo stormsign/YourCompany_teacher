@@ -5,23 +5,15 @@ import java.io.Serializable;
 /**
  * Created by kings on 7/1/2016.
  */
-public class User implements Serializable {
-    private String name;
-    private String id;
+public class User extends BaseBean implements Serializable {
 
-    public String getName() {
-        return name;
+    private TeacherInfo teacherInfo;
+
+    public TeacherInfo getTeacherInfo() {
+        return teacherInfo;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+    public void setTeacherInfo(TeacherInfo teacherInfo) {
+        this.teacherInfo = teacherInfo;
     }
 }

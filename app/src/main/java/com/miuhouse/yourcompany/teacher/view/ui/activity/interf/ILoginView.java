@@ -1,5 +1,6 @@
 package com.miuhouse.yourcompany.teacher.view.ui.activity.interf;
 
+import com.miuhouse.yourcompany.teacher.model.BaseBean;
 import com.miuhouse.yourcompany.teacher.model.User;
 
 /**
@@ -8,4 +9,5 @@ import com.miuhouse.yourcompany.teacher.model.User;
  */
 public interface ILoginView {
     void showLoginSuccess(User user);
+    void showRegistSuccess(BaseBean baseBean);
 }

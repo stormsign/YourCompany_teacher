@@ -11,7 +11,7 @@
         android:paddingTop="15dp"
         android:paddingBottom="15dp"
         android:background="@color/white"
-        android:elevation="6dp">
+        android:elevation="3dp">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -25,24 +25,21 @@
             android:layout_height="wrap_content"
             android:text="有"
             android:textColor="@color/textDarkthree"
-            android:textSize="16sp"
-            android:textStyle="bold"/>
+            android:textSize="16sp"/>
 
         <TextView android:id="@+id/orderCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/textOrange"
             android:text="3"
-            android:textSize="16sp"
-            android:textStyle="bold"/>
+            android:textSize="16sp"/>
 
-        <TextView
+        <TextView android:id="@+id/textOrderListTop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/textDarkthree"
-            android:text="个订单正在等待选择"
-            android:textSize="16sp"
-            android:textStyle="bold"/>
+            android:text="@string/orderlist_top_square"
+            android:textSize="16sp"/>
 
     </LinearLayout>
 
@@ -63,7 +60,7 @@
         android:id="@+id/bottom"
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="55dp"
         android:background="@color/white"
         android:gravity="center">
 
@@ -71,8 +68,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center"
-            android:padding="10dp">
+            android:gravity="center">
 
             <ImageView android:id="@+id/iconSquare"
                 android:layout_width="wrap_content"
@@ -98,8 +94,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center"
-            android:padding="10dp">
+            android:gravity="center">
 
             <ImageView android:id="@+id/iconMyOrder"
                 android:layout_width="wrap_content"
@@ -119,5 +114,10 @@
         </RelativeLayout>
 
     </LinearLayout>
+
+    <View android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="@drawable/shadow_up"
+        android:layout_above="@id/bottom"/>
 
 </RelativeLayout>
