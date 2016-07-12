@@ -39,15 +39,15 @@ public class OrderListAdapter extends BaseRVAdapter {
         final OrderEntity entity = (OrderEntity) list.get(position);
         final OrderListHolder mholder = (OrderListHolder)holder;
 
-        entity.setCname("螚安");
+//        entity.setCname("螚安");
         entity.setUserHeader("http://p3.music.126.net/nUGiKZdgmElnsyx0ThbYrA==/2946691185724731.jpg?param=180y180");
-        entity.setMajorDemand("3");
-        entity.setMinorDemand("3");
-        entity.setClassBeginTimePromise(System.currentTimeMillis());
-        entity.setDistance(23000);
-        entity.setDescription("会计的分规格表快节奏的及的卡卡阿卡");
-        entity.setLesson("2");
-        entity.setAmount(100);
+//        entity.setMajorDemand("3");
+//        entity.setMinorDemand("3");
+//        entity.setClassBeginTimePromise(System.currentTimeMillis());
+//        entity.setDistance(23000);
+//        entity.setDescription("会计的分规格表快节奏的及的卡卡阿卡");
+//        entity.setLesson("2");
+//        entity.setAmount(100);
 
 
         mholder.name.setText(entity.getCname());

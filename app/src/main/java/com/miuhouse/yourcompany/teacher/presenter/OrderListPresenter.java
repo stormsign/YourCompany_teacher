@@ -33,6 +33,7 @@ public class OrderListPresenter implements IOrderListPresenter, OnLoadCallBack {
 
     @Override
     public void onPreLoad(String msg) {
+//        iOrdersFragment.hideError();
         iOrdersFragment.showLoading(null);
     }
 
@@ -45,5 +46,6 @@ public class OrderListPresenter implements IOrderListPresenter, OnLoadCallBack {
     @Override
     public void onLoadFailed(String msg) {
         L.i("error : "+msg);
+        iOrdersFragment.showError(msg);
     }
 }

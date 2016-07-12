@@ -6,7 +6,6 @@ import android.content.Context;
 import com.miuhouse.yourcompany.teacher.db.AccountDBTask;
 import com.miuhouse.yourcompany.teacher.model.TeacherInfo;
 import com.miuhouse.yourcompany.teacher.utils.Constants;
-import com.miuhouse.yourcompany.teacher.utils.Util;
 
 /**
  * Created by khb on 2016/5/13.
@@ -23,8 +22,8 @@ public class App extends Application {
         super.onCreate();
         this.applicationContext = getApplicationContext();
         instance =this;
-        Constants.IMEI_VALUE = Util.getIMEI(this);
-
+//        Constants.IMEI_VALUE = Util.getIMEI(this);
+        Constants.IMEI_VALUE = "863175020757478";
     }
 
     private void initLogin() {

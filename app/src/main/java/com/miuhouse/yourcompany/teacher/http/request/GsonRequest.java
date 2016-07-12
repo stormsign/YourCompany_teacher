@@ -2,6 +2,7 @@ package com.miuhouse.yourcompany.teacher.http.request;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Cache;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
@@ -31,6 +32,8 @@ public class GsonRequest<T> extends Request<T> {
     private Class<T> clazz;
     private Gson mGson;
 
+    private String token;
+
     //get
     public GsonRequest(int method, String url, Class<T> clazz,
                        Response.Listener<T> listener, Response.ErrorListener errorListener) {
@@ -38,6 +41,7 @@ public class GsonRequest<T> extends Request<T> {
         mGson = new Gson();
         this.clazz = clazz;
         this.mListener = listener;
+        setRetryPolicy(new DefaultRetryPolicy(Constants.TIMEOUT*1000, 1, 1.0f));
     }
 
     //post
@@ -48,6 +52,7 @@ public class GsonRequest<T> extends Request<T> {
         this.params = params;
         this.clazz = clazz;
         this.mListener = listener;
+        setRetryPolicy(new DefaultRetryPolicy(Constants.TIMEOUT*1000, 1, 1.0f));
     }
 
     //post
@@ -58,27 +63,64 @@ public class GsonRequest<T> extends Request<T> {
         this.params = params;
         this.typeToken = typeToken;
         this.mListener = listener;
+        setRetryPolicy(new DefaultRetryPolicy(Constants.TIMEOUT*1000, 1, 1.0f));
     }
+
+    //post 需要token验证 的请求
+    public GsonRequest(int method, String url, Map<String, Object> params, String token,  Class<T> clazz,
+                       Response.Listener<T> listener, Response.ErrorListener errorListener){
+        super(method, url, errorListener);
+        mGson = new Gson();
+        this.params = params;
+        this.clazz = clazz;
+        this.mListener = listener;
+        this.token = token;
+        setRetryPolicy(new DefaultRetryPolicy(Constants.TIMEOUT*1000, 1, 1.0f));
+    }
+
+    //post 需要token验证的请求
+    public GsonRequest(int method, String url, Map<String, Object> params, String token, TypeToken<T> typeToken,
+                       Response.Listener<T> listener, Response.ErrorListener errorListener){
+        super(method, url, errorListener);
+        mGson = new Gson();
+        this.params = params;
+        this.typeToken = typeToken;
+        this.mListener = listener;
+        this.token = token;
+        setRetryPolicy(new DefaultRetryPolicy(Constants.TIMEOUT*1000, 1, 1.0f));
+    }
+
 
     @Override
     protected Map<String, String> getParams() throws AuthFailureError {
         Map<String, String> map = new HashMap<>();
         JSONObject jsonObject = new JSONObject();
         try {
+
             jsonObject.put(Constants.DEVICETYPE, Constants.DEVICETYPE_VALUE)
                     .put(Constants.VERSIONCODE, Constants.VERSIONCODE_VALUE)
                     .put(Constants.IMEI, Constants.IMEI_VALUE);
+
             if (params != null){
                 for (String key : params.keySet()){
                     jsonObject.put(key, params.get(key));
                 }
             }
             String json = jsonObject.toString();
-            L.i("请求："+json);
-            String md5 = Util.md5String(Constants.DEVICETYPE_VALUE
-                    + Constants.IMEI_VALUE
-                    + Constants.VERSIONCODE_VALUE
-                    + Constants.APPKEY);
+            L.i("请求：" + json);
+            String md5 = null;
+            if (!Util.isEmpty(token)){
+                md5 = Util.md5String(Constants.DEVICETYPE_VALUE
+                        + Constants.IMEI_VALUE
+                        + Constants.VERSIONCODE_VALUE
+                        + Constants.APPKEY
+                        + token);
+            }else{
+                md5 = Util.md5String(Constants.DEVICETYPE_VALUE
+                        + Constants.IMEI_VALUE
+                        + Constants.VERSIONCODE_VALUE
+                        + Constants.APPKEY);
+            }
             map.put("md5", md5);
             map.put("transData", json);
         } catch (JSONException e) {

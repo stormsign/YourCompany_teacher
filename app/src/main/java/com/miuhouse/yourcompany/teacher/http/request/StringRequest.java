@@ -23,6 +23,7 @@ public class StringRequest extends Request<String> {
 
     private Map<String, Object> params;
     private Response.Listener<String> listener;
+    private String token ;
 
     //get
     public StringRequest(int method, String url,
@@ -37,6 +38,23 @@ public class StringRequest extends Request<String> {
         super(method, url, errorListener);
         this.params = params;
         this.listener = listener;
+    }
+
+    //get token验证的请求
+    public StringRequest(int method, String url, String token,
+                         Response.Listener<String> listener, Response.ErrorListener errorListener) {
+        super(method, url, errorListener);
+        this.listener = listener;
+        this.token = token;
+    }
+
+    //post token验证的请求
+    public StringRequest(int method, String url, Map<String, Object> params, String token,
+                         Response.Listener<String> listener, Response.ErrorListener errorListener) {
+        super(method, url, errorListener);
+        this.params = params;
+        this.listener = listener;
+        this.token = token;
     }
 
     @Override
@@ -54,12 +72,22 @@ public class StringRequest extends Request<String> {
             }
             String json = jsonObject.toString();
             L.i("请求："+json);
-            String md5 = Util.md5String(Constants.DEVICETYPE_VALUE
-                    + Constants.IMEI_VALUE
-                    + Constants.VERSIONCODE_VALUE
-                    + Constants.APPKEY);
+            String md5 = null;
+            if (!Util.isEmpty(token)){
+                md5 = Util.md5String(Constants.DEVICETYPE_VALUE
+                        + Constants.IMEI_VALUE
+                        + Constants.VERSIONCODE_VALUE
+                        + Constants.APPKEY
+                        + token);
+            }else{
+                md5 = Util.md5String(Constants.DEVICETYPE_VALUE
+                        + Constants.IMEI_VALUE
+                        + Constants.VERSIONCODE_VALUE
+                        + Constants.APPKEY);
+            }
             map.put("md5", md5);
             map.put("transData", json);
+
         } catch (JSONException e) {
             e.printStackTrace();
         }

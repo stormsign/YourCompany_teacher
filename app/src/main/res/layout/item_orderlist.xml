@@ -24,8 +24,8 @@
                 android:paddingBottom="32dp">
                 <!--android:src="@mipmap/ico_map_radio_bus_pressd"-->
                 <ImageView android:id="@+id/header"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_marginBottom="5dp"/>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -43,7 +43,6 @@
                             android:layout_height="wrap_content"
                             android:textColor="@color/textDarkone"
                             android:textSize="15sp"
-                            android:text="山东良福集团制药有限公司"
                             android:layout_alignParentLeft="true"/>
                         <LinearLayout
                             android:layout_width="wrap_content"

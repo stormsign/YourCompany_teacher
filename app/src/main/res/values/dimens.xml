@@ -34,5 +34,9 @@
     <dimen name="text_order_detail_small">14sp</dimen>
     <dimen name="text_order_detail_middle">15sp</dimen>
     <dimen name="text_getorder">17sp</dimen>
+    <dimen name="home_sysmsg_height">68dp</dimen>
+    <dimen name="text_msg_title">16sp</dimen>
+    <dimen name="text_msg_summary">14sp</dimen>
+    <dimen name="img_sysmsg_size">50dp</dimen>
 
 </resources>

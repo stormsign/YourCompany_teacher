@@ -2,13 +2,83 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/backgroundcolor_common">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="消息"
-        android:textColor="@color/accent_material_light"
-        android:textSize="30sp"/>
+    <RelativeLayout android:id="@+id/sysMsg"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/home_sysmsg_height"
+        android:background="@color/white">
+
+        <ImageView android:id="@+id/sysMsgIcon"
+            android:layout_width="@dimen/img_sysmsg_size"
+            android:layout_height="@dimen/img_sysmsg_size"
+            android:src="@mipmap/ico_msg_xitongtongzhi"
+            android:layout_margin="10dp"
+            android:layout_alignParentLeft="true"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_toRightOf="@id/sysMsgIcon"
+            android:layout_toLeftOf="@id/msgRight"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical">
+
+            <TextView android:id="@+id/msgTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/textDarkone"
+                android:textSize="@dimen/text_msg_title"
+                android:text="标题"/>
+
+            <TextView android:id="@+id/msgSummary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/textDarkthree"
+                android:textSize="@dimen/text_msg_summary"
+                android:text="摘要"
+                android:ellipsize="end"
+                android:layout_marginTop="8dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout android:id="@+id/msgRight"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical">
+
+
+            <TextView android:id="@+id/unread"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="3"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@drawable/shadow_down"/>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/refresh"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/msgList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </LinearLayout>

@@ -43,18 +43,24 @@
 
     </LinearLayout>
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/refresh"
+    <RelativeLayout
+        android:id="@+id/content"
         android:layout_below="@id/top"
         android:layout_above="@id/bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/orderList"
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/refresh"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </android.support.v4.widget.SwipeRefreshLayout>
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/orderList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </android.support.v4.widget.SwipeRefreshLayout>
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/bottom"
@@ -73,7 +79,7 @@
             <ImageView android:id="@+id/iconSquare"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/home_orderlist_n"
+                android:src="@mipmap/ico_orderlist_n"
                 android:layout_centerHorizontal="true"/>
 
             <TextView android:id="@+id/textSquare"
@@ -99,7 +105,7 @@
             <ImageView android:id="@+id/iconMyOrder"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/home_account_s"
+                android:src="@mipmap/ico_myorder_n"
                 android:layout_centerHorizontal="true"/>
 
             <TextView android:id="@+id/textMyOrder"

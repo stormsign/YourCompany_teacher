@@ -9,7 +9,6 @@ import com.android.volley.toolbox.Volley;
 import com.miuhouse.yourcompany.teacher.application.App;
 import com.miuhouse.yourcompany.teacher.http.request.GsonRequest;
 import com.miuhouse.yourcompany.teacher.http.request.StringRequest;
-import com.miuhouse.yourcompany.teacher.model.User;
 
 import java.util.Map;
 
@@ -69,6 +68,26 @@ public class VolleyManager {
     }
 
     /**
+     * 发送带token验证的返回Gson包装的对象的post请求
+     * @param tag
+     * @param url
+     * @param params
+     * @param clazz
+     * @param listener
+     * @param errorListener
+     * @param <T>
+     * @return
+     */
+    public <T> GsonRequest<T> sendGsonRequest(Object tag, String url, Map<String, Object> params, String token,  Class<T> clazz,
+                                              Response.Listener<T> listener, Response.ErrorListener errorListener){
+        GsonRequest<T> gsonRequest = new GsonRequest<T>(Request.Method.POST, url, params,
+                token, clazz, listener, errorListener);
+        gsonRequest.setTag(tag);
+        add(gsonRequest);
+        return gsonRequest;
+    }
+
+    /**
      * 发送返回jsonString的post请求
      * @param tag
      * @param url
@@ -80,6 +99,24 @@ public class VolleyManager {
     public StringRequest sendStringRequest(Object tag, String url, Map<String, Object> params,
                                            Response.Listener<String> listener, Response.ErrorListener errorListener){
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, params,
+                listener, errorListener);
+        stringRequest.setTag(tag);
+        add(stringRequest);
+        return stringRequest;
+    }
+
+    /**
+     * 发送带token验证的返回jsonString的post请求
+     * @param tag
+     * @param url
+     * @param params
+     * @param listener
+     * @param errorListener
+     * @return
+     */
+    public StringRequest sendStringRequest(Object tag, String url, Map<String, Object> params, String token,
+                                           Response.Listener<String> listener, Response.ErrorListener errorListener){
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, params, token,
                 listener, errorListener);
         stringRequest.setTag(tag);
         add(stringRequest);

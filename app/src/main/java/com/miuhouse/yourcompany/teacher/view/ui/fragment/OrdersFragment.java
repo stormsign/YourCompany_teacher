@@ -6,14 +6,17 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.miuhouse.yourcompany.teacher.R;
 import com.miuhouse.yourcompany.teacher.interactor.OrderListInteractor;
 import com.miuhouse.yourcompany.teacher.model.OrderEntity;
 import com.miuhouse.yourcompany.teacher.presenter.OrderListPresenter;
 import com.miuhouse.yourcompany.teacher.presenter.interf.IOrderListPresenter;
+import com.miuhouse.yourcompany.teacher.utils.Values;
 import com.miuhouse.yourcompany.teacher.view.ui.activity.OrderActivity;
 import com.miuhouse.yourcompany.teacher.view.ui.adapter.OrderListAdapter;
 import com.miuhouse.yourcompany.teacher.view.ui.base.BaseFragment;
@@ -25,7 +28,7 @@ import java.util.List;
 /**
  * Created by khb on 2016/7/6.
  */
-public class OrdersFragment extends BaseFragment implements IOrdersFragment, SwipeRefreshLayout.OnRefreshListener, OrderListAdapter.OnOrderClickListener {
+public class OrdersFragment extends BaseFragment implements IOrdersFragment, SwipeRefreshLayout.OnRefreshListener, OrderListAdapter.OnOrderClickListener, View.OnClickListener {
 
     private RecyclerView rvOrderList;
     private RelativeLayout mSquare;
@@ -33,7 +36,7 @@ public class OrdersFragment extends BaseFragment implements IOrdersFragment, Swi
     private ImageView ivSquare;
     private ImageView ivMyOrder;
     private TextView mTvSquare;
-    private TextView mNyOrder;
+    private TextView mTvMyOrder;
     private SwipeRefreshLayout mRefresh;
 
     private int page = 1;
@@ -43,10 +46,18 @@ public class OrdersFragment extends BaseFragment implements IOrdersFragment, Swi
 
     private boolean isAllList = true;
     private OrderListAdapter adapter;
+    private RelativeLayout content;
+    private LinearLayout top;
+    private TextView orderCount;
 
     @Override
     public int getFragmentResourceId() {
         return R.layout.fragment_orders;
+    }
+
+    @Override
+    public View getOverrideParentView() {
+        return content;
     }
 
     @Override
@@ -59,12 +70,16 @@ public class OrdersFragment extends BaseFragment implements IOrdersFragment, Swi
         ivSquare = (ImageView) view.findViewById(R.id.iconSquare);
         ivMyOrder = (ImageView) view.findViewById(R.id.iconMyOrder);
         mTvSquare = (TextView) view.findViewById(R.id.textSquare);
-        mNyOrder = (TextView) view.findViewById(R.id.textMyOrder);
+        mTvMyOrder = (TextView) view.findViewById(R.id.textMyOrder);
+        top = (LinearLayout) view.findViewById(R.id.top);
+        content = (RelativeLayout) view.findViewById(R.id.content);
+        orderCount = (TextView) view.findViewById(R.id.orderCount);
     }
 
     @Override
     public void setupView() {
         list = new ArrayList<>();
+        Toast.makeText(context, Values.getKey(Values.orderStatuses, "进行中")+"", Toast.LENGTH_LONG).show();
         mRefresh.setColorSchemeResources(android.R.color.holo_orange_light);
         mRefresh.setOnRefreshListener(this);
         rvOrderList.setLayoutManager(new LinearLayoutManager(context));
@@ -97,18 +112,32 @@ public class OrdersFragment extends BaseFragment implements IOrdersFragment, Swi
                 lastVisibleItem = ((LinearLayoutManager) recyclerView.getLayoutManager()).findLastVisibleItemPosition();
             }
         });
+
+        mSquare.setOnClickListener(this);
+        mMyOrder.setOnClickListener(this);
+
         isAllList = true;
-        changeList();
+        changeListToggle(isAllList);
     }
+
 
     @Override
     public void refresh(OrderListInteractor.OrderListBean data) {
-        OrderEntity entity = new OrderEntity();
-
-        for (int i = 0; i < 10; i++) {
-            list.add(entity);
+//        OrderEntity entity = new OrderEntity();
+        if (null != data
+                && null != data.getOrderList()
+                && data.getOrderList().size()>0) {
+            if (page == 1) {
+                list.clear();
+            }
+            list.addAll(data.getOrderList());
+            adapter.notifyDataSetChanged();
+            if (data.getCount()>0){
+                orderCount.setText(data.getCount()+"");
+            }else{
+                orderCount.setText("0");
+            }
         }
-        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -123,13 +152,37 @@ public class OrdersFragment extends BaseFragment implements IOrdersFragment, Swi
 //    }
 
     @Override
-    public void changeList() {
+    public void changeListToggle(boolean isAllList) {
         page = 1;
-        if (isAllList) {
+        if (isAllList){
+            ivSquare.setImageResource(R.mipmap.ico_orderlist_s);
+            mTvSquare.setTextColor(getResources().getColor(R.color.themeColor));
+            ivMyOrder.setImageResource(R.mipmap.ico_myorder_n);
+            mTvMyOrder.setTextColor(getResources().getColor(R.color.textDarktwo));
+
             orderListPresenter.getAllList(page);
-        } else {
+        }else {
+            ivSquare.setImageResource(R.mipmap.ico_orderlist_n);
+            mTvSquare.setTextColor(getResources().getColor(R.color.textDarktwo));
+            ivMyOrder.setImageResource(R.mipmap.ico_myorder_s);
+            mTvMyOrder.setTextColor(getResources().getColor(R.color.themeColor));
+
             orderListPresenter.getMyList(page);
         }
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.square:
+                isAllList = true;
+                break;
+            case R.id.myOrder:
+                isAllList = false;
+                break;
+        }
+        changeListToggle(isAllList);
     }
 
     @Override
@@ -137,7 +190,7 @@ public class OrdersFragment extends BaseFragment implements IOrdersFragment, Swi
         if (mRefresh.isRefreshing()) {
             mRefresh.setRefreshing(false);
         }
-        changeList();
+        changeListToggle(isAllList);
     }
 
     @Override
@@ -159,4 +212,15 @@ public class OrdersFragment extends BaseFragment implements IOrdersFragment, Swi
 //        super.hideLoading();
     }
 
+    @Override
+    public void showError(String msg) {
+        top.setVisibility(View.INVISIBLE);
+        super.showError(msg);
+    }
+
+    @Override
+    public void hideError() {
+        top.setVisibility(View.VISIBLE);
+        super.hideError();
+    }
 }

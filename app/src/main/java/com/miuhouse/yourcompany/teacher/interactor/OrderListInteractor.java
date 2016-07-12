@@ -32,15 +32,24 @@ public class OrderListInteractor implements IOrderListInteractor, Response.Liste
         params.put("teacherId", "4028b88155c4dd070155c4dd8a340000");
         params.put("page", page);
         params.put("pageSize", 15);
-
+        onLoadCallBack.onPreLoad(null);
         VolleyManager.getInstance()
-                .sendGsonRequest(null, url, params, OrderListBean.class, this, this);
+                .sendGsonRequest(null, url, params, "6eca806dffed65f70f6d50a3b435069b", OrderListBean.class, this, this);
 
     }
 
     @Override
     public void getMyOrders(int page) {
-        onLoadCallBack.onLoadSuccess(null);
+        String url  = Constants.URL_VALUE + "orderList";
+        Map<String, Object> params = new HashMap<>();
+        params.put("teacherId", "4028b88155c4dd070155c4dd8a340000");
+//        params.put("orderStatus", )
+        params.put("page", page);
+        params.put("pageSize", 15);
+        onLoadCallBack.onPreLoad(null);
+        VolleyManager.getInstance()
+                .sendGsonRequest(null, url, params, "6eca806dffed65f70f6d50a3b435069b", OrderListBean.class, this, this);
+
     }
 
     @Override
@@ -55,6 +64,15 @@ public class OrderListInteractor implements IOrderListInteractor, Response.Liste
 
     public class OrderListBean extends BaseBean{
         List<OrderEntity> orderList;
+        long count;
+
+        public long getCount() {
+            return count;
+        }
+
+        public void setCount(long count) {
+            this.count = count;
+        }
 
         public List<OrderEntity> getOrderList() {
             return orderList;

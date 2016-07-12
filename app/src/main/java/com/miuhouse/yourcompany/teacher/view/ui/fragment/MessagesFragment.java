@@ -24,4 +24,19 @@ public class MessagesFragment extends BaseFragment implements IMessageFragment {
     public void setupView() {
 
     }
+
+    @Override
+    public View getOverrideParentView() {
+        return null;
+    }
+
+    @Override
+    public void refresh() {
+
+    }
+
+    @Override
+    public void instantAdd() {
+
+    }
 }

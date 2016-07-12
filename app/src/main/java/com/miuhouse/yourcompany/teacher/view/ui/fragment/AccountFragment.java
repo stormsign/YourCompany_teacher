@@ -40,4 +40,9 @@ public class AccountFragment extends BaseFragment implements IAccountFragment {
     public void setupView() {
 
     }
+
+    @Override
+    public View getOverrideParentView() {
+        return null;
+    }
 }

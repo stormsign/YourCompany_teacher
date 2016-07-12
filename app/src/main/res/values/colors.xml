@@ -10,9 +10,9 @@
 
     <!--字体颜色  DE 87%,8F 56%,66 40%,4d 30%-->
     <color name="textDarkone">#DE000000</color>
-    <color name="textDarktwo">#DE050505</color>
-    <color name="textDarkthree">#8F000000</color>
-    <color name="textDarkfour">#66050505</color>
+    <color name="textDarktwo">#8F000000</color>
+    <color name="textDarkthree">#66000000</color>
+    <color name="textDarkfour">#4D000000</color>
     <color name="textOrange">@color/themeColor</color>
     <color name="textWhite">#F5FFFFFF</color>
     <color name="textBlue">#FF0BA7EF</color>

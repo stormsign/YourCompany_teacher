@@ -5,4 +5,7 @@ package com.miuhouse.yourcompany.teacher.view.ui.fragment.interf;
  */
 public interface IMessageFragment {
 
+    void refresh();
+    void instantAdd();
+
 }
