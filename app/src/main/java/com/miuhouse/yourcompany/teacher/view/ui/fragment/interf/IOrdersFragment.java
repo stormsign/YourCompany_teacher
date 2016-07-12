@@ -9,6 +9,6 @@ import com.miuhouse.yourcompany.teacher.view.ui.base.BaseView;
 public interface IOrdersFragment extends BaseView{
 //    void setupView();
     void refresh(OrderListInteractor.OrderListBean data);
-    void goToOrderDetail();
+//    void goToOrderDetail(OrderEntity orderEntity);
     void changeList();
 }

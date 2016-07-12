@@ -23,6 +23,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!--需求详情-->
+        <activity android:name=".view.ui.activity.OrderActivity"></activity>
         <activity android:name=".view.ui.activity.LoginRegistActivity"></activity>
         <activity android:name=".view.ui.activity.UserInformationActivity"></activity>
     </application>

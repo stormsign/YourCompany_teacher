@@ -1,12 +1,13 @@
 package com.miuhouse.yourcompany.teacher.utils;
 
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.net.ConnectivityManager;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 
 import com.miuhouse.yourcompany.teacher.application.App;
 
@@ -264,4 +265,27 @@ public class Util {
             flag = false;
         return flag;
     }
+
+    /**
+     * 获取资源id
+     *
+     * @param context
+     * @param name
+     * @param type    资源类型
+     * @return
+     */
+    public static int getResourceId(Context context, String name, String type) {
+        Resources themeResources = null;
+        String packageName = context.getPackageName();
+        PackageManager pm = context.getPackageManager();
+        try {
+            themeResources = pm.getResourcesForApplication(packageName);
+            return themeResources.getIdentifier(name, type, packageName);
+        } catch (PackageManager.NameNotFoundException e) {
+
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
 }

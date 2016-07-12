@@ -21,11 +21,11 @@
                 android:paddingTop="24dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:paddingBottom="10dp">
+                android:paddingBottom="32dp">
+                <!--android:src="@mipmap/ico_map_radio_bus_pressd"-->
                 <ImageView android:id="@+id/header"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:src="@mipmap/ico_map_radio_bus_pressd"
                     android:layout_marginBottom="5dp"/>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -142,7 +142,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/timeAndDistance"
-                    android:text="asfdsafasfsaf"
+                    android:text="打算干到谁是大歌神的故事的法国德国卡设计费的肯定是九分裤的懦夫，带你飞，电脑的，您的卡的分公司的广东省高上的风格第三个"
                     android:textColor="@color/textDarktwo"
                     android:maxLines="2"
                     android:ellipsize="end"
@@ -154,8 +154,8 @@
         <TextView android:id="@+id/type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@mipmap/home_list_title_blue"
-            android:text="@string/order_type_homework"
+            android:background="@mipmap/home_list_title_2"
+            android:text="@string/order_type_2"
             android:textColor="@color/textWhite"
             android:gravity="center"/>
 
@@ -164,6 +164,20 @@
             <!--android:layout_height="3dp"-->
             <!--android:background="@drawable/shadow_down"-->
             <!--android:layout_below="@id/orderContent"/>-->
+
+        <TextView android:id="@+id/getOrder"
+            android:layout_below="@id/orderContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/selector_orderlist_getorder"
+            android:textSize="17sp"
+            android:textColor="@color/textWhite"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="-20dp"
+            android:text="抢单"
+            android:paddingLeft="32dp"
+            android:paddingRight="32dp"
+            android:paddingTop="6dp"/>
 
     </RelativeLayout>
 

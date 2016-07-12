@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgroundcolor_common">
+
+    <RelativeLayout android:id="@+id/orderContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="10dp">
+            <ImageView android:id="@+id/header"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginBottom="5dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/header"
+                android:orientation="vertical"
+                android:layout_marginLeft="10dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical">
+                    <TextView android:id="@+id/name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/textDarkone"
+                        android:textSize="15sp"
+                        android:text="山东良福集团制药有限公司"
+                        android:layout_alignParentLeft="true"/>
+                    <TextView android:id="@+id/orderType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:layout_alignParentRight="true"
+                        android:background="@color/textBlue"
+                        android:text="兴趣培养"
+                        android:textColor="@color/textWhite"
+                        android:textSize="14sp"
+                        android:gravity="center"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="8dp">
+                    <TextView android:id="@+id/topic"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/textDarkthree"
+                        android:textSize="15sp"
+                        android:text="五年级量子物理"
+                        android:layout_alignParentLeft="true"/>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+            <RelativeLayout android:id="@+id/timeAndDistance"
+                android:layout_width="match_parent"
+                android:layout_height="26dp"
+                android:layout_below="@id/header"
+                android:background="#FFF6F6F6">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="上课时间："
+                        android:textColor="@color/textDarkthree"
+                        android:textSize="@dimen/text_order_detail_small"/>
+
+                    <TextView android:id="@+id/beginTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2016/7/8 11:30"
+                        android:textColor="@color/textDarkthree"
+                        android:textSize="@dimen/text_order_detail_small"/>
+
+                </LinearLayout>
+                <TextView android:id="@+id/distance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/textDarkthree"
+                    android:text="30km"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:textSize="14sp"/>
+
+            </RelativeLayout>
+
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <LinearLayout android:id="@+id/priceDetail"
+        android:layout_below="@id/orderContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/shape_border"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/textDarkthree"
+                android:textSize="@dimen/text_order_detail_middle"
+                android:text="单价"
+                android:layout_alignParentLeft="true"/>
+
+            <TextView android:id="@+id/price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/textOrange"
+                android:textSize="@dimen/text_order_detail_middle"
+                android:text="￥40"
+                android:layout_alignParentRight="true"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/textDarkthree"
+                android:textSize="@dimen/text_order_detail_middle"
+                android:text="课时"
+                android:layout_alignParentLeft="true"/>
+
+            <TextView android:id="@+id/classCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/textOrange"
+                android:textSize="@dimen/text_order_detail_middle"
+                android:text="￥40"
+                android:layout_alignParentRight="true"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/textDarkthree"
+                android:textSize="@dimen/text_order_detail_middle"
+                android:text="总价"
+                android:layout_alignParentLeft="true"/>
+
+            <TextView android:id="@+id/totalPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/textOrange"
+                android:textSize="@dimen/text_order_detail_middle"
+                android:text="￥80"
+                android:layout_alignParentRight="true"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <View android:layout_below="@id/orderContent"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="@drawable/shadow_down"/>
+
+    <LinearLayout android:id="@+id/detailContent"
+        android:layout_below="@id/priceDetail"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/white">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="老师要求"
+            android:textSize="@dimen/text_order_detail_middle"
+            android:textColor="@color/textDarkone"
+            android:layout_margin="10dp"/>
+
+        <View android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/line"/>
+
+        <TextView android:id="@+id/detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/textDarktwo"
+            android:layout_margin="10dp"
+            android:text="的三个地方瓜娃儿线程V社发起的v拔丝地瓜第三方广东省大概是的范德萨的轨道上该分公司的法国队的的"/>
+
+    </LinearLayout>
+    <View android:layout_below="@id/detailContent"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="@drawable/shadow_down"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="抢单"
+        android:textSize="@dimen/text_getorder"
+        android:textColor="@color/textWhite"
+        android:background="@color/themeColor"
+        android:gravity="center"
+        android:layout_alignParentBottom="true"
+        android:padding="20dp"/>
+
+</RelativeLayout>

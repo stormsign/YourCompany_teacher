@@ -1,7 +1,5 @@
 package com.miuhouse.yourcompany.teacher.http.request;
 
-import android.util.Log;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.Cache;
 import com.android.volley.NetworkResponse;
@@ -76,6 +74,7 @@ public class GsonRequest<T> extends Request<T> {
                 }
             }
             String json = jsonObject.toString();
+            L.i("请求："+json);
             String md5 = Util.md5String(Constants.DEVICETYPE_VALUE
                     + Constants.IMEI_VALUE
                     + Constants.VERSIONCODE_VALUE

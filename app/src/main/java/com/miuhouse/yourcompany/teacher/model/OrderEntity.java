@@ -9,21 +9,21 @@ public class OrderEntity implements Serializable {
     String id;
     String parentId;
     String teacherId;
-    String tname;
-    String userHeader;
-    String cname;
-    String mobile;
-    float receiveAmount ;
-    float amount;
-    String majorDemand;
-    String minorDemand;
-    String orderStatus;
-    long classBeginTimePromise;
-    long classBeginTimeActual;
-    String lesson;
-    String address;
-    String description;
-    long distance;
+    String tname;       //老师名字
+    String userHeader;  //学生头像
+    String cname;       //学生名称
+    String mobile;      //手机号
+    float receiveAmount ;       //老师实收费用
+    float amount;       //家长支付费用
+    String majorDemand;     //需求大类
+    String minorDemand;     //需求小类
+    String orderStatus;     //订单状态
+    long classBeginTimePromise;     //约定上课时间
+    long classBeginTimeActual;      //实际上课时间
+    String lesson;      //课时
+    String address;     //上课地址
+    String description;     //备注
+    long distance;      //距离
 
     public String getId() {
         return id;

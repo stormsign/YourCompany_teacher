@@ -20,8 +20,8 @@ import com.miuhouse.yourcompany.teacher.view.widget.ViewOverrideManager;
  * @author Created by khb on 2016/6/30.
  */
 public abstract class BaseActivity extends AppCompatActivity implements BaseView, MyTitlebar.OnMyTitlebarClickListener {
-    private Context context;
-    private Activity activity;
+    public Context context;
+    public Activity activity;
     private MyTitlebar myTitlebar;
     private ViewOverrideManager viewOverrideManager;
     private View baseView;
@@ -57,7 +57,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
     public void setContentView(int layoutResID) {
 
         baseView = View.inflate(context, R.layout.activity_base, null);
-        contentView = View.inflate(context, layoutResID, null);
+        contentView = View.inflate(this, layoutResID, null);
 
         initTitle();
 

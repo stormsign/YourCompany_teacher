@@ -1,5 +1,6 @@
 package com.miuhouse.yourcompany.teacher.view.ui.fragment;
 
+import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +14,7 @@ import com.miuhouse.yourcompany.teacher.interactor.OrderListInteractor;
 import com.miuhouse.yourcompany.teacher.model.OrderEntity;
 import com.miuhouse.yourcompany.teacher.presenter.OrderListPresenter;
 import com.miuhouse.yourcompany.teacher.presenter.interf.IOrderListPresenter;
+import com.miuhouse.yourcompany.teacher.view.ui.activity.OrderActivity;
 import com.miuhouse.yourcompany.teacher.view.ui.adapter.OrderListAdapter;
 import com.miuhouse.yourcompany.teacher.view.ui.base.BaseFragment;
 import com.miuhouse.yourcompany.teacher.view.ui.fragment.interf.IOrdersFragment;
@@ -23,7 +25,7 @@ import java.util.List;
 /**
  * Created by khb on 2016/7/6.
  */
-public class OrdersFragment extends BaseFragment implements IOrdersFragment, SwipeRefreshLayout.OnRefreshListener {
+public class OrdersFragment extends BaseFragment implements IOrdersFragment, SwipeRefreshLayout.OnRefreshListener, OrderListAdapter.OnOrderClickListener {
 
     private RecyclerView rvOrderList;
     private RelativeLayout mSquare;
@@ -67,6 +69,7 @@ public class OrdersFragment extends BaseFragment implements IOrdersFragment, Swi
         mRefresh.setOnRefreshListener(this);
         rvOrderList.setLayoutManager(new LinearLayoutManager(context));
         adapter = new OrderListAdapter(context, list);
+        adapter.setOnOrderClickListener(this);
         rvOrderList.setAdapter(adapter);
         rvOrderList.addOnScrollListener(new RecyclerView.OnScrollListener() {
             private int lastVisibleItem;
@@ -100,43 +103,38 @@ public class OrdersFragment extends BaseFragment implements IOrdersFragment, Swi
 
     @Override
     public void refresh(OrderListInteractor.OrderListBean data) {
-
         OrderEntity entity = new OrderEntity();
-//        entity.setId("123456789");
-//        entity.setClassCount(2);
-//        entity.setDetail("。。。。。。。");
-//        entity.setDistance("4.3");
-//        entity.setHeader("http://p3.music.126.net/nUGiKZdgmElnsyx0ThbYrA==/2946691185724731.jpg?param=180y180");
-//        entity.setName("螚安");
-//        entity.setOrderTopic("二胡");
-//        entity.setOrderType(1);
-//        entity.setPrice(50);
-//        entity.setStatus(1);
-//        entity.setTime(System.currentTimeMillis());
-//        for (int i = 0; i<10; i++) {
-//            list.add(entity);
-//        }
+
+        for (int i = 0; i < 10; i++) {
+            list.add(entity);
+        }
         adapter.notifyDataSetChanged();
     }
 
     @Override
-    public void goToOrderDetail() {
-
+    public void onOrderClick(OrderEntity order) {
+        startActivity(new Intent(context, OrderActivity.class)
+        .putExtra("order", order));
     }
+
+//    @Override
+//    public void goToOrderDetail(OrderEntity order) {
+//
+//    }
 
     @Override
     public void changeList() {
         page = 1;
-        if (isAllList){
+        if (isAllList) {
             orderListPresenter.getAllList(page);
-        }else{
+        } else {
             orderListPresenter.getMyList(page);
         }
     }
 
     @Override
     public void onRefresh() {
-        if (mRefresh.isRefreshing()){
+        if (mRefresh.isRefreshing()) {
             mRefresh.setRefreshing(false);
         }
         changeList();
@@ -144,7 +142,7 @@ public class OrdersFragment extends BaseFragment implements IOrdersFragment, Swi
 
     @Override
     public void showLoading(String msg) {
-        if (!mRefresh.isRefreshing()){
+        if (!mRefresh.isRefreshing()) {
             mRefresh.post(new Runnable() {
                 @Override
                 public void run() {
@@ -160,6 +158,5 @@ public class OrdersFragment extends BaseFragment implements IOrdersFragment, Swi
         mRefresh.setRefreshing(false);
 //        super.hideLoading();
     }
-
 
 }

@@ -30,6 +30,7 @@ public class OrderListPresenter implements IOrderListPresenter, OnLoadCallBack {
         iOrderListInteractor.getMyOrders(page);
     }
 
+
     @Override
     public void onPreLoad(String msg) {
         iOrdersFragment.showLoading(null);

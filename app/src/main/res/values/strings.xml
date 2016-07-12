@@ -23,9 +23,9 @@
     <!--end-->
 
     <!--订单类型-->
-    <string name="order_type_homework">作业辅导</string>
-    <string name="order_type_interest">兴趣培养</string>
-    <string name="order_type_company">陪伴</string>
+    <string name="order_type_1">陪伴</string>
+    <string name="order_type_2">作业辅导</string>
+    <string name="order_type_3">兴趣培养</string>
 
     <!--订单列表头部-->
     <string name="orderlist_top_square">位学生等待老师</string>

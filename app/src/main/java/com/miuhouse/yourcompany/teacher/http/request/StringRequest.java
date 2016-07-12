@@ -6,6 +6,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.miuhouse.yourcompany.teacher.utils.Constants;
+import com.miuhouse.yourcompany.teacher.utils.L;
 import com.miuhouse.yourcompany.teacher.utils.Util;
 
 import org.json.JSONException;
@@ -52,6 +53,7 @@ public class StringRequest extends Request<String> {
                 }
             }
             String json = jsonObject.toString();
+            L.i("请求："+json);
             String md5 = Util.md5String(Constants.DEVICETYPE_VALUE
                     + Constants.IMEI_VALUE
                     + Constants.VERSIONCODE_VALUE

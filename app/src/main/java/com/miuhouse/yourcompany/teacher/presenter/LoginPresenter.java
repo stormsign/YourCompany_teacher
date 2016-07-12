@@ -2,12 +2,15 @@ package com.miuhouse.yourcompany.teacher.presenter;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.miuhouse.yourcompany.teacher.application.App;
+import com.miuhouse.yourcompany.teacher.db.AccountDBTask;
 import com.miuhouse.yourcompany.teacher.interactor.GetUserInfo;
 import com.miuhouse.yourcompany.teacher.interactor.interf.IGetUser;
 import com.miuhouse.yourcompany.teacher.model.BaseBean;
 import com.miuhouse.yourcompany.teacher.model.User;
 import com.miuhouse.yourcompany.teacher.presenter.interf.ILoginPresenter;
 import com.miuhouse.yourcompany.teacher.utils.L;
+import com.miuhouse.yourcompany.teacher.utils.SPUtils;
 import com.miuhouse.yourcompany.teacher.view.ui.activity.interf.ILoginView;
 
 /**
@@ -36,6 +39,14 @@ public class LoginPresenter implements ILoginPresenter {
             @Override
             public void onResponse(User response) {
 //                L.i("TAG", "user=" + response.getName());
+                if (response != null && response.getTeacherInfo() != null) {
+                    if (response.getTeacherInfo().getToken() != null) {
+                        SPUtils.saveData(SPUtils.TOKEN, response.getTeacherInfo().getToken());
+                    }
+                    AccountDBTask.saveUserBean(response.getTeacherInfo());
+                    App.getInstance().setLogin(true);
+                }
+
                 iLoginView.showLoginSuccess(response);
             }
         }, new Response.ErrorListener() {
@@ -58,7 +69,7 @@ public class LoginPresenter implements ILoginPresenter {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                L.i("TAG", "error=" + error);
             }
         });
     }
