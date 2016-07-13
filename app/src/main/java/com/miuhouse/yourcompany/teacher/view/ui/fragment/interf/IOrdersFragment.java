@@ -1,14 +1,10 @@
 package com.miuhouse.yourcompany.teacher.view.ui.fragment.interf;
 
-import com.miuhouse.yourcompany.teacher.interactor.OrderListInteractor;
-import com.miuhouse.yourcompany.teacher.view.ui.base.BaseView;
-
 /**
- * Created by khb on 2016/7/6.
+ * Created by khb on 2016/7/13.
  */
-public interface IOrdersFragment extends BaseView{
-//    void setupView();
-    void refresh(OrderListInteractor.OrderListBean data);
-//    void goToOrderDetail(OrderEntity orderEntity);
+public interface IOrdersFragment {
     void changeListToggle(boolean isAllList);
+    void setSquareTop(int squareCount);
+    void setMyOrdersTop(int myOrdersTop);
 }

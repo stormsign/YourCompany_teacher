@@ -4,6 +4,8 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
+import com.miuhouse.yourcompany.teacher.listener.OnListItemClick;
+
 import java.util.List;
 
 /**
@@ -13,10 +15,12 @@ public abstract class BaseRVAdapter<T> extends RecyclerView.Adapter {
 
     public List<T> list;
     public Context context;
+    public OnListItemClick onListItemClick;
 
-    public BaseRVAdapter(Context context, List<T> list) {
+    public BaseRVAdapter(Context context, List<T> list, OnListItemClick onListItemClick) {
         this.context = context;
         this.list = list;
+        this.onListItemClick = onListItemClick;
     }
 
     @Override

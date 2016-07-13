@@ -25,4 +25,6 @@
     <color name="background_order_3">#FFFF6E49</color>
     <color name="background_order_2">#FF03A9F4</color>
     <color name="background_order_1">#FFFF9800</color>
+    <!-- list 按下去摸一下的颜色-->
+    <color name="list_press">#E4E4E4</color>
 </resources>

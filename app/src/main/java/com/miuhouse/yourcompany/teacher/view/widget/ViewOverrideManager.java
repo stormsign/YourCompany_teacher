@@ -54,10 +54,10 @@ public class ViewOverrideManager {
     public void showLoading(String msg){
         View view = LayoutInflater.from(parentView.getContext()).inflate(R.layout.view_override, null);
         TextView tvMsg = (TextView) view.findViewById(R.id.msg);
-//        tvMsg.setText(msg);
-//        tvMsg.setTextColor(parentView.getContext().getResources().getColor(R.color.primary_material_dark));
+        tvMsg.setText(msg);
+        tvMsg.setTextColor(parentView.getContext().getResources().getColor(R.color.primary_material_dark));
         showLayout(view);
-        Toast.makeText(parentView.getContext(), msg, Toast.LENGTH_LONG).show();
+        Toast.makeText(parentView.getContext(), msg+"", Toast.LENGTH_LONG).show();
     }
 
 

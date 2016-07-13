@@ -29,7 +29,7 @@
     <dimen name="text_17">17sp</dimen>
     <dimen name="text_18">18sp</dimen>
    <!-- end -->
-    <dimen name="linear_60dp">52dp</dimen>
+    <dimen name="linear_45dp">48dp</dimen>
     <dimen name="sidebar_text_size">10dp</dimen>
     <dimen name="text_order_detail_small">14sp</dimen>
     <dimen name="text_order_detail_middle">15sp</dimen>

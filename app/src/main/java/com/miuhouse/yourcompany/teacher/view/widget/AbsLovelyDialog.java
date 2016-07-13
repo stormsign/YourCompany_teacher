@@ -21,7 +21,7 @@ import com.miuhouse.yourcompany.teacher.R;
 
 
 /**
- * Created by yarolegovich on 16.04.2016.
+ *
  */
 @SuppressWarnings("unchecked")
 public abstract class AbsLovelyDialog<T extends AbsLovelyDialog> {
@@ -81,9 +81,14 @@ public abstract class AbsLovelyDialog<T extends AbsLovelyDialog> {
         return (T) this;
     }
 
-    public T goneView(){
+    public T goneView() {
         titleView.setVisibility(View.GONE);
         topTitleView.setVisibility(View.GONE);
+        iconView.setVisibility(View.GONE);
+        return (T) this;
+    }
+
+    public T goneIconView() {
         iconView.setVisibility(View.GONE);
         return (T) this;
     }

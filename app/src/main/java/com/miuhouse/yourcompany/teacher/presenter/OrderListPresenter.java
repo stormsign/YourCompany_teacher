@@ -5,17 +5,17 @@ import com.miuhouse.yourcompany.teacher.interactor.interf.IOrderListInteractor;
 import com.miuhouse.yourcompany.teacher.listener.OnLoadCallBack;
 import com.miuhouse.yourcompany.teacher.presenter.interf.IOrderListPresenter;
 import com.miuhouse.yourcompany.teacher.utils.L;
-import com.miuhouse.yourcompany.teacher.view.ui.fragment.interf.IOrdersFragment;
+import com.miuhouse.yourcompany.teacher.view.ui.fragment.interf.IOrdersListFragment;
 
 /**
  * Created by khb on 2016/7/7.
  */
 public class OrderListPresenter implements IOrderListPresenter, OnLoadCallBack {
 
-    private IOrdersFragment iOrdersFragment;
+    private IOrdersListFragment iOrdersFragment;
     private IOrderListInteractor iOrderListInteractor;
 
-    public OrderListPresenter(IOrdersFragment iOrdersFragment){
+    public OrderListPresenter(IOrdersListFragment iOrdersFragment){
         this.iOrdersFragment = iOrdersFragment;
         iOrderListInteractor = new OrderListInteractor(this);
     }

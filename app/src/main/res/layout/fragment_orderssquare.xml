@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/squareContent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgroundcolor_common">
+
+    <!--<LinearLayout android:id="@+id/top"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:gravity="center_vertical"-->
+        <!--android:paddingTop="15dp"-->
+        <!--android:paddingBottom="15dp"-->
+        <!--android:background="@color/white"-->
+        <!--android:elevation="3dp">-->
+
+        <!--<ImageView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:src="@mipmap/ico_waitingorderlist"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:layout_marginRight="10dp"/>-->
+
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="有"-->
+            <!--android:textColor="@color/textDarkthree"-->
+            <!--android:textSize="16sp"/>-->
+
+        <!--<TextView android:id="@+id/orderCount"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:textColor="@color/textOrange"-->
+            <!--android:text="3"-->
+            <!--android:textSize="16sp"/>-->
+
+        <!--<TextView android:id="@+id/textOrderListTop"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:textColor="@color/textDarkthree"-->
+            <!--android:text="@string/orderlist_top_square"-->
+            <!--android:textSize="16sp"/>-->
+
+    <!--</LinearLayout>-->
+
+    <!--<RelativeLayout-->
+        <!--android:id="@+id/content"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content">-->
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/refresh"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/orderList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </android.support.v4.widget.SwipeRefreshLayout>
+    <!--</RelativeLayout>-->
+
+    <!--<LinearLayout-->
+        <!--android:id="@+id/bottom"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="55dp"-->
+        <!--android:background="@color/white"-->
+        <!--android:gravity="center">-->
+
+        <!--<RelativeLayout android:id="@+id/square"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:gravity="center">-->
+
+            <!--<ImageView android:id="@+id/iconSquare"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:src="@mipmap/ico_orderlist_n"-->
+                <!--android:layout_centerHorizontal="true"/>-->
+
+            <!--<TextView android:id="@+id/textSquare"-->
+                <!--android:layout_below="@id/iconSquare"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="派单广场"-->
+                <!--android:textSize="13sp"-->
+                <!--android:textColor="@color/textDarktwo"-->
+                <!--android:layout_centerHorizontal="true"/>-->
+
+        <!--</RelativeLayout>-->
+        <!--<View-->
+            <!--android:layout_width="1dp"-->
+            <!--android:layout_height="40dp"-->
+            <!--android:background="@color/line"/>-->
+        <!--<RelativeLayout android:id="@+id/myOrder"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:gravity="center">-->
+
+            <!--<ImageView android:id="@+id/iconMyOrder"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:src="@mipmap/ico_myorder_n"-->
+                <!--android:layout_centerHorizontal="true"/>-->
+
+            <!--<TextView android:id="@+id/textMyOrder"-->
+                <!--android:layout_below="@id/iconMyOrder"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="我抢的单"-->
+                <!--android:textSize="13sp"-->
+                <!--android:textColor="@color/textDarktwo"-->
+                <!--android:layout_centerHorizontal="true"/>-->
+
+        <!--</RelativeLayout>-->
+
+    <!--</LinearLayout>-->
+
+    <!--<View android:layout_width="match_parent"-->
+        <!--android:layout_height="3dp"-->
+        <!--android:background="@drawable/shadow_up"-->
+        <!--android:layout_above="@id/bottom"/>-->
+
+</RelativeLayout>

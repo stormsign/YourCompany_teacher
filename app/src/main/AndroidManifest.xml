@@ -27,6 +27,7 @@
         <activity android:name=".view.ui.activity.OrderActivity"></activity>
         <activity android:name=".view.ui.activity.LoginRegistActivity"></activity>
         <activity android:name=".view.ui.activity.UserInformationActivity"></activity>
+        <activity android:name=".view.ui.activity.ChangeUserNameActivity"></activity>
     </application>
 
 </manifest>

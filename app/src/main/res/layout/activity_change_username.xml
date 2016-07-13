@@ -2,27 +2,34 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="10dp"
+    >
 
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        >
 
         <EditText
             android:id="@+id/edit_user"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="姓名"
-            android:phoneNumber="true"
-            android:textColor="@android:color/black"
+            android:textColor="@color/textDarkone"
             android:textColorHint="#12000000"
-            android:textSize="16sp" />
+            android:textSize="@dimen/text_16"
+            />
     </android.support.design.widget.TextInputLayout>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/change_username" />
+        android:layout_marginTop="4dp"
+        android:text="@string/change_username"
+        android:textSize="@dimen/text_14"
+        android:textColor="@color/textDarkthree"
+        />
 </LinearLayout>

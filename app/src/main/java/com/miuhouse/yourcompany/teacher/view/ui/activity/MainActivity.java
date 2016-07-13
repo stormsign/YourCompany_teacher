@@ -59,9 +59,9 @@ public class MainActivity extends BaseActivity {
         imgResList.add(R.mipmap.home_account_n);
 
         List<Fragment> fragmentList = new ArrayList<Fragment>();
-        fragmentList.add(FragmentFactory.getFragment(BaseFragment.MESSAGESFRAGMENT));
-        fragmentList.add(FragmentFactory.getFragment(BaseFragment.ORDERSFRAGMENT));
-        fragmentList.add(FragmentFactory.getFragment(BaseFragment.ACCOUNTFRAGMENT));
+        fragmentList.add(FragmentFactory.getFragment(BaseFragment.MESSAGES));
+        fragmentList.add(FragmentFactory.getFragment(BaseFragment.ORDERS));
+        fragmentList.add(FragmentFactory.getFragment(BaseFragment.ACCOUNT));
 
         mPages = (ViewPagerIndicator) findViewById(R.id.pageIndicator);
         ViewPager pager = (ViewPager) findViewById(R.id.pages);

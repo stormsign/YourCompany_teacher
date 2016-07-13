@@ -45,12 +45,19 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/text_16</item>
         <item name="android:layout_centerVertical">true</item>
-        <item name="android:textColor">@color/text_black</item>
-        <item name="android:layout_marginLeft">12dp</item>
+        <item name="android:textColor">@color/textDarkone</item>
+        <item name="android:layout_marginLeft">10dp</item>
         <item name="android:singleLine">true</item>
     </style>
-    <style name="user_info_text_v" parent="user_info_text">
+    <style name="user_info_text_v" >
         <item name="android:maxLength">12</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/text_15</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:textColor">@color/textDarkthree</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:singleLine">true</item>
     </style>
     <style name="user_info_imageview">
         <item name="android:layout_width">wrap_content</item>
@@ -60,4 +67,23 @@
         <item name="android:src">@mipmap/list_ico_jiantou</item>
         <item name="android:layout_marginRight">@dimen/sidebar_text_size</item>
     </style>
+    <style name="DialogButton">
+        <item name="android:textAllCaps">true</item>
+        <item name="android:clickable">true</item>
+        <item name="android:background">?android:selectableItemBackground</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:paddingLeft">@dimen/ld_side_margin</item>
+        <item name="android:paddingRight">@dimen/ld_side_margin</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">?android:textColorPrimary</item>
+    </style>
+    <style name="text_dark_one">
+     <item name="android:textColor">@color/textDarkone</item>
+     <item name="android:textSize">@dimen/text_16</item>
+    </style>
+    <style name="CheckBoxTintTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">@color/themeColor</item>
+    </style>
+
 </resources>

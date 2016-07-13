@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -20,17 +21,16 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created by khb on 2016/7/7.
+ * Created by khb on 2016/7/13.
  */
-public class OrderListAdapter extends BaseRVAdapter {
-
-    public OrderListAdapter(Context context, List<OrderEntity> list, OnListItemClick onListItemClick) {
+public class MyOrderAdapter extends BaseRVAdapter {
+    public MyOrderAdapter(Context context, List<OrderEntity> list, OnListItemClick onListItemClick) {
         super(context, list, onListItemClick);
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new OrderListHolder(LayoutInflater.from(context).inflate(R.layout.item_ordersquarelist, null));
+        return new OrderListHolder(LayoutInflater.from(context).inflate(R.layout.item_myorderslist, null));
     }
 
     @Override
@@ -55,14 +55,28 @@ public class OrderListAdapter extends BaseRVAdapter {
         mholder.beginTime.setText(formatTime(entity.getClassBeginTimePromise()));
         mholder.distance.setText(formatDistance(entity.getDistance()));
         mholder.detail.setText(entity.getDescription());
-        mholder.getOrder.setOnClickListener(new View.OnClickListener() {
+        setStatus(mholder.status, entity.getOrderStatus());
+        mholder.content.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (null != onListItemClick){
+                if (null != onListItemClick) {
                     onListItemClick.onItemClick(entity);
                 }
             }
         });
+    }
+
+    private void setStatus(TextView status, String orderStatus) {
+        if (orderStatus.equals("2")){
+            status.setText(context.getResources().getString(R.string.order_status_waiting));
+            status.setTextColor(context.getResources().getColor(R.color.textBlue));
+        }else if (Integer.parseInt(orderStatus) > 2){
+            status.setText(context.getResources().getString(R.string.order_status_chosen));
+            status.setTextColor(context.getResources().getColor(R.color.textOrange));
+        }else{
+            status.setText("错误状态");
+            status.setTextColor(context.getResources().getColor(R.color.textDarkfour));
+        }
     }
 
     private String getPrice(String majorDemand) {
@@ -123,6 +137,7 @@ public class OrderListAdapter extends BaseRVAdapter {
         }
     }
 
+
     class OrderListHolder extends RecyclerView.ViewHolder{
         TextView orderType;
         ImageView header;
@@ -133,7 +148,9 @@ public class OrderListAdapter extends BaseRVAdapter {
         TextView beginTime;
         TextView distance;
         TextView detail;
-        TextView getOrder;
+        RelativeLayout content;
+        TextView status;
+
         public OrderListHolder(View itemView) {
             super(itemView);
             orderType = (TextView) itemView.findViewById(R.id.type);
@@ -145,9 +162,11 @@ public class OrderListAdapter extends BaseRVAdapter {
             beginTime = (TextView) itemView.findViewById(R.id.beginTime);
             distance = (TextView) itemView.findViewById(R.id.distance);
             detail = (TextView) itemView.findViewById(R.id.detail);
-            getOrder = (TextView) itemView.findViewById(R.id.getOrder);
+            content = (RelativeLayout) itemView.findViewById(R.id.orderContent);
+            status = (TextView) itemView.findViewById(R.id.orderStatus);
 
         }
     }
+
 
 }

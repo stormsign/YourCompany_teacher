@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import com.miuhouse.yourcompany.teacher.R;
 
 /**
- * Created by yarolegovich on 16.04.2016.
+ *
  */
 public class LovelyCustomDialog extends AbsLovelyDialog<LovelyCustomDialog> {
 

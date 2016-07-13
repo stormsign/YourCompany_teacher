@@ -18,9 +18,11 @@ public abstract class BaseFragment extends Fragment implements BaseView {
     private View view;
     public Context context;
 
-    public static final int MESSAGESFRAGMENT = 0;
-    public static final int ORDERSFRAGMENT = 1;
-    public static final int ACCOUNTFRAGMENT = 2;
+    public static final int MESSAGES = 0;
+    public static final int ORDERS = 1;
+    public static final int ACCOUNT = 2;
+    public static final int ORDERSSQUARE = 3;
+    public static final int MYORDERS = 4;
     private ViewOverrideManager viewOverrideManager;
 
     @Override

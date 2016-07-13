@@ -5,7 +5,9 @@ import android.support.v4.app.Fragment;
 import com.miuhouse.yourcompany.teacher.view.ui.base.BaseFragment;
 import com.miuhouse.yourcompany.teacher.view.ui.fragment.AccountFragment;
 import com.miuhouse.yourcompany.teacher.view.ui.fragment.MessagesFragment;
+import com.miuhouse.yourcompany.teacher.view.ui.fragment.MyOrdersFragment;
 import com.miuhouse.yourcompany.teacher.view.ui.fragment.OrdersFragment;
+import com.miuhouse.yourcompany.teacher.view.ui.fragment.OrdersSquareFragment;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,14 +27,20 @@ public class FragmentFactory {
             }
         }else {
             switch (position){
-                case BaseFragment.MESSAGESFRAGMENT:
+                case BaseFragment.MESSAGES:
                     baseFragment = new MessagesFragment();
                     break;
-                case BaseFragment.ORDERSFRAGMENT:
+                case BaseFragment.ORDERS:
                     baseFragment = new OrdersFragment();
                     break;
-                case BaseFragment.ACCOUNTFRAGMENT:
+                case BaseFragment.ACCOUNT:
                     baseFragment = new AccountFragment();
+                    break;
+                case BaseFragment.ORDERSSQUARE:
+                    baseFragment = new OrdersSquareFragment();
+                    break;
+                case BaseFragment.MYORDERS:
+                    baseFragment = new MyOrdersFragment();
                     break;
             }
             map.put(position, baseFragment);

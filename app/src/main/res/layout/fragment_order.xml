@@ -43,24 +43,12 @@
 
     </LinearLayout>
 
-    <RelativeLayout
-        android:id="@+id/content"
+    <com.miuhouse.yourcompany.teacher.view.widget.CantScrollViewPager
+        android:id="@+id/contentViewPager"
         android:layout_below="@id/top"
         android:layout_above="@id/bottom"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/refresh"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/orderList"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </android.support.v4.widget.SwipeRefreshLayout>
-    </RelativeLayout>
+        android:layout_height="wrap_content"/>
 
     <LinearLayout
         android:id="@+id/bottom"
