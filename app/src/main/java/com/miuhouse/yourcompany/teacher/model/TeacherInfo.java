@@ -6,15 +6,25 @@ import java.io.Serializable;
  * Created by kings on 7/8/2016.
  */
 public class TeacherInfo implements Serializable {
-    private String id;
+    private String teacherId;
     private String tName;
     private String mobile;
     private String token;
     private long tokenTime;
     private double balance; //帐号余额
 
+    private String sex;
+    private String college;//院校
+    private String profession;//专业
+    private String education;//学历
+    private String grade;//年级
+    //    private String pbxType; //订单类型
+    private String introduction;//自我介绍
+    private String headUrl;//头像
+
+
     public void setId(String id) {
-        this.id = id;
+        this.teacherId = teacherId;
     }
 
     public void settName(String tName) {
@@ -37,8 +47,8 @@ public class TeacherInfo implements Serializable {
         this.balance = balance;
     }
 
-    public String getId() {
-        return id;
+    public String getTeacherId() {
+        return teacherId;
     }
 
     public String gettName() {
@@ -59,5 +69,61 @@ public class TeacherInfo implements Serializable {
 
     public double getBalance() {
         return balance;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public String getCollege() {
+        return college;
+    }
+
+    public void setCollege(String college) {
+        this.college = college;
+    }
+
+    public String getProfession() {
+        return profession;
+    }
+
+    public void setProfession(String profession) {
+        this.profession = profession;
+    }
+
+    public String getEducation() {
+        return education;
+    }
+
+    public void setEducation(String education) {
+        this.education = education;
+    }
+
+    public String getGrade() {
+        return grade;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade;
+    }
+
+    public String getIntroduction() {
+        return introduction;
+    }
+
+    public void setIntroduction(String introduction) {
+        this.introduction = introduction;
+    }
+
+    public String getHeadUrl() {
+        return headUrl;
+    }
+
+    public void setHeadUrl(String headUrl) {
+        this.headUrl = headUrl;
     }
 }

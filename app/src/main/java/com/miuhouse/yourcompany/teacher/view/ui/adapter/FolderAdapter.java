@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.miuhouse.yourcompany.teacher.R;
 import com.miuhouse.yourcompany.teacher.model.Folder;
-
+//import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -19,23 +19,32 @@ import java.util.List;
 
 
 /**
- * Created by kings on 12/28/2015.
+ * 文件夹Adapter
+ * Created by Nereo on 2015/4/7.
+ * Updated by nereo on 2016/1/19.
  */
 public class FolderAdapter extends BaseAdapter {
 
     private Context mContext;
     private LayoutInflater mInflater;
+
     private List<Folder> mFolders = new ArrayList<>();
 
     int mImageSize;
+
     int lastSelected = 0;
 
     public FolderAdapter(Context context) {
         mContext = context;
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        mImageSize = mContext.getResources().getDimensionPixelOffset(R.dimen.folder_cover_size);
+        mImageSize = mContext.getResources().getDimensionPixelOffset(R.dimen.mis_folder_cover_size);
     }
 
+    /**
+     * 设置数据集
+     *
+     * @param folders
+     */
     public void setData(List<Folder> folders) {
         if (folders != null && folders.size() > 0) {
             mFolders = folders;
@@ -51,44 +60,50 @@ public class FolderAdapter extends BaseAdapter {
     }
 
     @Override
-    public Folder getItem(int position) {
-        if (position == 0)
-            return null;
-        return mFolders.get(position - 1);
+    public Folder getItem(int i) {
+        if (i == 0) return null;
+        return mFolders.get(i - 1);
     }
 
     @Override
-    public long getItemId(int position) {
-        return position;
+    public long getItemId(int i) {
+        return i;
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int i, View view, ViewGroup viewGroup) {
         ViewHolder holder;
-        if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.list_item_folder, parent, false);
-            holder = new ViewHolder(convertView);
+        if (view == null) {
+            view = mInflater.inflate(R.layout.mis_list_item_folder, viewGroup, false);
+            holder = new ViewHolder(view);
         } else {
-            holder = (ViewHolder) convertView.getTag();
+            holder = (ViewHolder) view.getTag();
         }
         if (holder != null) {
-            if (position == 0) {
-                holder.name.setText("所有图片");
-                holder.size.setText(getTotalImageSize() + "张");
+            if (i == 0) {
+                holder.name.setText(R.string.mis_folder_all);
+                holder.path.setText("/sdcard");
+                holder.size.setText(String.format("%d%s",
+                        getTotalImageSize(), mContext.getResources().getString(R.string.mis_photo_unit)));
                 if (mFolders.size() > 0) {
                     Folder f = mFolders.get(0);
-                    Glide.with(mContext).load(new File(f.cover.path)).error(R.mipmap.ic_launcher).override(mImageSize, mImageSize).centerCrop().into(holder.cover);
+                    if (f != null) {
+                        Glide.with(mContext).load(new File(f.cover.path)).override(R.dimen.mis_folder_cover_size, R.dimen.mis_folder_cover_size).centerCrop().into(holder.cover);
+
+                    } else {
+                        holder.cover.setImageResource(R.mipmap.mis_default_error);
+                    }
                 }
             } else {
-                holder.bindData(getItem(position));
+                holder.bindData(getItem(i));
             }
-            if (lastSelected == position) {
+            if (lastSelected == i) {
                 holder.indicator.setVisibility(View.VISIBLE);
             } else {
                 holder.indicator.setVisibility(View.INVISIBLE);
             }
         }
-        return convertView;
+        return view;
     }
 
     private int getTotalImageSize() {
@@ -101,35 +116,53 @@ public class FolderAdapter extends BaseAdapter {
         return result;
     }
 
-    public int getSelectIndex() {
-        return lastSelected;
-    }
-
     public void setSelectIndex(int i) {
-        if (lastSelected == i)
-            return;
+        if (lastSelected == i) return;
+
         lastSelected = i;
         notifyDataSetChanged();
+    }
+
+    public int getSelectIndex() {
+        return lastSelected;
     }
 
     class ViewHolder {
         ImageView cover;
         TextView name;
+        TextView path;
         TextView size;
         ImageView indicator;
 
         ViewHolder(View view) {
             cover = (ImageView) view.findViewById(R.id.cover);
             name = (TextView) view.findViewById(R.id.name);
+            path = (TextView) view.findViewById(R.id.path);
             size = (TextView) view.findViewById(R.id.size);
             indicator = (ImageView) view.findViewById(R.id.indicator);
             view.setTag(this);
         }
 
         void bindData(Folder data) {
+            if (data == null) {
+                return;
+            }
             name.setText(data.name);
-            size.setText(data.images.size() + "张");
-            Glide.with(mContext).load(new File(data.cover.path)).placeholder(R.mipmap.ic_launcher).override(mImageSize, mImageSize).centerCrop().into(cover);
+            path.setText(data.path);
+            if (data.images != null) {
+                size.setText(String.format("%d%s", data.images.size(), mContext.getResources().getString(R.string.mis_photo_unit)));
+            } else {
+                size.setText("*" + mContext.getResources().getString(R.string.mis_photo_unit));
+            }
+            if (data.cover != null) {
+                // 显示图片
+
+                Glide.with(mContext).load(new File(data.cover.path)).placeholder(R.mipmap.mis_default_error).override(R.dimen.mis_folder_cover_size, R.dimen.mis_folder_cover_size).centerCrop().into(cover);
+
+            } else {
+                cover.setImageResource(R.mipmap.mis_default_error);
+            }
         }
     }
+
 }

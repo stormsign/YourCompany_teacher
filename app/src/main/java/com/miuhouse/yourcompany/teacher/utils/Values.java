@@ -3,7 +3,8 @@ package com.miuhouse.yourcompany.teacher.utils;
 import java.util.HashMap;
 import java.util.Map;
 
-/** 数字与对应文本的集合
+/**
+ * 数字与对应文本的集合
  * Created by khb on 2016/7/12.
  */
 public class Values {
@@ -57,15 +58,16 @@ public class Values {
 
     /**
      * 根据值获取key
+     *
      * @param map
      * @param value
      * @return
      */
-    public static int getKey(Map<Integer, String> map, String value){
+    public static int getKey(Map<Integer, String> map, String value) {
         int key = 0;
-        for (Map.Entry<Integer, String> e:
-            map.entrySet()){
-            if (e.getValue().equals(value)){
+        for (Map.Entry<Integer, String> e :
+                map.entrySet()) {
+            if (e.getValue().equals(value)) {
                 key = e.getKey();
                 break;
             }
@@ -73,5 +75,13 @@ public class Values {
         return key;
     }
 
+    public static String[] getArrayValue(Map<Integer, String> map) {
+        String[] array = new String[map.size()];
+        int i = 0;
+        for (Map.Entry<Integer, String> entry : map.entrySet()) {
+            array[i++] = entry.getValue();
+        }
+        return array;
+    }
 
 }

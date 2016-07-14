@@ -226,7 +226,6 @@
                         android:id="@+id/tv_university"
                         style="@style/user_info_text_v"
                         android:layout_marginRight="10dp"
-
                         android:layout_toLeftOf="@+id/img_university" />
 
                     <ImageView
@@ -251,11 +250,10 @@
                         style="@style/user_info_text"
                         android:layout_alignParentLeft="true"
                         android:layout_marginLeft="12dp"
-
                         android:text="专业" />
 
                     <TextView
-                        android:id="@+id/tv_experience"
+                        android:id="@+id/tv_major"
                         style="@style/user_info_text_v"
                         android:layout_marginRight="10dp"
                         android:layout_toLeftOf="@+id/img_experience" />

@@ -39,4 +39,9 @@
     <dimen name="text_msg_summary">14sp</dimen>
     <dimen name="img_sysmsg_size">50dp</dimen>
 
+    <dimen name="mis_image_size">120dp</dimen>
+    <dimen name="mis_space_size">2dp</dimen>
+    <dimen name="mis_folder_cover_size">72dp</dimen>
+    <dimen name="text_sysmsg_title">16sp</dimen>
+    <dimen name="text_sysmsg_content">14sp</dimen>
 </resources>

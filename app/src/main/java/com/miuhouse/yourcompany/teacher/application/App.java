@@ -30,7 +30,7 @@ public class App extends Application {
         TeacherInfo info = AccountDBTask.getAccount();
         if (info != null) {
             login = true;
-            teacherId = info.getId();
+            teacherId = info.getTeacherId();
         } else {
             login = false;
         }
@@ -53,7 +53,7 @@ public class App extends Application {
 
     private String getTeacherId() {
         if (teacherId==null){
-            teacherId= AccountDBTask.getAccount().getId();
+            teacherId= AccountDBTask.getAccount().getTeacherId();
         }
         return teacherId;
     }

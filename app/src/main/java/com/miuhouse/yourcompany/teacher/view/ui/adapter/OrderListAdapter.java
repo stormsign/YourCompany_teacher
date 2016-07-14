@@ -6,11 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.miuhouse.yourcompany.teacher.R;
-import com.miuhouse.yourcompany.teacher.listener.OnListItemClick;
 import com.miuhouse.yourcompany.teacher.model.OrderEntity;
 import com.miuhouse.yourcompany.teacher.utils.Util;
 import com.miuhouse.yourcompany.teacher.view.ui.base.BaseRVAdapter;
@@ -24,8 +24,10 @@ import java.util.List;
  */
 public class OrderListAdapter extends BaseRVAdapter {
 
-    public OrderListAdapter(Context context, List<OrderEntity> list, OnListItemClick onListItemClick) {
-        super(context, list, onListItemClick);
+    private OnOrderItemClickListener onOrderItemClickListener;
+
+    public OrderListAdapter(Context context, List<OrderEntity> list) {
+        super(context, list);
     }
 
     @Override
@@ -58,8 +60,16 @@ public class OrderListAdapter extends BaseRVAdapter {
         mholder.getOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (null != onListItemClick){
-                    onListItemClick.onItemClick(entity);
+                if (null != onOrderItemClickListener) {
+                    onOrderItemClickListener.onGetOrderClick(entity);
+                }
+            }
+        });
+        mholder.orderContent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (null != onOrderItemClickListener) {
+                    onOrderItemClickListener.onOrderClick(entity);
                 }
             }
         });
@@ -123,6 +133,15 @@ public class OrderListAdapter extends BaseRVAdapter {
         }
     }
 
+    public interface OnOrderItemClickListener{
+        void onOrderClick(OrderEntity entity);
+        void onGetOrderClick(OrderEntity entity);
+    }
+
+    public void setOnOrderItemClickListener(OnOrderItemClickListener onOrderItemClickListener){
+        this.onOrderItemClickListener = onOrderItemClickListener;
+    }
+
     class OrderListHolder extends RecyclerView.ViewHolder{
         TextView orderType;
         ImageView header;
@@ -134,6 +153,8 @@ public class OrderListAdapter extends BaseRVAdapter {
         TextView distance;
         TextView detail;
         TextView getOrder;
+        RelativeLayout orderContent;
+
         public OrderListHolder(View itemView) {
             super(itemView);
             orderType = (TextView) itemView.findViewById(R.id.type);
@@ -146,6 +167,7 @@ public class OrderListAdapter extends BaseRVAdapter {
             distance = (TextView) itemView.findViewById(R.id.distance);
             detail = (TextView) itemView.findViewById(R.id.detail);
             getOrder = (TextView) itemView.findViewById(R.id.getOrder);
+            orderContent = (RelativeLayout) itemView.findViewById(R.id.orderContent);
 
         }
     }

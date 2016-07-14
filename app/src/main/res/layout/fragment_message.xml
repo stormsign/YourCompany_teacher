@@ -30,11 +30,18 @@
             <TextView android:id="@+id/unread"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="3"/>
+                android:text="3"
+                android:textSize="12sp"
+                android:gravity="center"
+                android:background="@drawable/ico_unread_msg"
+                android:padding="2dp"/>
 
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ico_right_arrow_grey"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"/>
 
         </LinearLayout>
 
@@ -72,16 +79,16 @@
         android:layout_height="2dp"
         android:background="@drawable/shadow_down"/>
 
-    <!--<android.support.v4.widget.SwipeRefreshLayout-->
-        <!--android:id="@+id/refresh"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content">-->
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/refresh"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-        <!--<android.support.v7.widget.RecyclerView-->
-            <!--android:id="@+id/msgList"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"/>-->
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/msgList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
-    <!--</android.support.v4.widget.SwipeRefreshLayout>-->
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </LinearLayout>

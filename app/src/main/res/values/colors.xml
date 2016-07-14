@@ -7,7 +7,7 @@
 
     <!--主题颜色-->
     <color name="themeColor">#FFFF9800</color>
-
+    <color name="mis_actionbar_color">#21282C</color>
     <!--字体颜色  DE 87%,8F 56%,66 40%,4d 30%-->
     <color name="textDarkone">#DE000000</color>
     <color name="textDarktwo">#8F000000</color>

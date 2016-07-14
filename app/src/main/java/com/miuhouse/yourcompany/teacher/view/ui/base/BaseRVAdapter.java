@@ -17,6 +17,11 @@ public abstract class BaseRVAdapter<T> extends RecyclerView.Adapter {
     public Context context;
     public OnListItemClick onListItemClick;
 
+    public BaseRVAdapter(Context context, List<T> list){
+        this.context = context;
+        this.list = list;
+    }
+
     public BaseRVAdapter(Context context, List<T> list, OnListItemClick onListItemClick) {
         this.context = context;
         this.list = list;

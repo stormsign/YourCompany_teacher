@@ -5,13 +5,10 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.miuhouse.yourcompany.teacher.R;
 import com.miuhouse.yourcompany.teacher.interactor.OrderListInteractor;
-import com.miuhouse.yourcompany.teacher.listener.OnListItemClick;
 import com.miuhouse.yourcompany.teacher.model.OrderEntity;
 import com.miuhouse.yourcompany.teacher.presenter.OrderListPresenter;
 import com.miuhouse.yourcompany.teacher.presenter.interf.IOrderListPresenter;
@@ -27,15 +24,9 @@ import java.util.List;
  * Created by khb on 2016/7/6.
  */
 public class OrdersSquareFragment extends BaseFragment implements IOrdersListFragment,
-        SwipeRefreshLayout.OnRefreshListener, OnListItemClick {
+        SwipeRefreshLayout.OnRefreshListener, OrderListAdapter.OnOrderItemClickListener {
 
     private RecyclerView rvOrderList;
-    private RelativeLayout mSquare;
-    private RelativeLayout mMyOrder;
-    private ImageView ivSquare;
-    private ImageView ivMyOrder;
-    private TextView mTvSquare;
-    private TextView mTvMyOrder;
     private SwipeRefreshLayout mRefresh;
 
     private int page = 1;
@@ -43,10 +34,8 @@ public class OrdersSquareFragment extends BaseFragment implements IOrdersListFra
     private IOrderListPresenter orderListPresenter;
     private List<OrderEntity> list;
 
-    private boolean isAllList = true;
     private OrderListAdapter adapter;
     private RelativeLayout content;
-    private TextView orderCount;
     private OrdersFragment parentFragment;
 
     @Override
@@ -73,8 +62,8 @@ public class OrdersSquareFragment extends BaseFragment implements IOrdersListFra
         mRefresh.setColorSchemeResources(android.R.color.holo_orange_light);
         mRefresh.setOnRefreshListener(this);
         rvOrderList.setLayoutManager(new LinearLayoutManager(context));
-        adapter = new OrderListAdapter(context, list, this);
-//        adapter.setOnOrderClickListener(this);
+        adapter = new OrderListAdapter(context, list);
+        adapter.setOnOrderItemClickListener(this);
         rvOrderList.setAdapter(adapter);
         rvOrderList.addOnScrollListener(new RecyclerView.OnScrollListener() {
             private int lastVisibleItem;
@@ -136,55 +125,19 @@ public class OrdersSquareFragment extends BaseFragment implements IOrdersListFra
     }
 
     @Override
-    public void onItemClick(Object data) {
-        OrderEntity order = (OrderEntity) data;
-        startActivity(new Intent(context, OrderActivity.class)
-                .putExtra("order", order));
-    }
-
-//    @Override
-//    public void goToOrderDetail(OrderEntity order) {
-//
-//    }
-
-//    @Override
-//    public void changeListToggle(boolean isAllList) {
-//        page = 1;
-//        if (isAllList) {
-//            ivSquare.setImageResource(R.mipmap.ico_orderlist_s);
-//            mTvSquare.setTextColor(getResources().getColor(R.color.themeColor));
-//            ivMyOrder.setImageResource(R.mipmap.ico_myorder_n);
-//            mTvMyOrder.setTextColor(getResources().getColor(R.color.textDarktwo));
-//
-//            orderListPresenter.getAllList(page);
-//        } else {
-//            ivSquare.setImageResource(R.mipmap.ico_orderlist_n);
-//            mTvSquare.setTextColor(getResources().getColor(R.color.textDarktwo));
-//            ivMyOrder.setImageResource(R.mipmap.ico_myorder_s);
-//            mTvMyOrder.setTextColor(getResources().getColor(R.color.themeColor));
-//
-//            orderListPresenter.getMyList(page);
-//        }
-//    }
-
-
-//    @Override
-//    public void onClick(View v) {
-//        switch (v.getId()) {
-//            case R.id.square:
-//                isAllList = true;
-//                break;
-//            case R.id.myOrder:
-//                isAllList = false;
-//                break;
-//        }
-//        changeListToggle(isAllList);
-//    }
-
-
-    @Override
     public void remove() {
 
+    }
+
+    @Override
+    public void onOrderClick(OrderEntity entity) {
+        startActivity(new Intent(context, OrderActivity.class)
+                .putExtra("order", entity));
+    }
+
+    @Override
+    public void onGetOrderClick(OrderEntity entity) {
+//        orderListPresenter
     }
 
     @Override
@@ -194,7 +147,6 @@ public class OrdersSquareFragment extends BaseFragment implements IOrdersListFra
         }
         page = 1;
         orderListPresenter.getAllList(page);
-//        changeListToggle(isAllList);
     }
 
     @Override

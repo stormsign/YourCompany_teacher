@@ -40,7 +40,6 @@ public class MyOrderAdapter extends BaseRVAdapter {
 
         entity.setUserHeader("http://p3.music.126.net/nUGiKZdgmElnsyx0ThbYrA==/2946691185724731.jpg?param=180y180");
 
-
         mholder.name.setText(entity.getCname());
         if (null != entity.getUserHeader()) {
             Glide.with(context).load(entity.getUserHeader())

@@ -12,8 +12,12 @@ import android.support.v7.app.NotificationCompat;
 import android.view.View;
 import android.widget.RelativeLayout;
 
+import com.baidu.android.pushservice.PushConstants;
+import com.baidu.android.pushservice.PushManager;
+import com.baidu.android.pushservice.PushSettings;
 import com.miuhouse.yourcompany.teacher.R;
 import com.miuhouse.yourcompany.teacher.factory.FragmentFactory;
+import com.miuhouse.yourcompany.teacher.utils.Constants;
 import com.miuhouse.yourcompany.teacher.utils.L;
 import com.miuhouse.yourcompany.teacher.view.ui.adapter.MainPageAdapter;
 import com.miuhouse.yourcompany.teacher.view.ui.base.BaseActivity;
@@ -70,6 +74,8 @@ public class MainActivity extends BaseActivity {
         pager.setAdapter(adapter);
         mPages.setViewPager(pager, 1);
 //        mPages.setTabItemTitles(titleList);
+        PushSettings.enableDebugMode(context, true);
+        PushManager.startWork(getApplicationContext(), PushConstants.LOGIN_TYPE_API_KEY, Constants.PUSH_APIKEY);
     }
 
 

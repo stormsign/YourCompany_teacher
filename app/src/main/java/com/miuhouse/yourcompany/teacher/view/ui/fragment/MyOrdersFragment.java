@@ -1,5 +1,6 @@
 package com.miuhouse.yourcompany.teacher.view.ui.fragment;
 
+import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,7 +12,7 @@ import com.miuhouse.yourcompany.teacher.interactor.OrderListInteractor;
 import com.miuhouse.yourcompany.teacher.listener.OnListItemClick;
 import com.miuhouse.yourcompany.teacher.model.OrderEntity;
 import com.miuhouse.yourcompany.teacher.presenter.OrderListPresenter;
-import com.miuhouse.yourcompany.teacher.utils.L;
+import com.miuhouse.yourcompany.teacher.view.ui.activity.OrderActivity;
 import com.miuhouse.yourcompany.teacher.view.ui.adapter.MyOrderAdapter;
 import com.miuhouse.yourcompany.teacher.view.ui.base.BaseFragment;
 import com.miuhouse.yourcompany.teacher.view.ui.fragment.interf.IOrdersListFragment;
@@ -131,8 +132,11 @@ public class MyOrdersFragment extends BaseFragment implements IOrdersListFragmen
 
     @Override
     public void onItemClick(Object data) {
-        L.i("ok");
+        OrderEntity order = (OrderEntity) data;
+        startActivity(new Intent(context, OrderActivity.class)
+                .putExtra("order", order));
     }
+
 
     @Override
     public void showLoading(String msg) {

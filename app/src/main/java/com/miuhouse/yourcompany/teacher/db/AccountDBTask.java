@@ -28,7 +28,7 @@ public class AccountDBTask {
     public static void saveUserBean(TeacherInfo teacherInfo) {
         if (getWsd().isOpen()) {
             ContentValues contentValues = new ContentValues();
-            contentValues.put(AccountTable.TEACHER_ID, teacherInfo.getId());
+            contentValues.put(AccountTable.TEACHER_ID, teacherInfo.getTeacherId());
             contentValues.put(AccountTable.TABLE_NAME, teacherInfo.gettName());
             contentValues.put(AccountTable.MOBILE, teacherInfo.getMobile());
             contentValues.put(AccountTable.TOKEN, teacherInfo.getToken());

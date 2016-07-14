@@ -14,6 +14,7 @@ import com.miuhouse.yourcompany.teacher.view.ui.base.BaseActivity;
 public class ChangeUserNameActivity extends BaseActivity {
     private String strNiceName;
     private EditText editText;
+
     @Override
     protected String setTitle() {
         return "更改姓名";
@@ -26,8 +27,9 @@ public class ChangeUserNameActivity extends BaseActivity {
 
     @Override
     protected void initViewAndEvents() {
-
-       editText = (EditText) findViewById(R.id.edit_user);
+        String title = getIntent().getStringExtra("title");
+        setLeftText("更改" + title);
+        editText = (EditText) findViewById(R.id.edit_user);
     }
 
     @Override
@@ -45,7 +47,7 @@ public class ChangeUserNameActivity extends BaseActivity {
 //        super.onRightClick();
         strNiceName = editText.getText().toString();
 
-        getIntent().putExtra("nicename", strNiceName);
+        getIntent().putExtra("value", strNiceName);
         Log.i("TAG", "nicename=" + strNiceName);
         this.setResult(RESULT_OK, getIntent());
         finish();

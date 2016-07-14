@@ -100,11 +100,21 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
      * @param rightText
      * @author pengjun on 07-05
      * 给Right TextView 随时设置文本
-     *
      */
     public void setRightButtonText(String rightText) {
         if (myTitlebar != null) {
             myTitlebar.setRightButtonText(rightText);
+        }
+    }
+
+    /**
+     * @param leftText
+     * @author pengjun on 07-05
+     * 给Right TextView 随时设置文本
+     */
+    public void setLeftText(String leftText) {
+        if (myTitlebar != null) {
+            myTitlebar.setTitle(leftText);
         }
     }
 
@@ -148,7 +158,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
      */
     @Override
     public void showError(String msg) {
-        viewOverrideManager.showLoading("dd");
+        viewOverrideManager.showLoading(msg);
     }
 
     /**

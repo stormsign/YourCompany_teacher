@@ -24,4 +24,7 @@ public class Constants {
     public final static String APPKEY = "peibanxue";
     public static String IMEI_VALUE;
 
+//    百度推送
+    public final static String PUSH_APIKEY = "GkmlGnH6Vb3f12e5nTrFG8s1";
+
 }

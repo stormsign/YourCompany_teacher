@@ -1,4 +1,4 @@
-package com.miuhouse.yourcompany.teacher.view.ui.activity.interf;
+package com.miuhouse.yourcompany.teacher.view.ui.activity;
 
 import android.util.Log;
 import android.view.View;
@@ -10,12 +10,12 @@ import com.miuhouse.yourcompany.teacher.view.ui.base.BaseActivity;
 /**
  * Created by kings on 7/11/2016.
  */
-public class ChangeUniversityActivity extends BaseActivity {
+public class ChangeRecommendActivity extends BaseActivity {
     private String strNiceName;
     private EditText editText;
     @Override
     protected String setTitle() {
-        return "院校";
+        return "老师介绍";
     }
 
     @Override
@@ -26,12 +26,12 @@ public class ChangeUniversityActivity extends BaseActivity {
     @Override
     protected void initViewAndEvents() {
 
-       editText = (EditText) findViewById(R.id.edit_user);
+       editText = (EditText) findViewById(R.id.edit_recommend);
     }
 
     @Override
     protected int getContentLayoutId() {
-        return R.layout.activity_change_username;
+        return R.layout.activity_change_recomment;
     }
 
     @Override
@@ -41,11 +41,8 @@ public class ChangeUniversityActivity extends BaseActivity {
 
     @Override
     public void onRightClick() {
-//        super.onRightClick();
         strNiceName = editText.getText().toString();
-
-        getIntent().putExtra("nicename", strNiceName);
-        Log.i("TAG", "nicename=" + strNiceName);
+        getIntent().putExtra("value", strNiceName);
         this.setResult(RESULT_OK, getIntent());
         finish();
 
