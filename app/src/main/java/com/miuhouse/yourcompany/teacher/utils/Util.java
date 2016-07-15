@@ -10,20 +10,27 @@ import android.graphics.Point;
 import android.net.ConnectivityManager;
 import android.os.Build;
 import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 import android.view.Display;
 import android.view.WindowManager;
 
 import com.miuhouse.yourcompany.teacher.application.App;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.zip.GZIPInputStream;
 
 /**
  * Created by khb on 2016/5/13.
@@ -305,4 +312,51 @@ public class Util {
         }
         return out;
     }
+
+    public static String streamToStringEn(HttpURLConnection urlConnection) {
+        // private String readResult(HttpURLConnection urlConnection) throws WeiboException {
+        InputStream is = null;
+        BufferedReader buffer = null;
+        // GlobalContext globalContext = GlobalContext.getInstance();
+        // String errorStr = globalContext.getString(R.string.timeout);
+        // globalContext = null;
+        try {
+            is = urlConnection.getInputStream();
+
+            String content_encode = urlConnection.getContentEncoding();
+
+            if (!TextUtils.isEmpty(content_encode) && content_encode.equals("gzip")) {
+                is = new GZIPInputStream(is);
+            }
+
+            buffer = new BufferedReader(new InputStreamReader(is));
+            StringBuilder strBuilder = new StringBuilder();
+            String line;
+            while ((line = buffer.readLine()) != null) {
+                strBuilder.append(line);
+            }
+            // AppLogger.d("result=" + strBuilder.toString());
+            return strBuilder.toString();
+        } catch (IOException e) {
+            e.printStackTrace();
+            // throw new WeiboException(errorStr, e);
+        } finally {
+            closeSilently(is);
+            closeSilently(buffer);
+            urlConnection.disconnect();
+        }
+        return null;
+    }
+
+    public static void closeSilently(Closeable closeable) {
+        if (closeable != null) {
+            try {
+                closeable.close();
+            } catch (IOException ignored) {
+
+            }
+        }
+    }
+
+
 }

@@ -12,6 +12,8 @@ import com.miuhouse.yourcompany.teacher.R;
 import com.miuhouse.yourcompany.teacher.listener.OnListItemClick;
 import com.miuhouse.yourcompany.teacher.model.MsgEntity;
 import com.miuhouse.yourcompany.teacher.presenter.MessagePresenter;
+import com.miuhouse.yourcompany.teacher.presenter.interf.IMessagePresenter;
+import com.miuhouse.yourcompany.teacher.utils.Util;
 import com.miuhouse.yourcompany.teacher.view.ui.activity.SysMsgActivity;
 import com.miuhouse.yourcompany.teacher.view.ui.adapter.MsgAdapter;
 import com.miuhouse.yourcompany.teacher.view.ui.base.BaseFragment;
@@ -31,10 +33,10 @@ public class MessagesFragment extends BaseFragment implements IMessageFragment, 
 
     private int page = 1;
     private MsgAdapter adapter;
-    private MessagePresenter messagePresenter;
+    private IMessagePresenter messagePresenter;
     private TextView unread;
-    private int unreadCount = 0;
     private RelativeLayout sysMsg;
+    private TextView msgSummary;
 
     @Override
     public int getFragmentResourceId() {
@@ -49,6 +51,7 @@ public class MessagesFragment extends BaseFragment implements IMessageFragment, 
         msgList = (RecyclerView) view.findViewById(R.id.msgList);
         unread = (TextView) view.findViewById(R.id.unread);
         sysMsg = (RelativeLayout) view.findViewById(R.id.sysMsg);
+        msgSummary = (TextView) view.findViewById(R.id.msgSummary);
     }
 
     @Override
@@ -84,11 +87,14 @@ public class MessagesFragment extends BaseFragment implements IMessageFragment, 
                 startActivity(new Intent(context, SysMsgActivity.class));
             }
         });
-        if (unreadCount <=0){
-//            unread.setText("");
-            unread.setVisibility(View.GONE);
-        }
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        messagePresenter.getLatestMsg();
+    }
+
 
     @Override
     public View getOverrideParentView() {
@@ -106,6 +112,28 @@ public class MessagesFragment extends BaseFragment implements IMessageFragment, 
     @Override
     public void instantAdd() {
 
+    }
+
+    @Override
+    public void setTop(int count, String msg) {
+        showUnreadCount(count);
+        showLatestMsg(msg);
+    }
+
+    private void showUnreadCount(int unreadCount){
+        if (unreadCount>0){
+            unread.setText(""+unreadCount);
+        }else {
+            unread.setVisibility(View.GONE);
+        }
+    }
+
+    private void showLatestMsg(String msg){
+        if (!Util.isEmpty(msg)){
+            msgSummary.setText(msg);
+        }else {
+            msgSummary.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override

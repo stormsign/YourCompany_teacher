@@ -1,6 +1,9 @@
 package com.miuhouse.yourcompany.teacher.utils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -15,6 +18,7 @@ public class Values {
     public static Map<Integer, String> studentGrades = new HashMap<>();
     public static Map<Integer, String> teacherGrades = new HashMap<>();
     public static Map<Integer, String> majorDemand = new HashMap<>();
+    public static Map<Integer, String> gendersDemand = new HashMap<>();
 
     static {
         teacherVerifyStatuses.put(1, "未认证");
@@ -54,6 +58,8 @@ public class Values {
         majorDemand.put(2, "作业辅导");
         majorDemand.put(3, "兴趣培养");
 
+        gendersDemand.put(0, "女");
+        gendersDemand.put(1, "男");
     }
 
     /**
@@ -84,4 +90,11 @@ public class Values {
         return array;
     }
 
+    public static List<String> getListValue(Map<Integer, String> map) {
+        List<String> list = new ArrayList<>();
+        for (Map.Entry<Integer, String> e : map.entrySet()) {
+            list.add(e.getValue());
+        }
+        return list;
+    }
 }

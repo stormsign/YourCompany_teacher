@@ -39,8 +39,14 @@ public class OrderListPresenter implements IOrderListPresenter, OnLoadCallBack {
 
     @Override
     public void onLoadSuccess(Object data) {
-        iOrdersFragment.refresh((OrderListInteractor.OrderListBean) data);
         iOrdersFragment.hideLoading();
+        OrderListInteractor.OrderListBean bean = (OrderListInteractor.OrderListBean) data;
+        if (null != bean.getOrderList()
+                && bean.getOrderList().size()>0) {
+            iOrdersFragment.refresh(bean);
+        }else {
+            iOrdersFragment.showError("没有数据");
+        }
     }
 
     @Override

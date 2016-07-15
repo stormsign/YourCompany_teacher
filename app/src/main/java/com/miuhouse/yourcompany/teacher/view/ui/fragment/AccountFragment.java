@@ -20,13 +20,13 @@ public class AccountFragment extends BaseFragment implements IAccountFragment {
 
     @Override
     public void getViews(View view) {
-        view.findViewById(R.id.tv_account).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getActivity(), LoginRegistActivity.class));
-
-            }
-        });
+//        view.findViewById(R.id.tv_account).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                startActivity(new Intent(getActivity(), LoginRegistActivity.class));
+//
+//            }
+//        });
         view.findViewById(R.id.tv_information).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

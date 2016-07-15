@@ -1,49 +1,49 @@
 package com.miuhouse.yourcompany.teacher.view.ui.activity;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.miuhouse.yourcompany.teacher.R;
 import com.miuhouse.yourcompany.teacher.listener.IUserInformationView;
 import com.miuhouse.yourcompany.teacher.model.BaseBean;
+import com.miuhouse.yourcompany.teacher.model.HeadUrl;
 import com.miuhouse.yourcompany.teacher.presenter.UserInformationPresenter;
 import com.miuhouse.yourcompany.teacher.presenter.interf.IUserInformationPresenter;
 import com.miuhouse.yourcompany.teacher.utils.L;
+import com.miuhouse.yourcompany.teacher.utils.MyAsyn;
 import com.miuhouse.yourcompany.teacher.utils.Values;
 import com.miuhouse.yourcompany.teacher.view.ui.adapter.ChoiceAdapter;
 import com.miuhouse.yourcompany.teacher.view.ui.base.BaseActivity;
 import com.miuhouse.yourcompany.teacher.view.widget.LovelyChoiceDialog;
 
-import org.w3c.dom.Text;
-
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
-import java.util.Set;
+
+//import com.yalantis.ucrop.UCrop;
+//import com.yalantis.ucrop.UCrop;
 
 /**
  * Created by kings on 7/8/2016.
  */
-public class UserInformationActivity extends BaseActivity implements View.OnClickListener, IUserInformationView {
+public class UserInformationActivity extends BaseActivity implements View.OnClickListener, IUserInformationView, MyAsyn.AsyncResponse {
     private static final int USER_NAME = 0;
     private static final int USER_UNIVERSITY = 1;
     private static final int USER_MAJOR = 2;
     private static final int USER_RECOMMEND = 3;
-    private static final int USER_AVATAR = 4;
-    private static final int USER_IMAGES = 5;
+
+    private static final int REQUEST_IMAGE = 4; //相册和头像
 
     private TextView tvNicename;
     private TextView tvUniversity;
     private TextView tvMajor;
     private TextView tvRecommend;
+    private ImageView imgAvatar;
 
     private String strUserName;
     private String strUniversity;
@@ -53,8 +53,8 @@ public class UserInformationActivity extends BaseActivity implements View.OnClic
 
     private int gendersPosition;
 
-    private String[] genders = {"男", "女"};
-    private String[] grades;
+    private List<String> genders;
+    private List<String> grades;
     private String[] educations = {"专科", "本科", "硕士", "博士"};
 
     private IUserInformationPresenter userInformationPresenter;
@@ -86,6 +86,7 @@ public class UserInformationActivity extends BaseActivity implements View.OnClic
         tvUniversity = (TextView) findViewById(R.id.tv_university);
         tvMajor = (TextView) findViewById(R.id.tv_major);
         tvRecommend = (TextView) findViewById(R.id.tv_recomment);
+        imgAvatar = (ImageView) findViewById(R.id.avatar);
         userInformationPresenter = new UserInformationPresenter(this);
     }
 
@@ -115,31 +116,29 @@ public class UserInformationActivity extends BaseActivity implements View.OnClic
                 Intent intentAvatar = new Intent(this, MultiImageSelectorActivity.class);
                 intentAvatar.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_MODE, MultiImageSelectorActivity.MODE_SINGLE);
                 intentAvatar.putExtra(MultiImageSelectorActivity.EXTRA_SHOW_CAMERA, true);
-                startActivityForResult(intentAvatar, USER_AVATAR);
-//                mDefaultCount = intent.getIntExtra(EXTRA_SELECT_COUNT, 9);
-//                mode = intent.getIntExtra(EXTRA_SELECT_MODE, MODE_MULTI);
-//                isShow = intent.getBooleanExtra(EXTRA_SHOW_CAMERA, true);
+                startActivityForResult(intentAvatar, REQUEST_IMAGE);
                 break;
             case R.id.relative_nicename:
                 Intent intent = new Intent(this, ChangeUserNameActivity.class);
                 intent.putExtra("title", "姓名");
+                intent.putExtra("isShow", true);
                 startActivityForResult(intent, USER_NAME);
                 break;
             case R.id.relative_sex:
-
+                genders = Values.getListValue(Values.gendersDemand);
                 showSingleChoiceDialog(genders, "性别");
                 break;
             case R.id.relative_schollage:
                 showMultChoiceDialog();
                 break;
             case R.id.relative_grade:
-                grades = Values.getArrayValue(Values.teacherGrades);
+
+                grades = Values.getListValue(Values.teacherGrades);
                 showSingleChoiceDialog(grades, "年级");
                 break;
             case R.id.relative_education:
 
-                Object[] star = Values.stars.keySet().toArray();
-                showSingleChoiceDialog(educations, "学历");
+                showSingleChoiceDialog(Arrays.asList(educations), "学历");
                 break;
             case R.id.relative_university:
 
@@ -155,21 +154,78 @@ public class UserInformationActivity extends BaseActivity implements View.OnClic
                 break;
             case R.id.relative_recommend:
                 Intent intentRecommend = new Intent(this, ChangeRecommendActivity.class);
-                startActivity(intentRecommend);
                 startActivityForResult(intentRecommend, USER_RECOMMEND);
                 break;
             case R.id.relative_images:
-                Intent intentImages = new Intent(this, MultiImageSelectorActivity.class);
-                intentImages.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_MODE, MultiImageSelectorActivity.MODE_MULTI);
-                intentImages.putExtra(MultiImageSelectorActivity.EXTRA_SHOW_CAMERA, true);
-                startActivityForResult(intentImages, USER_IMAGES);
+                Intent intentImages = new Intent(this, PhotoAlbumActivity.class);
+//                intentImages.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_MODE, MultiImageSelectorActivity.MODE_MULTI);
+//                intentImages.putExtra(MultiImageSelectorActivity.EXTRA_SHOW_CAMERA, true);
+                startActivityForResult(intentImages, REQUEST_IMAGE);
                 break;
         }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
         super.onActivityResult(requestCode, resultCode, data);
+
+        //选择图片返回的数据，然后跳转到裁剪页面
+        if (requestCode == REQUEST_IMAGE) {
+            L.i("TAG", "onActivityResult");
+            if (resultCode == RESULT_OK) {
+                List<String> mSelectPath = new ArrayList<>();
+                mSelectPath = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
+                StringBuilder sb = new StringBuilder();
+                for (String p : mSelectPath) {
+                    sb.append(p);
+                }
+//                mResultText.setText(sb.toString());
+                L.i("TAG", "sb.toString()=" + sb.toString());
+                File file = new File(sb.toString());
+
+//                UCrop.Options options = new UCrop.Options();
+//                options.setToolbarColor(ActivityCompat.getColor(activity, R.color.themeColor));
+//                options.setStatusBarColor(ActivityCompat.getColor(activity, R.color.themeColor));
+//                options.setActiveWidgetColor(ActivityCompat.getColor(activity, R.color.themeColor));
+//                options.setCropFrameColor(ActivityCompat.getColor(activity, R.color.themeColor));
+//                File outFile = new File(getCacheDir(), System.currentTimeMillis() + ".jpg");
+//                //裁剪后图片的绝对路径
+//                String cameraScalePath = outFile.getAbsolutePath();
+//                Uri destinationUri = Uri.fromFile(outFile);
+//                UCrop.of(Uri.fromFile(file), Uri.fromFile(outFile))
+//                        .withAspectRatio(16, 16)
+//                        .withMaxResultSize(200, 200).withOptions(options)
+//                        .start(this);
+            }
+        }
+//        //裁剪返回的数据
+//        if (requestCode == UCrop.REQUEST_CROP && resultCode == RESULT_OK) {
+//            final Uri resultUri = UCrop.getOutput(data);
+//            L.i("TAG", "resultUri=" + resultUri);
+//            File file = null;
+//            try {
+//                file = new File(new URI(resultUri.toString()));
+//                Glide.with(this).load(resultUri).centerCrop().override(Util.dip2px(this, 50), Util.dip2px(this, 50)).into(imgAvatar);
+//                L.i("TAG", "file.getPath=" + file.getPath());
+//
+//                Bitmap bitmap = Util.getBitmapByPath(file.getPath());
+//                String body = Base64.encode(Util.Bitmap2Bytes(bitmap));
+//
+//                MyAsyn myAsyn = new MyAsyn(this, this, file.getPath(), "pbx/teacherhead_android");
+//
+//                myAsyn.execute();
+//            } catch (URISyntaxException e) {
+//                e.printStackTrace();
+//            } catch (UnsupportedEncodingException e) {
+//                e.printStackTrace();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+
+//        } else if (resultCode == UCrop.RESULT_ERROR) {
+//            final Throwable cropError = UCrop.getError(data);
+//        }
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case USER_NAME:
@@ -190,10 +246,11 @@ public class UserInformationActivity extends BaseActivity implements View.OnClic
                     break;
             }
         }
+
     }
 
-    private void showSingleChoiceDialog(String[] strs, String title) {
-        ArrayAdapter<String> adapter = new ChoiceAdapter(this, Arrays.asList(strs), gendersPosition);
+    private void showSingleChoiceDialog(List<String> arrays, String title) {
+        ArrayAdapter<String> adapter = new ChoiceAdapter(this, arrays, gendersPosition);
         final LovelyChoiceDialog lovelyChoiceDialog = new LovelyChoiceDialog(this);
         lovelyChoiceDialog.setTopColorRes(R.color.backgroundcolor_common).goneIconView().setTitle(title).setItems(adapter, new LovelyChoiceDialog.OnItemSelectedListener<String>() {
             @Override
@@ -204,7 +261,7 @@ public class UserInformationActivity extends BaseActivity implements View.OnClic
     }
 
     private void showMultChoiceDialog() {
-        String[] items = {"陪伴", "作业辅导", "兴趣爱好"};
+        List<String> items = Values.getListValue(Values.majorDemand);
         new LovelyChoiceDialog(this, R.style.CheckBoxTintTheme)
                 .setTitle("上课类型").goneIconView()
 //                .setInstanceStateHandler(ID_MULTI_CHOICE_DIALOG, saveStateHandler)
@@ -227,6 +284,18 @@ public class UserInformationActivity extends BaseActivity implements View.OnClic
      */
     @Override
     public void UpdateSuccess(BaseBean baseBean) {
+
+    }
+
+    @Override
+    public void processFinish(String result) {
+        L.i("TAG", "result=" + result);
+        Gson gson = new Gson();
+        HeadUrl headUrl = gson.fromJson(result, HeadUrl.class);
+    }
+
+    @Override
+    public void processError() {
 
     }
 }

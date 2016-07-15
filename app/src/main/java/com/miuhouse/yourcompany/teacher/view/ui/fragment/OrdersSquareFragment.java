@@ -59,6 +59,7 @@ public class OrdersSquareFragment extends BaseFragment implements IOrdersListFra
     @Override
     public void setupView() {
         list = new ArrayList<>();
+        parentFragment = (OrdersFragment) getParentFragment();
         mRefresh.setColorSchemeResources(android.R.color.holo_orange_light);
         mRefresh.setOnRefreshListener(this);
         rvOrderList.setLayoutManager(new LinearLayoutManager(context));
@@ -91,7 +92,7 @@ public class OrdersSquareFragment extends BaseFragment implements IOrdersListFra
                 lastVisibleItem = ((LinearLayoutManager) recyclerView.getLayoutManager()).findLastVisibleItemPosition();
             }
         });
-        orderListPresenter.getAllList(page);
+
 //        mSquare.setOnClickListener(this);
 //        mMyOrder.setOnClickListener(this);
 
@@ -102,11 +103,14 @@ public class OrdersSquareFragment extends BaseFragment implements IOrdersListFra
     private int count;
 
     @Override
+    public void onResume() {
+        super.onResume();
+        orderListPresenter.getAllList(page);
+    }
+
+    @Override
     public void refresh(OrderListInteractor.OrderListBean data) {
 //        OrderEntity entity = new OrderEntity();
-        if (null != data
-                && null != data.getOrderList()
-                && data.getOrderList().size() > 0) {
             if (page == 1) {
                 list.clear();
             }
@@ -118,10 +122,9 @@ public class OrdersSquareFragment extends BaseFragment implements IOrdersListFra
 //                orderCount.setText("0");
 //            }
             count = (int) (data.getCount());
-            parentFragment = (OrdersFragment) getParentFragment();
+
 //            parentFragment.setSquareTop((int) (data.getCount()));
             parentFragment.setSquareCount(count);
-        }
     }
 
     @Override
@@ -166,7 +169,7 @@ public class OrdersSquareFragment extends BaseFragment implements IOrdersListFra
     public void hideLoading() {
         mRefresh.setRefreshing(false);
 //        super.hideLoading();
-        parentFragment.setSquareTop(count);
+        parentFragment.setSquareCount(count);
     }
 
     @Override

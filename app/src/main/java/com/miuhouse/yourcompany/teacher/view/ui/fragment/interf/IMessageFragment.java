@@ -7,5 +7,5 @@ public interface IMessageFragment {
 
     void refresh();
     void instantAdd();
-
+    void setTop(int count, String msg);
 }

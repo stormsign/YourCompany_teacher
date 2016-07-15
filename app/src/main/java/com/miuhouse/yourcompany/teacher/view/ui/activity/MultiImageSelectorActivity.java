@@ -33,7 +33,7 @@ public class MultiImageSelectorActivity extends BaseActivity implements MultiIma
     public static final int MODE_MULTI = 1;
 
     private ArrayList<String> resultList = new ArrayList<>();
-    private Button mSubmitButton;
+    //    private Button mSubmitButton;
     private int mDefaultCount;
     private int mode;
     private boolean isShow;
@@ -82,7 +82,13 @@ public class MultiImageSelectorActivity extends BaseActivity implements MultiIma
 
     @Override
     public void onRightClick() {
-        super.onRightClick();
+        if (resultList != null && resultList.size() > 0) {
+            // 返回已选择的图片数据
+            Intent data = new Intent();
+            data.putStringArrayListExtra(EXTRA_RESULT, resultList);
+            setResult(RESULT_OK, data);
+            finish();
+        }
     }
 
     @Override
@@ -97,20 +103,23 @@ public class MultiImageSelectorActivity extends BaseActivity implements MultiIma
     @Override
     public void onImageSelected(String path) {
 
+        if (!resultList.contains(path)) {
+            resultList.add(path);
+        }
     }
 
     @Override
     public void onImageUnselected(String path) {
         if (resultList.contains(path)) {
             resultList.remove(path);
-            mSubmitButton.setText("完成(" + resultList.size() + "/" + mDefaultCount + ")");
+//            mSubmitButton.setText("完成(" + resultList.size() + "/" + mDefaultCount + ")");
         } else {
-            mSubmitButton.setText("完成(" + resultList.size() + "/" + mDefaultCount + ")");
+//            mSubmitButton.setText("完成(" + resultList.size() + "/" + mDefaultCount + ")");
         }
         // 当为选择图片时候的状态
         if (resultList.size() == 0) {
-            mSubmitButton.setText("完成");
-            mSubmitButton.setEnabled(false);
+//            mSubmitButton.setText("完成");
+//            mSubmitButton.setEnabled(false);
         }
     }
 

@@ -3,7 +3,9 @@ package com.miuhouse.yourcompany.teacher.view.ui.activity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -17,6 +19,8 @@ import com.baidu.android.pushservice.PushManager;
 import com.baidu.android.pushservice.PushSettings;
 import com.miuhouse.yourcompany.teacher.R;
 import com.miuhouse.yourcompany.teacher.factory.FragmentFactory;
+import com.miuhouse.yourcompany.teacher.listener.OnReceiveListener;
+import com.miuhouse.yourcompany.teacher.receiver.MyPushReceiver;
 import com.miuhouse.yourcompany.teacher.utils.Constants;
 import com.miuhouse.yourcompany.teacher.utils.L;
 import com.miuhouse.yourcompany.teacher.view.ui.adapter.MainPageAdapter;
@@ -28,12 +32,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements OnReceiveListener {
 
     private RelativeLayout content;
     private ViewPagerIndicator mPages;
     private List<Integer> imgResList = null;
     private List<String> titleList = null;
+    private ViewPager pager;
+    private MyPushReceiver receiver;
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {}
@@ -62,24 +68,26 @@ public class MainActivity extends BaseActivity {
         imgResList.add(R.mipmap.home_orderlist_n);
         imgResList.add(R.mipmap.home_account_n);
 
-        List<Fragment> fragmentList = new ArrayList<Fragment>();
+        final List<Fragment> fragmentList = new ArrayList<Fragment>();
         fragmentList.add(FragmentFactory.getFragment(BaseFragment.MESSAGES));
         fragmentList.add(FragmentFactory.getFragment(BaseFragment.ORDERS));
         fragmentList.add(FragmentFactory.getFragment(BaseFragment.ACCOUNT));
 
         mPages = (ViewPagerIndicator) findViewById(R.id.pageIndicator);
-        ViewPager pager = (ViewPager) findViewById(R.id.pages);
+        pager = (ViewPager) findViewById(R.id.pages);
         MainPageAdapter adapter = new MainPageAdapter(getSupportFragmentManager(), fragmentList);
         mPages.setTabItemImgs(imgResList);
         pager.setAdapter(adapter);
         mPages.setViewPager(pager, 1);
-//        mPages.setTabItemTitles(titleList);
+
         PushSettings.enableDebugMode(context, true);
         PushManager.startWork(getApplicationContext(), PushConstants.LOGIN_TYPE_API_KEY, Constants.PUSH_APIKEY);
+
+        receiver = new MyPushReceiver(this);
+        IntentFilter filter = new IntentFilter(Constants.INTENT_ACTOIN_RECEIVE);
+        registerReceiver(receiver, filter);
+
     }
-
-
-
 
     @Override
     protected int getContentLayoutId() {
@@ -133,8 +141,16 @@ public class MainActivity extends BaseActivity {
                 | Notification.DEFAULT_VIBRATE;
         nm.notify(190, notification);
 
-
-
     }
 
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        FragmentFactory.getFragment(BaseFragment.MESSAGES).onResume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        unregisterReceiver(receiver);
+        super.onDestroy();
+    }
 }

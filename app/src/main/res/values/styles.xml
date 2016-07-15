@@ -14,6 +14,14 @@
         <item name="toolbarStyle">@style/customtoolbar</item>
         <item name="colorAccent">@color/themeColor</item>
     </style>
+    <style name="AppTheme.Base.TWO" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@android:color/background_light</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="colorPrimary">@color/themeColor</item>
+        <item name="colorPrimaryDark">@color/themeColor</item>
+        <item name="colorAccent">@color/themeColor</item>
+    </style>
 
     <style name="customtoolbar" parent="Widget.AppCompat.Toolbar">
         <item name="contentInsetStart">0dp</item>
@@ -46,7 +54,16 @@
         <item name="android:textSize">@dimen/text_16</item>
         <item name="android:layout_centerVertical">true</item>
         <item name="android:textColor">@color/textDarkone</item>
-        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:layout_marginLeft">16dp</item>
+        <item name="android:singleLine">true</item>
+    </style>
+    <style name="user_account_text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/text_15</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:textColor">@color/textDarktwo</item>
+        <item name="android:layout_marginLeft">16dp</item>
         <item name="android:singleLine">true</item>
     </style>
     <style name="user_info_text_v" >
@@ -66,6 +83,13 @@
         <item name="android:layout_alignParentRight">true</item>
         <item name="android:src">@mipmap/list_ico_jiantou</item>
         <item name="android:layout_marginRight">@dimen/sidebar_text_size</item>
+    </style>
+    <style name="user_info_imageview_two">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:src">@mipmap/list_ico_jiantou</item>
     </style>
     <style name="DialogButton">
         <item name="android:textAllCaps">true</item>

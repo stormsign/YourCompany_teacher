@@ -69,7 +69,7 @@ public class UploadRequest {
     public UploadRequest getParams(String base64String, String fileName, String folder) throws JSONException {
         jsonObject.put("base64String", base64String);
         jsonObject.put("fileName", fileName);
-        jsonObject.put("folder", folder);
+        jsonObject.put("folder", "pbx/"+folder);
         this.fileName = fileName;
         return this;
     }
@@ -94,14 +94,14 @@ public class UploadRequest {
         });
     }
 
-    private String imgUrl = "http://img.miuhouse.com/upload/images";
+    private String imgUrl = "http://img.miuhouse.com/upload/uploadImgPbx";
 
     public void execute(final OnLoadCallBack onLoadCallBack) throws IOException {
-        String url = "http://upload.miuhouse.com/app/uploadImg";
+        String url = "http://upload.miuhouse.com/app/uploadImgPbx";
         getBody();
         Request request = new Request.Builder()
 //                .url(url)
-                .url(imgUrl)
+                .url(url)
                 .post(progressBody)
                 .build();
 

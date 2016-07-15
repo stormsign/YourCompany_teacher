@@ -4,6 +4,8 @@ import com.miuhouse.yourcompany.teacher.interactor.SysMsgInteractor;
 import com.miuhouse.yourcompany.teacher.interactor.interf.ISysMsgInteractor;
 import com.miuhouse.yourcompany.teacher.listener.OnLoadCallBack;
 import com.miuhouse.yourcompany.teacher.presenter.interf.ISysMsgPresenter;
+import com.miuhouse.yourcompany.teacher.utils.Constants;
+import com.miuhouse.yourcompany.teacher.utils.SPUtils;
 import com.miuhouse.yourcompany.teacher.view.ui.activity.interf.ISysMsgActivity;
 
 /**
@@ -31,6 +33,8 @@ public class SysMsgPresenter implements ISysMsgPresenter, OnLoadCallBack {
     public void onLoadSuccess(Object data) {
         activity.hideLoading();
 //        activity.showError("???");
+//        重置新通知数
+        SPUtils.saveData(Constants.UNREAD_SYSMSG_COUNT, 0);
         SysMsgInteractor.SysMsgBean bean = (SysMsgInteractor.SysMsgBean) data;
         activity.refresh(bean);
     }

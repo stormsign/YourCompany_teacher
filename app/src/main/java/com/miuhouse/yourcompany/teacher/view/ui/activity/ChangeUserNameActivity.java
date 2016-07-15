@@ -8,12 +8,15 @@ import android.widget.TextView;
 import com.miuhouse.yourcompany.teacher.R;
 import com.miuhouse.yourcompany.teacher.view.ui.base.BaseActivity;
 
+import org.w3c.dom.Text;
+
 /**
  * Created by kings on 7/11/2016.
  */
 public class ChangeUserNameActivity extends BaseActivity {
     private String strNiceName;
     private EditText editText;
+    private boolean isShow;
 
     @Override
     protected String setTitle() {
@@ -28,8 +31,15 @@ public class ChangeUserNameActivity extends BaseActivity {
     @Override
     protected void initViewAndEvents() {
         String title = getIntent().getStringExtra("title");
+        isShow = getIntent().getBooleanExtra("isShow", false);
         setLeftText("更改" + title);
         editText = (EditText) findViewById(R.id.edit_user);
+        final TextView tvHind = (TextView) findViewById(R.id.tv_hint);
+        editText.setHint(title);
+        if (isShow)
+            tvHind.setVisibility(View.VISIBLE);
+        else
+            tvHind.setVisibility(View.GONE);
     }
 
     @Override

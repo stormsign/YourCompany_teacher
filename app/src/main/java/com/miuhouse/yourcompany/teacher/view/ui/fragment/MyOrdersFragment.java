@@ -53,6 +53,7 @@ public class MyOrdersFragment extends BaseFragment implements IOrdersListFragmen
 
     @Override
     public void setupView() {
+        parentFragment = (OrdersFragment) getParentFragment();
         refresh.setColorSchemeResources(android.R.color.holo_orange_light);
         refresh.setOnRefreshListener(this);
         myOrderList.setLayoutManager(new LinearLayoutManager(context));
@@ -84,7 +85,7 @@ public class MyOrdersFragment extends BaseFragment implements IOrdersListFragmen
                 lastVisibleItem = ((LinearLayoutManager) recyclerView.getLayoutManager()).findLastVisibleItemPosition();
             }
         });
-        orderListPresenter.getMyList(page);
+
     }
 
     @Override
@@ -95,10 +96,13 @@ public class MyOrdersFragment extends BaseFragment implements IOrdersListFragmen
     private int count;
 
     @Override
+    public void onResume() {
+        super.onResume();
+        orderListPresenter.getMyList(page);
+    }
+
+    @Override
     public void refresh(OrderListInteractor.OrderListBean data) {
-        if (null != data
-                && null != data.getOrderList()
-                && data.getOrderList().size() > 0) {
             if (page == 1) {
                 list.clear();
             }
@@ -110,10 +114,8 @@ public class MyOrdersFragment extends BaseFragment implements IOrdersListFragmen
 //                orderCount.setText("0");
 //            }
             count = (int)data.getCount();
-            parentFragment = (OrdersFragment) getParentFragment();
 //            parentFragment.setSquareTop((int) (data.getCount()));
             parentFragment.setMyOrderCount(count);
-        }
     }
 
     @Override
@@ -154,7 +156,7 @@ public class MyOrdersFragment extends BaseFragment implements IOrdersListFragmen
     @Override
     public void hideLoading() {
         refresh.setRefreshing(false);
-        parentFragment.setMyOrdersTop(count);
+        parentFragment.setMyOrderCount(count);
 //        super.hideLoading();
     }
 

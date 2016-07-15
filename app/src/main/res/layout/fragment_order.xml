@@ -38,7 +38,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/textDarkthree"
-            android:text="@string/orderlist_top_square"
             android:textSize="16sp"/>
 
     </LinearLayout>

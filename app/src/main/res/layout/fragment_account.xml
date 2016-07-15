@@ -1,21 +1,329 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/backgroundcolor_common"
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tv_account"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="账户"
-        android:textColor="@color/accent_material_light"
-        android:textSize="30sp"/>
-    <TextView
+    <!--<TextView-->
+    <!--android:id="@+id/tv_account"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="账户"-->
+    <!--android:textColor="@color/accent_material_light"-->
+    <!--android:textSize="30sp" />-->
+
+
+    <RelativeLayout
         android:id="@+id/tv_information"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="84dp"
+        android:background="@android:color/white"
+        android:elevation="1dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp">
+
+        <ImageView
+            android:id="@+id/img_avatar"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/ic_launcher" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/img_avatar"
+            android:orientation="vertical"
+
+            >
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="这个很姓名"
+                android:textColor="@color/textDarktwo"
+                android:textSize="@dimen/text_16" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="完整个人信息，才能抢单哦"
+                android:textColor="@color/textDarkthree"
+                android:textSize="@dimen/text_14" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/img_arrow"
+            style="@style/user_info_imageview_two" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:layout_toLeftOf="@+id/img_arrow"
+            android:text="个人资料"
+            android:textColor="@color/themeColor"
+            android:textSize="@dimen/text_14" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:background="@android:color/white"
+        android:elevation="1dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp">
+
+        <TextView
+            android:id="@+id/tv_title_money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:text="账户余额"
+            android:textColor="@color/textDarktwo"
+            android:textSize="@dimen/text_15" />
+
+        <TextView
+            android:id="@+id/tv_money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="12dp"
+            android:layout_toRightOf="@+id/tv_title_money"
+            android:text="999.88元"
+            android:textColor="@color/themeColor"
+            android:textSize="@dimen/text_16" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="42dp"
+            android:layout_toRightOf="@+id/tv_money"
+            android:text="提现"
+            android:textColor="@color/textBlue"
+            android:textSize="@dimen/text_15"
+            />
+
+        <ImageView style="@style/user_info_imageview_two" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="个人资料"
-        android:textColor="@color/accent_material_light"
-        android:textSize="30sp"/>
+        android:layout_marginTop="10dp"
+        android:background="@android:color/white"
+        android:elevation="1dp"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/relative_nicename"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/linear_45dp"
+            android:background="@drawable/selectable_item_background"
+            android:paddingLeft="16dp">
+
+            <ImageView
+                android:id="@+id/img_icon_dingdan"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/ico_myorder_s"
+
+                />
+
+            <TextView
+                style="@style/user_account_text"
+                android:layout_toRightOf="@+id/img_icon_dingdan"
+                android:text="订单管理" />
+
+            <ImageView
+                android:id="@+id/img_nicename"
+                style="@style/user_info_imageview" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="55dp"
+            android:background="@color/view_line" />
+
+        <RelativeLayout
+            android:id="@+id/relative_sex"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/linear_45dp"
+            android:background="@drawable/selectable_item_background"
+            android:paddingLeft="16dp">
+
+            <ImageView
+                android:id="@+id/img_icon_renzhegn"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/ico_myorder_s" />
+
+            <TextView
+                style="@style/user_account_text"
+                android:layout_marginLeft="16dp"
+                android:layout_toRightOf="@+id/img_icon_renzhegn"
+                android:text="认证中心" />
+
+
+            <ImageView
+                android:id="@+id/img_sex"
+                style="@style/user_info_imageview" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="55dp"
+            android:background="@color/view_line" />
+
+        <RelativeLayout
+            android:id="@+id/relative_schollage"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/linear_45dp"
+            android:background="@drawable/selectable_item_background"
+            android:paddingLeft="16dp">
+
+            <ImageView
+                android:id="@+id/img_icon_pingjia"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/ico_myorder_s" />
+
+            <TextView
+                style="@style/user_account_text"
+                android:layout_marginLeft="16dp"
+                android:layout_toRightOf="@+id/img_icon_pingjia"
+                android:text="意见反馈" />
+
+            <ImageView
+                android:id="@+id/img_schollage"
+                style="@style/user_info_imageview" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@android:color/white"
+        android:elevation="1dp"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/linear_45dp"
+            android:background="@drawable/selectable_item_background"
+            android:paddingLeft="16dp">
+
+            <ImageView
+                android:id="@+id/img_icon_feedback"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/ico_myorder_s" />
+
+            <TextView
+                style="@style/user_account_text"
+                android:layout_marginLeft="16dp"
+                android:layout_toRightOf="@+id/img_icon_feedback"
+                android:text="认证中心" />
+
+
+            <ImageView style="@style/user_info_imageview" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="55dp"
+            android:background="@color/view_line" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/linear_45dp"
+            android:background="@drawable/selectable_item_background"
+            android:paddingLeft="16dp">
+
+            <ImageView
+                android:id="@+id/img_icon_setting"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/ico_myorder_s" />
+
+            <TextView
+                style="@style/user_account_text"
+                android:layout_marginLeft="16dp"
+                android:layout_toRightOf="@+id/img_icon_setting"
+                android:text="设置" />
+
+            <ImageView style="@style/user_info_imageview" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@android:color/white"
+        android:elevation="1dp"
+        android:padding="12dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_title_agree"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="接收上课订单"
+                android:textColor="@color/textDarkone"
+                android:textSize="@dimen/text_16"
+                 />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:text="打开后可接收到订单信息"
+                android:textColor="@color/textDarkthree"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/switchcompat_appointment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:checked="false"
+            android:gravity="center"
+            android:textOff="OFF"
+            android:textOn="ON" />
+    </RelativeLayout>
 </LinearLayout>
