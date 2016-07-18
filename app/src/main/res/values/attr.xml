@@ -2,8 +2,13 @@
 <resources>
 
     <attr name="item_count" format="integer"></attr>
+    <attr name="indicator_type" format="enum">
+        <enum name="triangle" value="0"/>
+        <enum name="rectangle" value="1"/>
+    </attr>
     <declare-styleable name="ViewPagerIndicator">
         <attr name="item_count" />
+        <attr name="indicator_type" />
     </declare-styleable>
 
 </resources>

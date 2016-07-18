@@ -14,6 +14,7 @@ import com.miuhouse.yourcompany.teacher.model.MsgEntity;
 import com.miuhouse.yourcompany.teacher.presenter.MessagePresenter;
 import com.miuhouse.yourcompany.teacher.presenter.interf.IMessagePresenter;
 import com.miuhouse.yourcompany.teacher.utils.Util;
+import com.miuhouse.yourcompany.teacher.view.ui.activity.MoneyArriveActivity;
 import com.miuhouse.yourcompany.teacher.view.ui.activity.SysMsgActivity;
 import com.miuhouse.yourcompany.teacher.view.ui.adapter.MsgAdapter;
 import com.miuhouse.yourcompany.teacher.view.ui.base.BaseFragment;
@@ -25,7 +26,7 @@ import java.util.List;
 /**
  * Created by khb on 2016/7/6.
  */
-public class MessagesFragment extends BaseFragment implements IMessageFragment, OnListItemClick {
+public class MessagesFragment extends BaseFragment implements IMessageFragment, OnListItemClick, SwipeRefreshLayout.OnRefreshListener {
 
     private SwipeRefreshLayout refresh;
     private RecyclerView msgList;
@@ -57,6 +58,7 @@ public class MessagesFragment extends BaseFragment implements IMessageFragment, 
     @Override
     public void setupView() {
         refresh.setColorSchemeResources(R.color.themeColor);
+        refresh.setOnRefreshListener(this);
         adapter = new MsgAdapter(context, list, this);
         msgList.setAdapter(adapter);
         msgList.setLayoutManager(new LinearLayoutManager(context));
@@ -93,6 +95,7 @@ public class MessagesFragment extends BaseFragment implements IMessageFragment, 
     public void onResume() {
         super.onResume();
         messagePresenter.getLatestMsg();
+        refresh();
     }
 
 
@@ -107,6 +110,11 @@ public class MessagesFragment extends BaseFragment implements IMessageFragment, 
             list.add(new MsgEntity());
         }
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onRefresh() {
+
     }
 
     @Override
@@ -138,6 +146,38 @@ public class MessagesFragment extends BaseFragment implements IMessageFragment, 
 
     @Override
     public void onItemClick(Object data) {
+        MsgEntity msg = (MsgEntity) data;
+        startActivity(new Intent(context, MoneyArriveActivity.class));
+    }
 
+    @Override
+    public void showLoading(String msg) {
+//        super.showLoading(msg);
+        if (!refresh.isRefreshing()) {
+            refresh.post(new Runnable() {
+                @Override
+                public void run() {
+                    refresh.setRefreshing(true);
+                }
+            });
+        }
+    }
+
+    @Override
+    public void showError(String msg) {
+        super.showError(msg);
+    }
+
+    @Override
+    public void hideLoading() {
+//        super.hideLoading();
+        if (refresh.isRefreshing()){
+            refresh.setRefreshing(false);
+        }
+    }
+
+    @Override
+    public void hideError() {
+        super.hideError();
     }
 }

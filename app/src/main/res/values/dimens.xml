@@ -45,4 +45,9 @@
     <dimen name="mis_folder_cover_size">72dp</dimen>
     <dimen name="text_sysmsg_title">16sp</dimen>
     <dimen name="text_sysmsg_content">14sp</dimen>
+    <dimen name="img_msg_size">55dp</dimen>
+    <dimen name="text_msg_content">14sp</dimen>
+    <dimen name="img_msg_rightarrow_size">16dp</dimen>
+    <dimen name="img_moneyarrive_detail_size">14dp</dimen>
+    <dimen name="img_moneyarrive_size">16dp</dimen>
 </resources>

@@ -49,5 +49,8 @@
     <string name="order_status_chosen">已选择你作为上课老师</string>
     <!-- 我的资料-->
     <string name="change_username">使用真是姓名</string>
+    <string name="msg_type_1">到账通知</string>
+    <string name="msg_type_2">退款通知</string>
+    <string name="msg_type_3">上课通知</string>
     <!-- -->
 </resources>

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgroundcolor_common">
+
+    <LinearLayout
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+    <RelativeLayout android:id="@+id/purse"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="16dp">
+
+        <TextView android:id="@+id/tvpurse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="账户余额"
+            android:textColor="@color/textDarkone"
+            android:textSize="14sp"/>
+        <ImageView
+            android:layout_width="@dimen/img_moneyarrive_detail_size"
+            android:layout_height="@dimen/img_moneyarrive_detail_size"
+            android:src="@mipmap/ico_rightarrow_grey"
+            android:layout_toRightOf="@id/tvpurse"
+            android:layout_centerVertical="true"/>
+
+    </RelativeLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="+100.00"
+        android:textColor="@color/textDarkone"
+        android:textSize="32sp"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/money" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="12dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/textDarkone"
+                android:text="汇款人"
+                android:layout_alignParentLeft="true"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true">
+
+                <ImageView android:id="@+id/mylord"
+                    android:layout_width="@dimen/img_moneyarrive_size"
+                    android:layout_height="@dimen/img_moneyarrive_size"
+                    />
+
+                <TextView android:id="@+id/mylordName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="迪克"
+                    android:textColor="@color/textDarkfour"
+                    />
+
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/textDarkone"
+                android:text="上课方式"
+                android:layout_alignParentLeft="true"/>
+
+                <TextView android:id="@+id/classType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="陪伴"
+                    android:textColor="@color/textDarkfour"
+                    android:layout_alignParentRight="true"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/textDarkone"
+                android:text="到账时间"
+                android:layout_alignParentLeft="true"/>
+
+            <TextView android:id="@+id/time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2016-07-17 20:30"
+                android:textColor="@color/textDarkfour"
+                android:layout_alignParentRight="true"/>
+
+
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="@drawable/shadow_down"/>
+
+</LinearLayout>

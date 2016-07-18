@@ -6,4 +6,5 @@ package com.miuhouse.yourcompany.teacher.presenter.interf;
 public interface IMessagePresenter {
 
     void getLatestMsg();
+    void getMsgList(int page);
 }

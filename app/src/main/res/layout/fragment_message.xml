@@ -40,7 +40,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/ico_right_arrow_grey"
+                android:src="@mipmap/ico_rightarrow_grey"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"/>
 

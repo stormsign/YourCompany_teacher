@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.graphics.CornerPathEffect;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.drawable.Drawable;
@@ -66,6 +65,16 @@ public class ViewPagerIndicator extends LinearLayout {
      */
     private float mTranslationX;
 
+
+
+    private int mRectangleWidth;
+    private int mRectangleHeight = 6;
+    private static final float RATIO_RECTANGLE = 1.0f/1;
+    private int DIMENSION_RECTANGLE_WIDTH = (int) (getScreenWidth()/3*RATIO_RECTANGLE);
+
+
+
+
     /**
      * 默认的Tab数量
      */
@@ -92,8 +101,17 @@ public class ViewPagerIndicator extends LinearLayout {
     private static final int COLOR_TEXT_HIGHLIGHTCOLOR = 0xFFF97957;
     private List<Integer> mTabImgs;
 
+    public static final int INDICATOR_TYPE_TRIANGLE = 0;
+    public static final int INDICATOR_TYPE_RECTANGLE = 1;
+    private int indicatorType;
+
     public ViewPagerIndicator(Context context){
         this(context, null);
+    }
+
+    public ViewPagerIndicator(Context context, int type){
+        this(context, null);
+        indicatorType = type;
     }
 
     public ViewPagerIndicator(Context context, AttributeSet attrs) {
@@ -102,6 +120,7 @@ public class ViewPagerIndicator extends LinearLayout {
         TypedArray mTypedArray = context.obtainStyledAttributes(attrs, R.styleable.ViewPagerIndicator);
         mTabVisibleCount = mTypedArray.getInt(R.styleable.ViewPagerIndicator_item_count,
                 COUNT_DEFAULT_TAB);
+        indicatorType = mTypedArray.getInt(R.styleable.ViewPagerIndicator_indicator_type, INDICATOR_TYPE_TRIANGLE);
         if (mTabVisibleCount < 0){
             mTabVisibleCount = COUNT_DEFAULT_TAB;
         }
@@ -111,7 +130,7 @@ public class ViewPagerIndicator extends LinearLayout {
 //        mPaint.setColor(Color.parseColor("#ffffffff"));
         mPaint.setColor(getResources().getColor(R.color.white));
         mPaint.setStyle(Paint.Style.FILL);
-        mPaint.setPathEffect(new CornerPathEffect(3));
+//        mPaint.setPathEffect(new CornerPathEffect(3));
     }
 
     @Override
@@ -146,9 +165,19 @@ public class ViewPagerIndicator extends LinearLayout {
         super.onSizeChanged(w, h, oldw, oldh);
         mTriangleWidth = (int) (w/mTabVisibleCount*RATIO_TRIANGLE);
         mTriangleWidth = Math.min(DIMENSION_TRIANGLE_WIDTH, mTriangleWidth);
-        initTriangle();
+
+        mRectangleWidth = (int) (w/mTabVisibleCount*RATIO_RECTANGLE);
+        mRectangleWidth = Math.min(DIMENSION_RECTANGLE_WIDTH, mRectangleWidth);
+        if (indicatorType == INDICATOR_TYPE_TRIANGLE) {
+            initTriangle();
 //        初始化三角形的偏移量
-        mInitTranslationX = getWidth()/mTabVisibleCount/2 - mTriangleWidth/2;
+            mInitTranslationX = getWidth()/mTabVisibleCount/2 - mTriangleWidth/2;
+        }else {
+            initRectangle();
+//        初始化条形偏移量
+            mInitTranslationX = 0;
+        }
+
     }
 
     /**
@@ -160,6 +189,15 @@ public class ViewPagerIndicator extends LinearLayout {
         mPath.moveTo(0, 0);
         mPath.lineTo(mTriangleWidth / 2, -mTriangleHeight);
         mPath.lineTo(mTriangleWidth, 0);
+        mPath.close();
+    }
+
+    private void initRectangle() {
+        mPath =new Path();
+        mPath.moveTo(0, 0);
+        mPath.lineTo(0, -mRectangleHeight);
+        mPath.lineTo(mRectangleWidth, -mRectangleHeight);
+        mPath.lineTo(mRectangleWidth, 0);
         mPath.close();
     }
 
@@ -292,7 +330,7 @@ public class ViewPagerIndicator extends LinearLayout {
             this.removeAllViews();
             this.mTabTitles = list;
             for (String title : list) {
-                addView(generateTextView(title));
+                addView(generateView(title));
             }
             setItemClickEvent();
         }
@@ -303,14 +341,14 @@ public class ViewPagerIndicator extends LinearLayout {
             this.removeAllViews();
             this.mTabImgs = list;
             for (Integer res : list) {
-                addView(generateTextView(res));
+                addView(generateView(res));
             }
             setItemClickEvent();
         }
     }
 
 
-    private View generateTextView(String title) {
+    private View generateView(String title) {
         TextView tv = new TextView(getContext());
         LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         params.width = getScreenWidth() / mTabVisibleCount;
@@ -322,7 +360,7 @@ public class ViewPagerIndicator extends LinearLayout {
         return tv;
     }
 
-    private View generateTextView(int res) {
+    private View generateView(int res) {
         final ImageView imageView = new ImageView(getContext());
         LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.width = getScreenWidth() / mTabVisibleCount;
