@@ -41,6 +41,7 @@ public class UpdateImageAdapter extends BaseAdapter {
     //    private List<String> mSelectedImages = new ArrayList<>();
     private ArrayList<String> imageUrls = new ArrayList<>();
 
+
     /**
      * 选择某个图片，改变选择状态
      *
@@ -63,7 +64,9 @@ public class UpdateImageAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    public UpdateImageAdapter(Context context) {
+    public UpdateImageAdapter(Context context, List<String> datas) {
+        mDatas.addAll(datas);
+        imageUrls.addAll(datas);
         this.context = context;
         inflater = LayoutInflater.from(context);
     }
@@ -79,9 +82,9 @@ public class UpdateImageAdapter extends BaseAdapter {
 
     public void addData(List<String> data) {
         if (mDatas != null && data != null) {
-            if (mDatas.size() > 0) {
-                mDatas.clear();
-            }
+//            if (mDatas.size() > 0) {
+//                mDatas.clear();
+//            }
             mDatas.addAll(data);
         }
         notifyDataSetChanged();
@@ -159,6 +162,9 @@ public class UpdateImageAdapter extends BaseAdapter {
             public void onClick(View v) {
                 if (onDelectClickListener != null) {
                     onDelectClickListener.onDelectClick(position);
+                    mDatas.remove(position);
+                    imageUrls.remove(position);
+                    notifyDataSetChanged();
                 }
             }
         };

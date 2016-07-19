@@ -12,8 +12,6 @@ import com.miuhouse.yourcompany.teacher.view.ui.fragment.FragmentA;
 import com.miuhouse.yourcompany.teacher.view.ui.fragment.FragmentB;
 import com.miuhouse.yourcompany.teacher.view.ui.fragment.FragmentC;
 import com.miuhouse.yourcompany.teacher.view.ui.fragment.FragmentD;
-import com.miuhouse.yourcompany.teacher.view.ui.fragment.FragmentE;
-import com.miuhouse.yourcompany.teacher.view.ui.fragment.FragmentF;
 import com.miuhouse.yourcompany.teacher.view.widget.ViewPagerIndicator;
 
 import java.util.ArrayList;
@@ -42,17 +40,13 @@ public class OrdersManageActivity extends BaseActivity implements IOrdersManageA
         List<String> textList = new ArrayList<>();
         textList.add("全部");
         textList.add("待上课");
-        textList.add("待进行");
+        textList.add("进行中");
         textList.add("待评价");
-        textList.add("已结束");
-        textList.add("已取消");
         List<Fragment> fragmentList = new ArrayList<>();
         fragmentList.add(new FragmentA());
         fragmentList.add(new FragmentB());
         fragmentList.add(new FragmentC());
         fragmentList.add(new FragmentD());
-        fragmentList.add(new FragmentE());
-        fragmentList.add(new FragmentF());
         orderIndicator = (ViewPagerIndicator) findViewById(R.id.orderIndicator);
         orderpager = (ViewPager) findViewById(R.id.orderpager);
         orderpager.setAdapter(new MainPageAdapter(getSupportFragmentManager(), fragmentList));

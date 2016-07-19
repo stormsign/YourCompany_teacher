@@ -22,6 +22,7 @@ import com.miuhouse.yourcompany.teacher.factory.FragmentFactory;
 import com.miuhouse.yourcompany.teacher.listener.OnReceiveListener;
 import com.miuhouse.yourcompany.teacher.receiver.MyPushReceiver;
 import com.miuhouse.yourcompany.teacher.utils.Constants;
+import com.miuhouse.yourcompany.teacher.utils.DictManager;
 import com.miuhouse.yourcompany.teacher.utils.L;
 import com.miuhouse.yourcompany.teacher.view.ui.adapter.MainPageAdapter;
 import com.miuhouse.yourcompany.teacher.view.ui.base.BaseActivity;
@@ -42,7 +43,8 @@ public class MainActivity extends BaseActivity implements OnReceiveListener {
     private MyPushReceiver receiver;
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {}
+    protected void onSaveInstanceState(Bundle outState) {
+    }
 
     @Override
     protected void initTitle() {
@@ -86,6 +88,8 @@ public class MainActivity extends BaseActivity implements OnReceiveListener {
         receiver = new MyPushReceiver(this);
         IntentFilter filter = new IntentFilter(Constants.INTENT_ACTOIN_RECEIVE);
         registerReceiver(receiver, filter);
+
+        DictManager.getInstance(this).init();
 
     }
 
@@ -132,7 +136,7 @@ public class MainActivity extends BaseActivity implements OnReceiveListener {
         Notification notification = null;
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
             notification = builder.getNotification();
-        }else{
+        } else {
             notification = builder.build();
         }
         notification.flags = Notification.FLAG_AUTO_CANCEL;

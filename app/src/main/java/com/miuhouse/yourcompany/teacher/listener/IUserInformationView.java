@@ -8,5 +8,5 @@ import com.miuhouse.yourcompany.teacher.model.User;
  */
 public interface IUserInformationView {
     void UpdateSuccess(BaseBean baseBean);
-
+    void getUserInfo(User user);
 }

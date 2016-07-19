@@ -2,7 +2,6 @@ package com.miuhouse.yourcompany.teacher.utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -19,6 +18,7 @@ public class Values {
     public static Map<Integer, String> teacherGrades = new HashMap<>();
     public static Map<Integer, String> majorDemand = new HashMap<>();
     public static Map<Integer, String> gendersDemand = new HashMap<>();
+    public static Map<Integer, String> msgTypes = new HashMap<>();
 
     static {
         teacherVerifyStatuses.put(1, "未认证");
@@ -60,6 +60,15 @@ public class Values {
 
         gendersDemand.put(0, "女");
         gendersDemand.put(1, "男");
+
+        msgTypes.put(6, "订单被取消");
+        msgTypes.put(7, "老师被选中");
+        msgTypes.put(8, "老师没被选中");
+        msgTypes.put(11, "订单完成");
+        msgTypes.put(12, "提现处理中");
+        msgTypes.put(13, "提现完成");
+        msgTypes.put(14, "认证通过");
+        msgTypes.put(15, "认证失败");
     }
 
     /**

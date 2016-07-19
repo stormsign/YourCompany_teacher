@@ -8,6 +8,7 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.miuhouse.yourcompany.teacher.R;
+import com.miuhouse.yourcompany.teacher.utils.L;
 import com.miuhouse.yourcompany.teacher.view.ui.adapter.UpdateImageAdapter;
 import com.miuhouse.yourcompany.teacher.view.ui.base.BaseActivity;
 
@@ -16,8 +17,10 @@ import java.util.ArrayList;
 /**
  * Created by kings on 7/15/2016.
  */
-public class PhotoAlbumActivity extends BaseActivity {
+public class PhotoAlbumActivity extends BaseActivity implements UpdateImageAdapter.OnDelectClickListener {
     private static final int REQUEST_IMAGE = 3;
+    public static final String EXTRA_RESULT = "select_result";
+
     private ArrayList<String> mSelectPath;
     private GridView mGridView;
     private UpdateImageAdapter adapter;
@@ -37,9 +40,8 @@ public class PhotoAlbumActivity extends BaseActivity {
     protected void initViewAndEvents() {
         mGridView = (GridView) findViewById(R.id.gv_tousu);
         mGridView.setSelector(new ColorDrawable(Color.TRANSPARENT));
-        adapter = new UpdateImageAdapter(this);
-        adapter.setShape(true);
-        mGridView.setAdapter(adapter);
+
+
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -48,6 +50,11 @@ public class PhotoAlbumActivity extends BaseActivity {
             }
         });
 
+        imageList.addAll(getIntent().getStringArrayListExtra("images"));
+        adapter = new UpdateImageAdapter(this, imageList);
+        adapter.setOnDelectClickListener(this);
+        adapter.setShape(true);
+        mGridView.setAdapter(adapter);
     }
 
     @Override
@@ -84,8 +91,33 @@ public class PhotoAlbumActivity extends BaseActivity {
             if (resultCode == RESULT_OK) {
                 mSelectPath = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
                 imageList.addAll(mSelectPath);
-                adapter.addData(imageList);
+                adapter.addData(mSelectPath);
             }
         }
+    }
+
+    @Override
+    public void onRightClick() {
+        result();
+    }
+
+    @Override
+    public void onBackClick() {
+        finish();
+    }
+
+    private void result() {
+        if (adapter.getImageUrls().size() > 0) {
+            L.i("TAG", "list=" + adapter.getImageUrls().size());
+            Intent intent = new Intent();
+            intent.putStringArrayListExtra(EXTRA_RESULT, adapter.getImageUrls());
+            setResult(RESULT_OK, intent);
+        }
+        finish();
+    }
+
+    @Override
+    public void onDelectClick(int position) {
+        imageList.remove(position);
     }
 }

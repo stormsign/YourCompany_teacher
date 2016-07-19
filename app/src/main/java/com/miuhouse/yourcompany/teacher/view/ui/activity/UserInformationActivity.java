@@ -6,15 +6,20 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.miuhouse.yourcompany.teacher.R;
+import com.miuhouse.yourcompany.teacher.db.DictDBTask;
 import com.miuhouse.yourcompany.teacher.listener.IUserInformationView;
 import com.miuhouse.yourcompany.teacher.model.BaseBean;
 import com.miuhouse.yourcompany.teacher.model.HeadUrl;
+import com.miuhouse.yourcompany.teacher.model.TeacherInfo;
+import com.miuhouse.yourcompany.teacher.model.User;
 import com.miuhouse.yourcompany.teacher.presenter.UserInformationPresenter;
 import com.miuhouse.yourcompany.teacher.presenter.interf.IUserInformationPresenter;
 import com.miuhouse.yourcompany.teacher.utils.L;
 import com.miuhouse.yourcompany.teacher.utils.MyAsyn;
+import com.miuhouse.yourcompany.teacher.utils.Util;
 import com.miuhouse.yourcompany.teacher.utils.Values;
 import com.miuhouse.yourcompany.teacher.view.ui.adapter.ChoiceAdapter;
 import com.miuhouse.yourcompany.teacher.view.ui.base.BaseActivity;
@@ -36,28 +41,43 @@ public class UserInformationActivity extends BaseActivity implements View.OnClic
     private static final int USER_UNIVERSITY = 1;
     private static final int USER_MAJOR = 2;
     private static final int USER_RECOMMEND = 3;
+    private static final int REQUEST_IMAGE = 4; //头像
 
-    private static final int REQUEST_IMAGE = 4; //相册和头像
+    private static final int USER_GENDERS = 5;
+    private static final int USER_GRADES = 6;
+    private static final int USER_EDUCATIONS = 7;
+    private static final int REQUEST_ALBUM = 8;
 
     private TextView tvNicename;
     private TextView tvUniversity;
     private TextView tvMajor;
     private TextView tvRecommend;
+    private TextView tvGenders;
+    private TextView tvGrades;
+    private TextView tvEducations;
     private ImageView imgAvatar;
+    private TextView tvPbxType;
 
     private String strUserName;
     private String strUniversity;
     private String strMajor;
     private String strRecommend;
     private String strGenders;
+    private String strGrades;
+    private String strEducations;
 
     private int gendersPosition;
 
-    private List<String> genders;
-    private List<String> grades;
-    private String[] educations = {"专科", "本科", "硕士", "博士"};
+    private List<String> genders; //性别
+    private List<String> grades;  //年级
+    private List<String> educations;  //学历
+    private ArrayList<String> albumList = new ArrayList<>();
+    private ArrayList<String> pbxTypeList = new ArrayList<>();
 
     private IUserInformationPresenter userInformationPresenter;
+    private String strHeadUrl;
+
+    private TeacherInfo teacherInfo;
 
     @Override
     protected String setTitle() {
@@ -71,6 +91,7 @@ public class UserInformationActivity extends BaseActivity implements View.OnClic
 
     @Override
     protected void initViewAndEvents() {
+
         findViewById(R.id.relative_nicename).setOnClickListener(this);
         findViewById(R.id.relative_sex).setOnClickListener(this);
         findViewById(R.id.relative_schollage).setOnClickListener(this);
@@ -86,8 +107,15 @@ public class UserInformationActivity extends BaseActivity implements View.OnClic
         tvUniversity = (TextView) findViewById(R.id.tv_university);
         tvMajor = (TextView) findViewById(R.id.tv_major);
         tvRecommend = (TextView) findViewById(R.id.tv_recomment);
+        tvGenders = (TextView) findViewById(R.id.tv_sex);
+        tvGrades = (TextView) findViewById(R.id.tv_grade);
+        tvEducations = (TextView) findViewById(R.id.tv_education);
+        tvPbxType = (TextView) findViewById(R.id.tv_pbxtype);
         imgAvatar = (ImageView) findViewById(R.id.avatar);
+
         userInformationPresenter = new UserInformationPresenter(this);
+
+        getUserInfo();
     }
 
     @Override
@@ -100,12 +128,21 @@ public class UserInformationActivity extends BaseActivity implements View.OnClic
         return null;
     }
 
+
     /**
      * 点击提交
      */
     @Override
     public void onRightClick() {
-        userInformationPresenter.doChangeUserInformation(null, strUserName, "男", strUniversity, strMajor, "本科", "大一", null, strRecommend, null);
+
+        userInformationPresenter.doChangeUserInformation(null, albumList, strUserName, strGenders, strUniversity, strMajor, strEducations, strGrades, pbxTypeList, strRecommend, strHeadUrl);
+    }
+
+    /**
+     * 获取用户资料
+     */
+    public void getUserInfo() {
+        userInformationPresenter.getUserInfo(null);
     }
 
     @Override
@@ -126,19 +163,20 @@ public class UserInformationActivity extends BaseActivity implements View.OnClic
                 break;
             case R.id.relative_sex:
                 genders = Values.getListValue(Values.gendersDemand);
-                showSingleChoiceDialog(genders, "性别");
+                showSingleChoiceDialog(genders, "性别", USER_GENDERS);
                 break;
             case R.id.relative_schollage:
+                //类型选择
                 showMultChoiceDialog();
                 break;
             case R.id.relative_grade:
 
                 grades = Values.getListValue(Values.teacherGrades);
-                showSingleChoiceDialog(grades, "年级");
+                showSingleChoiceDialog(grades, "年级", USER_GRADES);
                 break;
             case R.id.relative_education:
-
-                showSingleChoiceDialog(Arrays.asList(educations), "学历");
+                educations = DictDBTask.getDcNameList("college_grade");
+                showSingleChoiceDialog(educations, "学历", USER_EDUCATIONS);
                 break;
             case R.id.relative_university:
 
@@ -158,9 +196,8 @@ public class UserInformationActivity extends BaseActivity implements View.OnClic
                 break;
             case R.id.relative_images:
                 Intent intentImages = new Intent(this, PhotoAlbumActivity.class);
-//                intentImages.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_MODE, MultiImageSelectorActivity.MODE_MULTI);
-//                intentImages.putExtra(MultiImageSelectorActivity.EXTRA_SHOW_CAMERA, true);
-                startActivityForResult(intentImages, REQUEST_IMAGE);
+                intentImages.putStringArrayListExtra("images", teacherInfo.getImages());
+                startActivityForResult(intentImages, REQUEST_ALBUM);
                 break;
         }
     }
@@ -183,49 +220,8 @@ public class UserInformationActivity extends BaseActivity implements View.OnClic
 //                mResultText.setText(sb.toString());
                 L.i("TAG", "sb.toString()=" + sb.toString());
                 File file = new File(sb.toString());
-
-//                UCrop.Options options = new UCrop.Options();
-//                options.setToolbarColor(ActivityCompat.getColor(activity, R.color.themeColor));
-//                options.setStatusBarColor(ActivityCompat.getColor(activity, R.color.themeColor));
-//                options.setActiveWidgetColor(ActivityCompat.getColor(activity, R.color.themeColor));
-//                options.setCropFrameColor(ActivityCompat.getColor(activity, R.color.themeColor));
-//                File outFile = new File(getCacheDir(), System.currentTimeMillis() + ".jpg");
-//                //裁剪后图片的绝对路径
-//                String cameraScalePath = outFile.getAbsolutePath();
-//                Uri destinationUri = Uri.fromFile(outFile);
-//                UCrop.of(Uri.fromFile(file), Uri.fromFile(outFile))
-//                        .withAspectRatio(16, 16)
-//                        .withMaxResultSize(200, 200).withOptions(options)
-//                        .start(this);
             }
         }
-//        //裁剪返回的数据
-//        if (requestCode == UCrop.REQUEST_CROP && resultCode == RESULT_OK) {
-//            final Uri resultUri = UCrop.getOutput(data);
-//            L.i("TAG", "resultUri=" + resultUri);
-//            File file = null;
-//            try {
-//                file = new File(new URI(resultUri.toString()));
-//                Glide.with(this).load(resultUri).centerCrop().override(Util.dip2px(this, 50), Util.dip2px(this, 50)).into(imgAvatar);
-//                L.i("TAG", "file.getPath=" + file.getPath());
-//
-//                Bitmap bitmap = Util.getBitmapByPath(file.getPath());
-//                String body = Base64.encode(Util.Bitmap2Bytes(bitmap));
-//
-//                MyAsyn myAsyn = new MyAsyn(this, this, file.getPath(), "pbx/teacherhead_android");
-//
-//                myAsyn.execute();
-//            } catch (URISyntaxException e) {
-//                e.printStackTrace();
-//            } catch (UnsupportedEncodingException e) {
-//                e.printStackTrace();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-
-//        } else if (resultCode == UCrop.RESULT_ERROR) {
-//            final Throwable cropError = UCrop.getError(data);
-//        }
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case USER_NAME:
@@ -244,17 +240,31 @@ public class UserInformationActivity extends BaseActivity implements View.OnClic
                     strRecommend = data.getStringExtra("value");
                     tvRecommend.setText(strRecommend);
                     break;
+                case REQUEST_ALBUM:
+                    albumList.addAll(data.getStringArrayListExtra(PhotoAlbumActivity.EXTRA_RESULT));
+                    L.i("TAG", "albumList=" + albumList.size());
+                    break;
             }
         }
 
     }
 
-    private void showSingleChoiceDialog(List<String> arrays, String title) {
+    private void showSingleChoiceDialog(final List<String> arrays, String title, final int index) {
         ArrayAdapter<String> adapter = new ChoiceAdapter(this, arrays, gendersPosition);
         final LovelyChoiceDialog lovelyChoiceDialog = new LovelyChoiceDialog(this);
         lovelyChoiceDialog.setTopColorRes(R.color.backgroundcolor_common).goneIconView().setTitle(title).setItems(adapter, new LovelyChoiceDialog.OnItemSelectedListener<String>() {
             @Override
             public void onItemSelected(int position, String item) {
+                if (index == USER_GENDERS) {
+                    strGenders = item;
+                    tvGenders.setText(strGenders);
+                } else if (index == USER_GRADES) {
+                    strGrades = item;
+                    tvGrades.setText(strGrades);
+                } else if (index == USER_EDUCATIONS) {
+                    strEducations = item;
+                    tvEducations.setText(strEducations);
+                }
                 gendersPosition = position;
             }
         }).show();
@@ -269,6 +279,7 @@ public class UserInformationActivity extends BaseActivity implements View.OnClic
                     @Override
                     public void onItemsSelected(List<Integer> positions, List<String> items) {
                         L.i("TAG", "items=" + items.size());
+                        pbxTypeList.addAll(items);
 //
                     }
                 })
@@ -287,11 +298,53 @@ public class UserInformationActivity extends BaseActivity implements View.OnClic
 
     }
 
+    /**
+     * 用户资料的返回方法
+     * 给控件赋值
+     *
+     * @param user
+     */
+    @Override
+    public void getUserInfo(User user) {
+
+        teacherInfo = user.getTeacherInfo();
+        strRecommend = teacherInfo.getIntroduction();
+        tvRecommend.setText(strRecommend);
+        strMajor = teacherInfo.getProfession();
+        tvMajor.setText(strMajor);
+        strUniversity = teacherInfo.getCollege();
+        tvUniversity.setText(strUniversity);
+        strEducations = teacherInfo.getEducation();
+        tvEducations.setText(strEducations);
+        strGenders = teacherInfo.getSex();
+        tvGenders.setText(strGenders);
+        strGrades = teacherInfo.getGrade();
+        tvGrades.setText(strGrades);
+        strUserName = teacherInfo.gettName();
+        tvNicename.setText(strUserName);
+        strHeadUrl = teacherInfo.getHeadUrl();
+        Glide.with(this).load(strHeadUrl).centerCrop().override(Util.dip2px(this, 50), Util.dip2px(this, 50)).into(imgAvatar);
+        pbxTypeList = teacherInfo.getPbxType();
+        tvPbxType.setText(getPdxType(pbxTypeList));
+    }
+
+    private String getPdxType(List<String> pdxTypeList) {
+
+        StringBuffer result = new StringBuffer();
+        for (String str : pdxTypeList) {
+            result.append(str + " ");
+        }
+        return result.toString();
+    }
+
     @Override
     public void processFinish(String result) {
         L.i("TAG", "result=" + result);
         Gson gson = new Gson();
         HeadUrl headUrl = gson.fromJson(result, HeadUrl.class);
+        if (headUrl != null && headUrl.getImages().size() > 0) {
+            strHeadUrl = headUrl.getImages().get(0);
+        }
     }
 
     @Override

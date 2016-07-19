@@ -16,10 +16,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "yourcompanyteacher.db";
 
     private static final int DATABASE_VERSION = 1;
-    public final static String TNAME = "tName";
-    public final static String MOBILE = "mobile";
-    public final static String TOKEN = "token";
-    public final static String BALANCE = "balance";
+    //    public final static String TNAME = "tName";
+//    public final static String MOBILE = "mobile";
+//    public final static String TOKEN = "token";
+//    public final static String BALANCE = "balance";
     private final String CREATE_ACCOUNT_TABLE_SQL = "create table "
             + AccountTable.TABLE_NAME + "("
             + AccountTable.TEACHER_ID + " text primary key,"
@@ -27,6 +27,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + AccountTable.MOBILE + " text,"
             + AccountTable.TOKEN + " text,"
             + AccountTable.BALANCE + " double" + ");";
+    private final String CREATE_DICT_TABLE_SQL = "create table "
+            + DictTable.TABLE_NAME + "("
+            + DictTable.ID + " integer primary key autoincrement,"
+            + DictTable.JSONDATA + " text" + ");";
 
     DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -44,6 +48,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_ACCOUNT_TABLE_SQL);
+        db.execSQL(CREATE_DICT_TABLE_SQL);
     }
 
     @Override
@@ -70,6 +75,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private void deleteAllTable(SQLiteDatabase db) {
         db.execSQL("DROP TABLE IF EXISTS " + AccountTable.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + DictTable.TABLE_NAME);
 //        db.execSQL("DROP TABLE IF EXISTS " + NoticeDao.NOTICE_TABLE_NAME);
         // deleteAllTableExceptAccount(db);
 

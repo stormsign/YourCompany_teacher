@@ -5,14 +5,15 @@ import android.view.View;
 import com.miuhouse.yourcompany.teacher.R;
 import com.miuhouse.yourcompany.teacher.view.ui.base.BaseFragment;
 
-/**
+/**订单管理
+ * 待评价订单
  * Created by khb on 2016/7/18.
  */
 public class FragmentD extends BaseFragment {
 
     @Override
     public int getFragmentResourceId() {
-        return R.layout.fragment_ordermanage;
+        return R.layout.fragment_a;
     }
 
     @Override

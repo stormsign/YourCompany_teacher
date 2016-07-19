@@ -1,6 +1,8 @@
 package com.miuhouse.yourcompany.teacher.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by kings on 7/8/2016.
@@ -18,9 +20,10 @@ public class TeacherInfo implements Serializable {
     private String profession;//专业
     private String education;//学历
     private String grade;//年级
-    //    private String pbxType; //订单类型
+    private ArrayList<String> pbxType; //订单类型
     private String introduction;//自我介绍
     private String headUrl;//头像
+    private ArrayList<String> images;//相册
 
 
     public void setId(String id) {
@@ -125,5 +128,25 @@ public class TeacherInfo implements Serializable {
 
     public void setHeadUrl(String headUrl) {
         this.headUrl = headUrl;
+    }
+
+    public void setTeacherId(String teacherId) {
+        this.teacherId = teacherId;
+    }
+
+    public ArrayList<String> getPbxType() {
+        return pbxType;
+    }
+
+    public void setPbxType(ArrayList<String> pbxType) {
+        this.pbxType = pbxType;
+    }
+
+    public ArrayList<String> getImages() {
+        return images;
+    }
+
+    public void setImages(ArrayList<String> images) {
+        this.images = images;
     }
 }

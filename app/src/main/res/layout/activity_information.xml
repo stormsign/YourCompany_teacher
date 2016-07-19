@@ -63,7 +63,6 @@
                     <TextView
                         style="@style/user_info_text"
                         android:layout_alignParentLeft="true"
-                        android:layout_marginLeft="16dp"
                         android:text="姓名" />
 
                     <TextView
@@ -92,7 +91,6 @@
                     <TextView
                         style="@style/user_info_text"
                         android:layout_alignParentLeft="true"
-                        android:layout_marginLeft="16dp"
                         android:text="性别" />
 
                     <TextView
@@ -120,11 +118,10 @@
                     <TextView
                         style="@style/user_info_text"
                         android:layout_alignParentLeft="true"
-                        android:layout_marginLeft="16dp"
                         android:text="上课类型" />
 
                     <TextView
-                        android:id="@+id/tv_schollage"
+                        android:id="@+id/tv_pbxtype"
                         style="@style/user_info_text_v"
                         android:layout_marginRight="10dp"
 
@@ -142,9 +139,7 @@
                 android:layout_marginTop="10dp"
                 android:background="@android:color/white"
                 android:elevation="1dp"
-                android:orientation="vertical"
-
-                >
+                android:orientation="vertical">
 
                 <RelativeLayout
                     android:id="@+id/relative_grade"
@@ -156,11 +151,10 @@
                     <TextView
                         style="@style/user_info_text"
                         android:layout_alignParentLeft="true"
-                        android:layout_marginLeft="16dp"
                         android:text="年级" />
 
                     <TextView
-                        android:id="@+id/tv_school"
+                        android:id="@+id/tv_grade"
                         style="@style/user_info_text_v"
                         android:layout_marginRight="10dp"
                         android:layout_toLeftOf="@+id/img_school" />
@@ -187,7 +181,6 @@
                     <TextView
                         style="@style/user_info_text"
                         android:layout_alignParentLeft="true"
-                        android:layout_marginLeft="16dp"
                         android:text="学历" />
 
                     <TextView
@@ -218,7 +211,6 @@
                     <TextView
                         style="@style/user_info_text"
                         android:layout_alignParentLeft="true"
-                        android:layout_marginLeft="16dp"
                         android:text="院校" />
 
                     <TextView
@@ -248,7 +240,6 @@
                     <TextView
                         style="@style/user_info_text"
                         android:layout_alignParentLeft="true"
-                        android:layout_marginLeft="16dp"
                         android:text="专业" />
 
                     <TextView
@@ -277,7 +268,6 @@
                 <TextView
                     style="@style/user_info_text"
                     android:layout_alignParentLeft="true"
-                    android:layout_marginLeft="16dp"
                     android:text="介绍" />
 
                 <TextView
@@ -303,7 +293,6 @@
                 <TextView
                     style="@style/user_info_text"
                     android:layout_alignParentLeft="true"
-                    android:layout_marginLeft="16dp"
                     android:text="相册" />
 
                 <TextView
