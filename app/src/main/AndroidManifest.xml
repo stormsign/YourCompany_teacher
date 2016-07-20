@@ -95,6 +95,8 @@
         <activity android:name=".view.ui.activity.MoneyArriveActivity"></activity>
         <!--订单管理-->
         <activity android:name=".view.ui.activity.OrdersManageActivity"></activity>
+        <!--订单详情-->
+        <activity android:name=".view.ui.activity.OrderDetailActivity"></activity>
 
         <activity android:name=".view.ui.activity.LoginRegistActivity"></activity>
         <activity android:name=".view.ui.activity.UserInformationActivity"></activity>

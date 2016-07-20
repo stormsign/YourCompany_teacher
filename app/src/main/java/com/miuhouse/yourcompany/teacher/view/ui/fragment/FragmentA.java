@@ -1,5 +1,6 @@
 package com.miuhouse.yourcompany.teacher.view.ui.fragment;
 
+import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -8,6 +9,7 @@ import android.view.View;
 import com.miuhouse.yourcompany.teacher.R;
 import com.miuhouse.yourcompany.teacher.model.OrderEntity;
 import com.miuhouse.yourcompany.teacher.presenter.OrderManagePresenter;
+import com.miuhouse.yourcompany.teacher.view.ui.activity.OrderDetailActivity;
 import com.miuhouse.yourcompany.teacher.view.ui.adapter.OrderAdapter;
 import com.miuhouse.yourcompany.teacher.view.ui.base.BaseFragment;
 import com.miuhouse.yourcompany.teacher.view.ui.fragment.interf.IOrderManageFragment;
@@ -19,7 +21,7 @@ import java.util.List;
  * 全部订单
  * Created by khb on 2016/7/18.
  */
-public class FragmentA extends BaseFragment implements IOrderManageFragment, SwipeRefreshLayout.OnRefreshListener {
+public class FragmentA extends BaseFragment implements IOrderManageFragment, SwipeRefreshLayout.OnRefreshListener, OrderAdapter.OnOrderClick {
 
     private RecyclerView alist;
     private SwipeRefreshLayout refresh;
@@ -49,6 +51,7 @@ public class FragmentA extends BaseFragment implements IOrderManageFragment, Swi
         refresh.setColorSchemeResources(R.color.themeColor);
         alist.setLayoutManager(new LinearLayoutManager(context));
         adapter = new OrderAdapter(context, list);
+        adapter.setOnOrderClick(this);
         alist.setAdapter(adapter);
         presenter.getAOrders(page);
         refresh();
@@ -71,6 +74,16 @@ public class FragmentA extends BaseFragment implements IOrderManageFragment, Swi
     public void onRefresh() {
         page = 1;
         presenter.getAOrders(page);
+    }
+
+    @Override
+    public void onOrderClick() {
+        startActivity(new Intent(context, OrderDetailActivity.class));
+    }
+
+    @Override
+    public void onButtonClick() {
+
     }
 
 
