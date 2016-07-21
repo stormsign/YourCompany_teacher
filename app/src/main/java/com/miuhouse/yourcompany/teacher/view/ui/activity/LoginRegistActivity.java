@@ -496,6 +496,31 @@ public class LoginRegistActivity extends AppCompatActivity implements ILoginView
         login.setVisibility(show ? View.GONE : View.VISIBLE);
     }
 
+    @Override
+    public void showLoading(String msg) {
+
+    }
+
+    @Override
+    public void showError(String msg) {
+
+    }
+
+    @Override
+    public void hideLoading() {
+
+    }
+
+    @Override
+    public void hideError() {
+
+    }
+
+    @Override
+    public void netError() {
+
+    }
+
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
 
         public ScreenSlidePagerAdapter(FragmentManager fm) {

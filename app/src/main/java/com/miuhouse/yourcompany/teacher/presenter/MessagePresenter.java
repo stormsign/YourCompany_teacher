@@ -31,7 +31,7 @@ public class MessagePresenter implements IMessagePresenter, OnLoadCallBack{
     }
 
     @Override
-    public void onPreLoad(String msg) {
+    public void onPreLoad() {
 
     }
 

@@ -48,7 +48,7 @@ public class FragmentB extends BaseFragment implements IOrderManageFragment, Swi
         refresh.setOnRefreshListener(this);
         refresh.setColorSchemeResources(R.color.themeColor);
         blist.setLayoutManager(new LinearLayoutManager(context));
-        adapter = new OrderAdapter(context, list);
+        adapter = new OrderAdapter(context, list, 3);
         blist.setAdapter(adapter);
         presenter.getBOrders(page);
         refresh();
@@ -61,8 +61,11 @@ public class FragmentB extends BaseFragment implements IOrderManageFragment, Swi
 
     @Override
     public void refresh() {
-        for (int i = 0; i<10; i++){
-            list.add(new OrderEntity());
+        for (int i=0; i<10; i++){
+            OrderEntity order = new OrderEntity();
+            order.setClassBeginTimeActual(System.currentTimeMillis() - (i*5)*60*1000 );
+            order.setLesson("3");
+            list.add(order);
         }
         adapter.notifyDataSetChanged();
     }

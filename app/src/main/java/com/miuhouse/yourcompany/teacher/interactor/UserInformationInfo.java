@@ -19,7 +19,7 @@ import java.util.Map;
 public class UserInformationInfo implements IUserInformation {
 
     @Override
-    public void updateUserInformation(String teacherId, ArrayList<String> images, String tName, String sex, String college, String profession, String education, String grade, ArrayList<String> pbxType, String introduction, String headUrl, Response.Listener<BaseBean> listener, Response.ErrorListener errorListener) {
+    public void updateUserInformation(String teacherId, ArrayList<String> images, String tName, int sex, String college, String profession, int education, int grade, List<Integer> pbxType, String introduction, String headUrl, Response.Listener<BaseBean> listener, Response.ErrorListener errorListener) {
         String urlPath = Constants.URL_VALUE + "teacherUpdate";
         Map<String, Object> map = new HashMap<>();
         map.put("teacherId", "4028b88155c4dd070155c4dd8a340000");

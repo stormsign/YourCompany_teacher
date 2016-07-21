@@ -50,7 +50,7 @@ public class FragmentA extends BaseFragment implements IOrderManageFragment, Swi
         refresh.setOnRefreshListener(this);
         refresh.setColorSchemeResources(R.color.themeColor);
         alist.setLayoutManager(new LinearLayoutManager(context));
-        adapter = new OrderAdapter(context, list);
+        adapter = new OrderAdapter(context, list, 1);
         adapter.setOnOrderClick(this);
         alist.setAdapter(adapter);
         presenter.getAOrders(page);
@@ -64,8 +64,11 @@ public class FragmentA extends BaseFragment implements IOrderManageFragment, Swi
 
     @Override
     public void refresh() {
-        for (int i = 0; i<10; i++){
-            list.add(new OrderEntity());
+        for (int i=0; i<10; i++){
+            OrderEntity order = new OrderEntity();
+            order.setClassBeginTimeActual(System.currentTimeMillis() - (i*5)*60*1000 );
+            order.setLesson("3");
+            list.add(order);
         }
         adapter.notifyDataSetChanged();
     }

@@ -23,7 +23,7 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp">
 
-        <ImageView
+        <com.miuhouse.yourcompany.teacher.view.widget.CircularImageViewHome
             android:id="@+id/img_avatar"
             android:layout_width="50dp"
             android:layout_height="50dp"
@@ -45,7 +45,6 @@
                 android:id="@+id/tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="这个很姓名"
                 android:textColor="@color/textDarktwo"
                 android:textSize="@dimen/text_16" />
 
@@ -111,8 +110,7 @@
             android:layout_toRightOf="@+id/tv_money"
             android:text="提现"
             android:textColor="@color/textBlue"
-            android:textSize="@dimen/text_15"
-            />
+            android:textSize="@dimen/text_15" />
 
         <ImageView style="@style/user_info_imageview_two" />
     </RelativeLayout>
@@ -210,7 +208,7 @@
                 style="@style/user_account_text"
                 android:layout_marginLeft="16dp"
                 android:layout_toRightOf="@+id/img_icon_pingjia"
-                android:text="意见反馈" />
+                android:text="评论中心" />
 
             <ImageView
                 android:id="@+id/img_schollage"
@@ -244,7 +242,7 @@
                 style="@style/user_account_text"
                 android:layout_marginLeft="16dp"
                 android:layout_toRightOf="@+id/img_icon_feedback"
-                android:text="认证中心" />
+                android:text="意见反馈" />
 
 
             <ImageView style="@style/user_info_imageview" />
@@ -301,8 +299,7 @@
                 android:layout_height="wrap_content"
                 android:text="接收上课订单"
                 android:textColor="@color/textDarkone"
-                android:textSize="@dimen/text_16"
-                 />
+                android:textSize="@dimen/text_16" />
 
             <TextView
                 android:layout_width="wrap_content"

@@ -22,7 +22,7 @@
         <TextView android:id="@+id/msgType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/msg_type_11"
+            android:text="@string/msg_type_3"
             android:textColor="@color/textDarkone"
             android:textSize="@dimen/text_msg_title"
             android:layout_alignParentLeft="true"/>

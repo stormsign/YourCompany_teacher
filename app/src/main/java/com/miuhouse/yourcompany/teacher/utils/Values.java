@@ -90,6 +90,24 @@ public class Values {
         return key;
     }
 
+    /**
+     * 根据值获取value
+     *
+     * @param map
+     * @param
+     * @return
+     */
+    public static String getValue(Map<Integer, String> map, Integer key) {
+        String value = null;
+        for (Map.Entry<Integer, String> e : map.entrySet()) {
+            if (e.getKey().equals(key)) {
+                value = e.getValue();
+                break;
+            }
+        }
+        return value;
+    }
+
     public static String[] getArrayValue(Map<Integer, String> map) {
         String[] array = new String[map.size()];
         int i = 0;

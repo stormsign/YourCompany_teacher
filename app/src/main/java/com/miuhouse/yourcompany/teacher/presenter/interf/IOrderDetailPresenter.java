@@ -1,0 +1,10 @@
+package com.miuhouse.yourcompany.teacher.presenter.interf;
+
+/**
+ * Created by khb on 2016/7/21.
+ */
+public interface IOrderDetailPresenter {
+
+    void getOrderDetail(String teacherId, String orderInfoId);
+
+}

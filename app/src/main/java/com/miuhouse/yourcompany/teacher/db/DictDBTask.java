@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.google.gson.Gson;
 import com.miuhouse.yourcompany.teacher.model.DictBean;
 import com.miuhouse.yourcompany.teacher.model.DictListBean;
+import com.miuhouse.yourcompany.teacher.utils.L;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -61,6 +62,7 @@ public class DictDBTask {
                 }
             }
         }
+        c.close();
         return result;
     }
 
@@ -80,10 +82,12 @@ public class DictDBTask {
             DictListBean dictListBean = gson.fromJson(json, DictListBean.class);
             for (DictBean dictBean : dictListBean.getDictionaries()) {
                 if (dictBean.getDcType().equals(dcType)) {
-                    result.put(Integer.getInteger(dictBean.getDcValue()), dictBean.getDcName());
+
+                    result.put( Integer.parseInt(dictBean.getDcValue()), dictBean.getDcName());
                 }
             }
         }
+        c.close();
         return result;
     }
 
@@ -94,11 +98,11 @@ public class DictDBTask {
      * @param key
      * @return
      */
-    public static String getDcName(String dcType, String key) {
+    public static String getDcName(String dcType, Integer key) {
         String result = null;
         Map<Integer, String> map = getDcNameMap(dcType);
-        for (Map.Entry<Integer, String> e :
-                map.entrySet()) {
+        L.i("TAG","map="+map.size());
+        for (Map.Entry<Integer, String> e : map.entrySet()) {
             if (e.getKey().equals(key)) {
                 result = e.getValue();
                 break;
@@ -108,7 +112,7 @@ public class DictDBTask {
     }
 
     /**
-     * 根据type,和value返回 字典值
+     * 根据type,和value返回 字典值,就是1，2，3等
      *
      * @param dcType
      * @param value
@@ -117,8 +121,10 @@ public class DictDBTask {
     public static Integer getDcValue(String dcType, String value) {
         Integer result = null;
         Map<Integer, String> map = getDcNameMap(dcType);
-        for (Map.Entry<Integer, String> e :
-                map.entrySet()) {
+        L.i("TAG","entrySet="+map.size());
+
+        for (Map.Entry<Integer, String> e : map.entrySet()) {
+            L.i("TAG","entrySet="+e.getValue());
             if (e.getValue().equals(value)) {
                 result = e.getKey();
                 break;
@@ -130,7 +136,6 @@ public class DictDBTask {
 
     public static void clear() {
         String sql = "delete from " + DictTable.TABLE_NAME;
-
         getWsd().execSQL(sql);
     }
 }

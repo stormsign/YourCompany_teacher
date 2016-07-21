@@ -25,7 +25,7 @@ public class SysMsgInteractor implements ISysMsgInteractor,
 
     @Override
     public void getMsgs(int page) {
-        onLoadCallBack.onPreLoad(null);
+        onLoadCallBack.onPreLoad();
         String url = Constants.URL_VALUE + "noticeMsg";
         Map<String, Object> params = new HashMap<>();
         params.put("teacherId", "4028b88155c4dd070155c4dd8a340000");

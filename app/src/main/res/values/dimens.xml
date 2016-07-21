@@ -24,6 +24,7 @@
     <!-- end -->
     <!-- 文字大小-->
     <dimen name="text_12">12sp</dimen>
+    <dimen name="text_13">13sp</dimen>
     <dimen name="text_14">14sp</dimen>
     <dimen name="text_15">15sp</dimen>
     <dimen name="text_16">16sp</dimen>

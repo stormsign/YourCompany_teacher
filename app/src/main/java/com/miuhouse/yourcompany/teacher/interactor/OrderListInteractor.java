@@ -32,7 +32,7 @@ public class OrderListInteractor implements IOrderListInteractor, Response.Liste
         params.put("teacherId", "4028b88155c4dd070155c4dd8a340000");
         params.put("page", page);
         params.put("pageSize", 15);
-        onLoadCallBack.onPreLoad(null);
+        onLoadCallBack.onPreLoad();
         VolleyManager.getInstance()
                 .sendGsonRequest(null, url, params, "6eca806dffed65f70f6d50a3b435069b", OrderListBean.class, this, this);
 
@@ -46,7 +46,7 @@ public class OrderListInteractor implements IOrderListInteractor, Response.Liste
 //        params.put("orderStatus", )
         params.put("page", page);
         params.put("pageSize", 15);
-        onLoadCallBack.onPreLoad(null);
+        onLoadCallBack.onPreLoad();
         VolleyManager.getInstance()
                 .sendGsonRequest(null, url, params, "6eca806dffed65f70f6d50a3b435069b", OrderListBean.class, this, this);
 
@@ -82,6 +82,7 @@ public class OrderListInteractor implements IOrderListInteractor, Response.Liste
             this.orderList = orderList;
         }
     }
+
 
 
 }

@@ -4,6 +4,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -36,6 +38,28 @@ public class FragmentC extends BaseFragment implements IOrderManageFragment, Swi
     private int page = 1;
     private MyReceiver receiver;
 
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+//            super.handleMessage(msg);
+            list.clear();
+            for (int i=0; i<msg.arg2; i++){
+                OrderEntity order = new OrderEntity();
+                order.setClassBeginTimeActual(1469071381770L - (i*5)*60*1000 - 60*1000*24 );
+                order.setLesson("2");
+                list.add(order);
+            }
+            if (msg.arg1<msg.arg2){
+                list.remove(msg.arg1);
+            }
+            adapter.notifyDataSetChanged();
+            Message msg2 = Message.obtain();
+            msg2.arg1 = msg.arg1;
+            msg2.arg2 = msg.arg2;
+            sendMessageDelayed(msg2, 1000);
+        }
+    };
+
     @Override
     public int getFragmentResourceId() {
         return R.layout.fragment_c;
@@ -54,7 +78,7 @@ public class FragmentC extends BaseFragment implements IOrderManageFragment, Swi
         refresh.setOnRefreshListener(this);
         refresh.setColorSchemeResources(R.color.themeColor);
         clist.setLayoutManager(new LinearLayoutManager(context));
-        adapter = new OrderAdapter(context, list);
+        adapter = new OrderAdapter(context, list, 4);
         adapter.setOnOrderClick(this);
         clist.setAdapter(adapter);
         presenter.getAOrders(page);
@@ -69,7 +93,12 @@ public class FragmentC extends BaseFragment implements IOrderManageFragment, Swi
         @Override
         public void onReceive(Context context, Intent intent) {
             int position = intent.getIntExtra("position", 0);
+//            list.remove(position);
             adapter.notifyItemRemoved(position);
+            Message msg = Message.obtain();
+            msg.arg1 = position;
+            msg.arg2 = list.size();
+            handler.sendMessageDelayed(msg, 1000);
         }
     }
 
@@ -80,13 +109,16 @@ public class FragmentC extends BaseFragment implements IOrderManageFragment, Swi
 
     @Override
     public void refresh() {
-        for (int i = 0; i<10; i++){
+        for (int i=0; i<10; i++){
             OrderEntity order = new OrderEntity();
-            order.setClassBeginTimeActual(System.currentTimeMillis()-i*60*10*1000L);
+            order.setClassBeginTimeActual(1469071381770L - (i*5)*60*1000 - 60*1000*24);
             order.setLesson("2");
             list.add(order);
         }
-        adapter.notifyDataSetChanged();
+        Message msg = Message.obtain();
+        msg.arg1 = list.size()+1;
+        msg.arg2 = list.size();
+        handler.sendMessageDelayed(msg, 1000);
     }
 
     @Override

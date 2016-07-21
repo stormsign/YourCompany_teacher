@@ -38,4 +38,6 @@ public class Constants {
 
     public static final String INTENT_ACTOIN_RECEIVE = "com.miuhouse.yourcompany.teacher.RECEIVE";
 
+    public static final int PAGE_SIZE =20;
+
 }

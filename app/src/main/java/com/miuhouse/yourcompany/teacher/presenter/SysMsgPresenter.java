@@ -25,8 +25,8 @@ public class SysMsgPresenter implements ISysMsgPresenter, OnLoadCallBack {
     }
 
     @Override
-    public void onPreLoad(String msg) {
-        activity.showLoading(msg);
+    public void onPreLoad() {
+        activity.showLoading(null);
     }
 
     @Override

@@ -29,6 +29,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 //import com.yalantis.ucrop.UCrop;
 //import com.yalantis.ucrop.UCrop;
@@ -60,7 +61,7 @@ public class UserInformationActivity extends BaseActivity implements View.OnClic
 
     private String strUserName;
     private String strUniversity;
-    private String strMajor;
+    private String strMajor;//专业
     private String strRecommend;
     private String strGenders;
     private String strGrades;
@@ -134,8 +135,17 @@ public class UserInformationActivity extends BaseActivity implements View.OnClic
      */
     @Override
     public void onRightClick() {
+        int intGenders = Values.getKey(Values.gendersDemand, strGenders);
+        L.i("TAG", "strEducations=" + strEducations);
+        int intEducations = DictDBTask.getDcValue("college_grade", strEducations);
+        L.i("TAG", "intEducations=" + DictDBTask.getDcValue("college_grade", strEducations));
 
-        userInformationPresenter.doChangeUserInformation(null, albumList, strUserName, strGenders, strUniversity, strMajor, strEducations, strGrades, pbxTypeList, strRecommend, strHeadUrl);
+        int intGrades = Values.getKey(Values.teacherGrades, strGrades);
+        List<Integer> list = new ArrayList<>();
+        for (String str : pbxTypeList) {
+            list.add(Values.getKey(Values.majorDemand, str));
+        }
+        userInformationPresenter.doChangeUserInformation(null, albumList, strUserName, intGenders, strUniversity, strMajor, intEducations, intGrades, list, strRecommend, strHeadUrl);
     }
 
     /**
@@ -196,7 +206,8 @@ public class UserInformationActivity extends BaseActivity implements View.OnClic
                 break;
             case R.id.relative_images:
                 Intent intentImages = new Intent(this, PhotoAlbumActivity.class);
-                intentImages.putStringArrayListExtra("images", teacherInfo.getImages());
+                if (teacherInfo.getImages() != null)
+                    intentImages.putStringArrayListExtra("images", teacherInfo.getImages());
                 startActivityForResult(intentImages, REQUEST_ALBUM);
                 break;
         }
@@ -241,8 +252,8 @@ public class UserInformationActivity extends BaseActivity implements View.OnClic
                     tvRecommend.setText(strRecommend);
                     break;
                 case REQUEST_ALBUM:
+                    albumList.clear();
                     albumList.addAll(data.getStringArrayListExtra(PhotoAlbumActivity.EXTRA_RESULT));
-                    L.i("TAG", "albumList=" + albumList.size());
                     break;
             }
         }
@@ -279,7 +290,9 @@ public class UserInformationActivity extends BaseActivity implements View.OnClic
                     @Override
                     public void onItemsSelected(List<Integer> positions, List<String> items) {
                         L.i("TAG", "items=" + items.size());
+                        pbxTypeList.clear();
                         pbxTypeList.addAll(items);
+                        tvPbxType.setText(getPdxTypeTwo(pbxTypeList));
 //
                     }
                 })
@@ -308,17 +321,19 @@ public class UserInformationActivity extends BaseActivity implements View.OnClic
     public void getUserInfo(User user) {
 
         teacherInfo = user.getTeacherInfo();
+
+        strEducations = DictDBTask.getDcName("college_grade", teacherInfo.getEducation());
+        strGenders = Values.getValue(Values.gendersDemand, teacherInfo.getSex());
+        strGrades = Values.getValue(Values.teacherGrades, teacherInfo.getGrade());
+
         strRecommend = teacherInfo.getIntroduction();
         tvRecommend.setText(strRecommend);
         strMajor = teacherInfo.getProfession();
         tvMajor.setText(strMajor);
         strUniversity = teacherInfo.getCollege();
         tvUniversity.setText(strUniversity);
-        strEducations = teacherInfo.getEducation();
         tvEducations.setText(strEducations);
-        strGenders = teacherInfo.getSex();
         tvGenders.setText(strGenders);
-        strGrades = teacherInfo.getGrade();
         tvGrades.setText(strGrades);
         strUserName = teacherInfo.gettName();
         tvNicename.setText(strUserName);
@@ -326,9 +341,21 @@ public class UserInformationActivity extends BaseActivity implements View.OnClic
         Glide.with(this).load(strHeadUrl).centerCrop().override(Util.dip2px(this, 50), Util.dip2px(this, 50)).into(imgAvatar);
         pbxTypeList = teacherInfo.getPbxType();
         tvPbxType.setText(getPdxType(pbxTypeList));
+        if (teacherInfo.getImages() != null)
+            albumList.addAll(teacherInfo.getImages());
     }
 
     private String getPdxType(List<String> pdxTypeList) {
+
+        StringBuffer result = new StringBuffer();
+        for (String str : pdxTypeList) {
+            String value = Values.getValue(Values.majorDemand, Integer.parseInt(str));
+            result.append(value + " ");
+        }
+        return result.toString();
+    }
+
+    private String getPdxTypeTwo(List<String> pdxTypeList) {
 
         StringBuffer result = new StringBuffer();
         for (String str : pdxTypeList) {
@@ -339,7 +366,6 @@ public class UserInformationActivity extends BaseActivity implements View.OnClic
 
     @Override
     public void processFinish(String result) {
-        L.i("TAG", "result=" + result);
         Gson gson = new Gson();
         HeadUrl headUrl = gson.fromJson(result, HeadUrl.class);
         if (headUrl != null && headUrl.getImages().size() > 0) {

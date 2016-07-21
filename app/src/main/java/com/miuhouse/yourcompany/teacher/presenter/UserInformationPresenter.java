@@ -27,8 +27,10 @@ public class UserInformationPresenter implements IUserInformationPresenter {
         userInformation = new UserInformationInfo();
     }
 
+
+
     @Override
-    public void doChangeUserInformation(String teacherId, ArrayList<String> images, String tName, String sex, String college, String profession, String education, String grade, ArrayList<String> pbxType, String introduction, String headUrl) {
+    public void doChangeUserInformation(String teacherId, ArrayList<String> images, String tName, int sex, String college, String profession, int education, int grade, List<Integer> pbxType, String introduction, String headUrl) {
         userInformation.updateUserInformation(teacherId, images, tName, sex, college, profession, education, grade, pbxType, introduction, headUrl, new Response.Listener<BaseBean>() {
             @Override
             public void onResponse(BaseBean response) {

@@ -1,5 +1,6 @@
 package com.miuhouse.yourcompany.teacher.view.ui.activity.interf;
 
+import com.miuhouse.yourcompany.teacher.model.OrderEntity;
 import com.miuhouse.yourcompany.teacher.view.ui.base.BaseView;
 
 /**
@@ -7,6 +8,10 @@ import com.miuhouse.yourcompany.teacher.view.ui.base.BaseView;
  */
 public interface IOrderDetailActivity extends BaseView {
 
-    void showCountdown();
+    void showOrderStatus(OrderEntity order);
+    void showCountdown(OrderEntity order);
+    void call();
+
+    void fillView(OrderEntity order);
 
 }

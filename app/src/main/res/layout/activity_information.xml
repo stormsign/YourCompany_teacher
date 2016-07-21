@@ -30,7 +30,7 @@
                     android:layout_alignParentLeft="true"
                     android:text="头像" />
 
-                <ImageView
+                <com.miuhouse.yourcompany.teacher.view.widget.CircularImageViewHome
                     android:id="@+id/avatar"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
@@ -123,8 +123,8 @@
                     <TextView
                         android:id="@+id/tv_pbxtype"
                         style="@style/user_info_text_v"
+                        android:maxLength="30"
                         android:layout_marginRight="10dp"
-
                         android:layout_toLeftOf="@+id/img_schollage" />
 
                     <ImageView

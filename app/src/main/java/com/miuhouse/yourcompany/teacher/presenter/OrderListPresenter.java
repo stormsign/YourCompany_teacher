@@ -32,7 +32,7 @@ public class OrderListPresenter implements IOrderListPresenter, OnLoadCallBack {
 
 
     @Override
-    public void onPreLoad(String msg) {
+    public void onPreLoad() {
 //        iOrdersFragment.hideError();
         iOrdersFragment.showLoading(null);
     }

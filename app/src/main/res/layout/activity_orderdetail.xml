@@ -1,20 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/content"
+    android:background="@color/backgroundcolor_common">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/themeColor">
 
-        <ImageView
+        <ImageView android:id="@+id/ivOrderStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:src="@mipmap/ico_msg_xitongtongzhi"
+            android:src="@mipmap/ico_orderdetail_4"
             android:layout_centerVertical="true"
-            android:layout_margin="10dp"/>
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"/>
+
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -25,7 +31,7 @@
             android:gravity="center"
             android:layout_marginRight="16dp">
 
-            <TextView
+            <TextView android:id="@+id/tvOrderStatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="进行中"
@@ -42,8 +48,250 @@
 
     </RelativeLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_marginTop="10dp">
 
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ico_orderdetail_student"
+            android:layout_gravity="center_vertical"/>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView android:id="@+id/studentHead"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:src="@mipmap/ico_msg_xitongtongzhi"
+                    android:layout_alignParentLeft="true"/>
+
+                <LinearLayout android:layout_toRightOf="@id/studentHead"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp">
+
+                    <TextView android:id="@+id/studentName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="学生：曹某"
+                        android:textColor="@color/textDarkone"
+                        android:textSize="15sp"
+                        android:layout_marginBottom="5dp"/>
+
+                    <TextView android:id="@+id/orderType"
+                        android:layout_width="65dp"
+                        android:layout_height="20dp"
+                        android:background="@color/background_order_3"
+                        android:textColor="@color/textWhite"
+                        android:textSize="15sp"
+                        android:text="兴趣培养"
+                        android:gravity="center"/>
+
+                </LinearLayout>
+
+                <ImageView android:id="@+id/call"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/ico_rightarrow_grey"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="20dp"/>
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/line"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp">
+
+                    <TextView android:id="@+id/classCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="共购买3课时"
+                        android:textColor="@color/textDarkthree"
+                        android:textSize="13sp"/>
+
+                    <TextView android:id="@+id/totalPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="总计40.00元"
+                        android:textColor="@color/textDarkone"
+                        android:textSize="15sp"/>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+    <View android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="@drawable/shadow_down"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_marginTop="10dp">
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ico_orderdetail_address"
+            android:layout_gravity="center_vertical"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingRight="10dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView android:id="@+id/teacher"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/textDarktwo"
+                    android:textSize="14sp"
+                    android:layout_alignParentLeft="true"
+                    android:text="妹子"/>
+
+                <TextView android:id="@+id/tel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/textDarktwo"
+                    android:text="13845645645"
+                    android:textSize="14sp"
+                    android:layout_alignParentRight="true"/>
+
+            </RelativeLayout>
+            <TextView android:id="@+id/classAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="上课地址：阿斯顿发送到法萨芬的"
+                android:textColor="@color/textDarktwo"
+                android:textSize="15sp"
+                android:layout_marginTop="5dp"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+    <View android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="@drawable/shadow_down"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_marginTop="10dp">
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ico_orderdetail_schedule"
+            android:layout_gravity="center_vertical"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingRight="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="课程信息"
+                android:textColor="@color/textDarkone"
+                android:textSize="15sp"/>
+
+            <TextView android:id="@+id/schedule"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="课程安排课程安排课程安排课程安排课程安排课程安排课程安排课程安排"
+                android:textColor="@color/textDarktwo"
+                android:textSize="15sp"
+                android:layout_marginTop="5dp"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+    <View android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="@drawable/shadow_down"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_marginTop="10dp">
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ico_orderdetail_demand"
+            android:layout_gravity="center_vertical"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingRight="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="家长需求"
+                android:textColor="@color/textDarkone"
+                android:textSize="15sp"/>
+
+            <TextView android:id="@+id/demand"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="需求巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉"
+                android:textColor="@color/textDarktwo"
+                android:textSize="15sp"
+                android:layout_marginTop="5dp"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+    <View android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="@drawable/shadow_down"/>
 
 </LinearLayout>
