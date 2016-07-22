@@ -1,8 +1,12 @@
 package com.miuhouse.yourcompany.teacher.view.ui.activity;
 
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -11,8 +15,10 @@ import com.miuhouse.yourcompany.teacher.model.OrderEntity;
 import com.miuhouse.yourcompany.teacher.presenter.OrderDetailPresenter;
 import com.miuhouse.yourcompany.teacher.presenter.interf.IOrderDetailPresenter;
 import com.miuhouse.yourcompany.teacher.utils.Util;
+import com.miuhouse.yourcompany.teacher.utils.Values;
 import com.miuhouse.yourcompany.teacher.view.ui.activity.interf.IOrderDetailActivity;
 import com.miuhouse.yourcompany.teacher.view.ui.base.BaseActivity;
+import com.miuhouse.yourcompany.teacher.view.widget.MyRoundImageView;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -22,7 +28,7 @@ import java.util.Date;
  */
 public class OrderDetailActivity extends BaseActivity implements IOrderDetailActivity {
 
-    private ImageView studentHead;
+    private MyRoundImageView studentHead;
     private TextView orderType;
     private ImageView ivOrderStatus;
     private TextView tvOrderStatus;
@@ -33,11 +39,43 @@ public class OrderDetailActivity extends BaseActivity implements IOrderDetailAct
     private TextView schedule;
     private TextView demend;
     private ImageView call;
-    private LinearLayout content;
+    private RelativeLayout content;
     private IOrderDetailPresenter presenter;
     private TextView classCount;
     private TextView totalPrice;
     private TextView time;
+
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            OrderEntity order = (OrderEntity) msg.obj;
+
+            long beginTime = order.getClassBeginTimeActual();
+            long currentTime = System.currentTimeMillis();
+            long diffTime = currentTime - beginTime;
+            long hour = diffTime / (60 * 60 * 1000);
+            long minute = diffTime % (60 * 60 * 1000) / (60 * 1000);
+
+            String strHour = hour < 10 ? "0" + hour : "" + hour;
+            String strMinute = minute < 10 ? "0" + minute : "" + minute;
+            if (diffTime < Integer.parseInt(order.getLesson())*60*60*1000){
+                time.setText(strHour + ":" + strMinute);
+                Message msg2 = Message.obtain();
+                msg2.obj = order;
+                handler.sendMessageDelayed(msg, 1000*10);
+            }else {
+                time.setText("已到点");
+            }
+
+
+        }
+    };
+    private TextView actual;
+    private RelativeLayout bottom;
+    private TextView button;
+    private String teacherId;
+    private String orderInfoId;
 
     @Override
     protected String setTitle() {
@@ -68,7 +106,7 @@ public class OrderDetailActivity extends BaseActivity implements IOrderDetailAct
         tvOrderStatus = (TextView) findViewById(R.id.tvOrderStatus);
         time = (TextView) findViewById(R.id.time);
         orderType = (TextView) findViewById(R.id.orderType);
-        studentHead = (ImageView) findViewById(R.id.studentHead);
+        studentHead = (MyRoundImageView) findViewById(R.id.studentHead);
         studentName = (TextView) findViewById(R.id.studentName);
         classCount = (TextView) findViewById(R.id.classCount);
         totalPrice = (TextView) findViewById(R.id.totalPrice);
@@ -78,18 +116,21 @@ public class OrderDetailActivity extends BaseActivity implements IOrderDetailAct
         schedule = (TextView) findViewById(R.id.schedule);
         demend = (TextView) findViewById(R.id.demand);
         call = (ImageView) findViewById(R.id.call);
-        content = (LinearLayout) findViewById(R.id.content);
+        content = (RelativeLayout) findViewById(R.id.content);
+        actual = (TextView) findViewById(R.id.actual);
+        bottom = (RelativeLayout) findViewById(R.id.bottom);
+        button = (TextView) findViewById(R.id.button);
 
-//        String teacherId = AccountDBTask.getAccount().getTeacherId();
-//        String orderInfoId = getIntent().getStringExtra("orderId");
-        String teacherId = "4028b88155c4dd070155c4dd8a340000";
-        String orderInfoId = "4028b88155c4836f0155c48f0a020006";
+//      teacherId = AccountDBTask.getAccount().getTeacherId();
+        orderInfoId = getIntent().getStringExtra("orderId");
+        teacherId = "4028b88155c4dd070155c4dd8a340000";
+//        orderInfoId = "4028b88155c4836f0155c48f0a020006";
         presenter.getOrderDetail(teacherId, orderInfoId);
 
     }
 
     @Override
-    public void fillView(OrderEntity order) {
+    public void fillView(final OrderEntity order) {
         if (!Util.isEmpty(order.getUserHeader())){
             Glide.with(activity).load(order.getUserHeader())
                     .placeholder(R.mipmap.asy)
@@ -117,14 +158,37 @@ public class OrderDetailActivity extends BaseActivity implements IOrderDetailAct
         call.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                call();
+                call(order.getMobile());
             }
         });
+        showOrderType(order);
+        showOrderStatus(order);
+        showCountdown(order);
+    }
+
+    private void showOrderType(OrderEntity order) {
+        int strId = Util.getResourceId(this,
+                String.format("order_type_%s", order.getMajorDemand()),
+                "string");
+        int colorId = Util.getResourceId(this,
+                String.format("background_order_%s", order.getMajorDemand()),
+                "color");
+        orderType.setText(getResources().getString(strId));
+        orderType.setBackgroundResource(colorId);
     }
 
     @Override
     public void showCountdown(OrderEntity order) {
+        if (Integer.parseInt(order.getMajorDemand())
+                == Values.getKey(Values.majorDemand, "进行中")){
 
+            Message msg = Message.obtain();
+            msg.obj = order;
+            handler.sendMessage(msg);
+
+        }else {
+            time .setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -136,23 +200,54 @@ public class OrderDetailActivity extends BaseActivity implements IOrderDetailAct
         int strId = Util.getResourceId(this,
                 String.format("order_status_%s", order.getOrderStatus()),
                 "string");
-        Glide.with(this).load(imgId)
-                .placeholder(R.mipmap.asy)
-                .error(R.mipmap.ic_launcher)
-                .into(ivOrderStatus);
+//        Glide.with(activity).load(imgId)
+//                .placeholder(R.mipmap.asy)
+//                .error(R.mipmap.ic_launcher)
+//                .into(ivOrderStatus);
+
+        ivOrderStatus.setImageResource(imgId);
         tvOrderStatus.setText(getResources().getString(strId));
+        actual.setVisibility(View.GONE);
+        button.setVisibility(View.GONE);
+        if (Values.orderStatuses.get(order.getOrderStatus()).equals("待上课")){
+            button.setVisibility(View.VISIBLE);
+            button.setText("开始上课");
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    presenter.beginClass(teacherId, orderInfoId);
+                }
+            });
+        }else if (Values.orderStatuses.get(order.getOrderStatus()).equals("待评价")
+                || Values.orderStatuses.get(order.getOrderStatus()).equals("已完成")){
+            actual.setVisibility(View.VISIBLE);
+            String date = new SimpleDateFormat("MM月dd日")
+                    .format(new Date(order.getClassBeginTimeActual()));
+            String startTime = new SimpleDateFormat("HH:mm")
+                    .format(new Date(order.getClassBeginTimeActual()));
+            String endTime = new SimpleDateFormat("HH:mm")
+                    .format(new Date(order.getClassBeginTimeActual()
+                            + Integer.parseInt(order.getLesson())*60*60*1000));
+            String formatTime = date + " " + startTime+"-"+endTime;
+            actual.setText("实际上课："+formatTime);
+        }else {
+
+        }
 
     }
 
     @Override
-    public void call() {
-
+    public void call(String number) {
+        //传入服务， parse（）解析号码
+        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + number));
+        //通知activtity处理传入的call服务
+        startActivity(intent);
     }
 
 
     @Override
     public void showLoading(String msg) {
-        super.showLoading(msg);
+//        super.showLoading("LOADING...");
     }
 
     @Override

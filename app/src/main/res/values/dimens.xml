@@ -54,4 +54,5 @@
     <dimen name="img_order_head_size">55dp</dimen>
     <dimen name="text_ordermanage_button_width">81dp</dimen>
     <dimen name="text_ordermanage_button_height">27dp</dimen>
+    <dimen name="img_orderlist_head_size">50dp</dimen>
 </resources>

@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.miuhouse.yourcompany.teacher.R;
+import com.miuhouse.yourcompany.teacher.interactor.OrderManageInteractor;
 import com.miuhouse.yourcompany.teacher.model.OrderEntity;
 import com.miuhouse.yourcompany.teacher.presenter.OrderManagePresenter;
 import com.miuhouse.yourcompany.teacher.view.ui.activity.OrderDetailActivity;
@@ -59,6 +60,7 @@ public class FragmentC extends BaseFragment implements IOrderManageFragment, Swi
             sendMessageDelayed(msg2, 1000);
         }
     };
+    private String teacherId;
 
     @Override
     public int getFragmentResourceId() {
@@ -74,6 +76,9 @@ public class FragmentC extends BaseFragment implements IOrderManageFragment, Swi
     @Override
     public void setupView() {
         list = new ArrayList<>();
+//        teacherId = AccountDBTask.getAccount().getTeacherId();
+        teacherId = "4028b88155c4dd070155c4dd8a340000";
+
         presenter = new OrderManagePresenter(this);
         refresh.setOnRefreshListener(this);
         refresh.setColorSchemeResources(R.color.themeColor);
@@ -81,8 +86,7 @@ public class FragmentC extends BaseFragment implements IOrderManageFragment, Swi
         adapter = new OrderAdapter(context, list, 4);
         adapter.setOnOrderClick(this);
         clist.setAdapter(adapter);
-        presenter.getAOrders(page);
-        refresh();
+        presenter.getCOrders(teacherId, page);
         receiver = new MyReceiver();
         IntentFilter filter = new IntentFilter("com.miuhouse.yourcompany.teacher.ACTION.TIMESUP");
         context.registerReceiver(receiver, filter);
@@ -108,13 +112,9 @@ public class FragmentC extends BaseFragment implements IOrderManageFragment, Swi
     }
 
     @Override
-    public void refresh() {
-        for (int i=0; i<10; i++){
-            OrderEntity order = new OrderEntity();
-            order.setClassBeginTimeActual(1469071381770L - (i*5)*60*1000 - 60*1000*24);
-            order.setLesson("2");
-            list.add(order);
-        }
+    public void refresh(OrderManageInteractor.OrderListBean bean) {
+        list.clear();
+        list.addAll(bean.getOrderList());
         Message msg = Message.obtain();
         msg.arg1 = list.size()+1;
         msg.arg2 = list.size();
@@ -124,16 +124,17 @@ public class FragmentC extends BaseFragment implements IOrderManageFragment, Swi
     @Override
     public void onRefresh() {
         page = 1;
-        presenter.getAOrders(page);
+        presenter.getAOrders(teacherId, page);
     }
 
     @Override
-    public void onOrderClick() {
-        startActivity(new Intent(context, OrderDetailActivity.class));
+    public void onOrderClick(OrderEntity order) {
+        startActivity(new Intent(context, OrderDetailActivity.class)
+                .putExtra("orderId", order.getId()));
     }
 
     @Override
-    public void onButtonClick() {
+    public void onButtonClick(OrderEntity order) {
 
     }
 

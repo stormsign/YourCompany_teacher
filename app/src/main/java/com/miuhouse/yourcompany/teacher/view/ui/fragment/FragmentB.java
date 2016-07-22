@@ -1,13 +1,16 @@
 package com.miuhouse.yourcompany.teacher.view.ui.fragment;
 
+import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.miuhouse.yourcompany.teacher.R;
+import com.miuhouse.yourcompany.teacher.interactor.OrderManageInteractor;
 import com.miuhouse.yourcompany.teacher.model.OrderEntity;
 import com.miuhouse.yourcompany.teacher.presenter.OrderManagePresenter;
+import com.miuhouse.yourcompany.teacher.view.ui.activity.OrderDetailActivity;
 import com.miuhouse.yourcompany.teacher.view.ui.adapter.OrderAdapter;
 import com.miuhouse.yourcompany.teacher.view.ui.base.BaseFragment;
 import com.miuhouse.yourcompany.teacher.view.ui.fragment.interf.IOrderManageFragment;
@@ -19,7 +22,7 @@ import java.util.List;
  * 待上课订单
  * Created by khb on 2016/7/18.
  */
-public class FragmentB extends BaseFragment implements IOrderManageFragment, SwipeRefreshLayout.OnRefreshListener{
+public class FragmentB extends BaseFragment implements IOrderManageFragment, SwipeRefreshLayout.OnRefreshListener, OrderAdapter.OnOrderClick {
 
     private RecyclerView blist;
     private SwipeRefreshLayout refresh;
@@ -29,6 +32,7 @@ public class FragmentB extends BaseFragment implements IOrderManageFragment, Swi
     private OrderManagePresenter presenter;
 
     private int page = 1;
+    private String teacherId;
 
     @Override
     public int getFragmentResourceId() {
@@ -44,14 +48,17 @@ public class FragmentB extends BaseFragment implements IOrderManageFragment, Swi
     @Override
     public void setupView() {
         list = new ArrayList<>();
+//        teacherId = AccountDBTask.getAccount().getTeacherId();
+        teacherId = "4028b88155c4dd070155c4dd8a340000";
+
         presenter = new OrderManagePresenter(this);
         refresh.setOnRefreshListener(this);
         refresh.setColorSchemeResources(R.color.themeColor);
         blist.setLayoutManager(new LinearLayoutManager(context));
         adapter = new OrderAdapter(context, list, 3);
+        adapter.setOnOrderClick(this);
         blist.setAdapter(adapter);
-        presenter.getBOrders(page);
-        refresh();
+        presenter.getBOrders(teacherId, page);
     }
 
     @Override
@@ -60,12 +67,9 @@ public class FragmentB extends BaseFragment implements IOrderManageFragment, Swi
     }
 
     @Override
-    public void refresh() {
-        for (int i=0; i<10; i++){
-            OrderEntity order = new OrderEntity();
-            order.setClassBeginTimeActual(System.currentTimeMillis() - (i*5)*60*1000 );
-            order.setLesson("3");
-            list.add(order);
+    public void refresh(OrderManageInteractor.OrderListBean bean) {
+        if (page == 1){
+            list.addAll(bean.getOrderList());
         }
         adapter.notifyDataSetChanged();
     }
@@ -73,7 +77,7 @@ public class FragmentB extends BaseFragment implements IOrderManageFragment, Swi
     @Override
     public void onRefresh() {
         page = 1;
-        presenter.getBOrders(page);
+        presenter.getBOrders(teacherId, page);
     }
 
 
@@ -110,5 +114,16 @@ public class FragmentB extends BaseFragment implements IOrderManageFragment, Swi
     @Override
     public void hideError() {
         super.hideError();
+    }
+
+    @Override
+    public void onOrderClick(OrderEntity order) {
+        startActivity(new Intent(context, OrderDetailActivity.class)
+                .putExtra("orderId", order.getId()));
+    }
+
+    @Override
+    public void onButtonClick(OrderEntity order) {
+
     }
 }

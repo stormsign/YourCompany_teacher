@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -14,6 +13,7 @@ import com.miuhouse.yourcompany.teacher.R;
 import com.miuhouse.yourcompany.teacher.model.OrderEntity;
 import com.miuhouse.yourcompany.teacher.utils.Util;
 import com.miuhouse.yourcompany.teacher.view.ui.base.BaseRVAdapter;
+import com.miuhouse.yourcompany.teacher.view.widget.MyRoundImageView;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -144,7 +144,7 @@ public class OrderListAdapter extends BaseRVAdapter {
 
     class OrderListHolder extends RecyclerView.ViewHolder{
         TextView orderType;
-        ImageView header;
+        MyRoundImageView header;
         TextView name;
         TextView price;
         TextView topic;
@@ -158,7 +158,7 @@ public class OrderListAdapter extends BaseRVAdapter {
         public OrderListHolder(View itemView) {
             super(itemView);
             orderType = (TextView) itemView.findViewById(R.id.type);
-            header = (ImageView) itemView.findViewById(R.id.header);
+            header = (MyRoundImageView) itemView.findViewById(R.id.header);
             name = (TextView) itemView.findViewById(R.id.name);
             price = (TextView) itemView.findViewById(R.id.price);
             topic = (TextView) itemView.findViewById(R.id.topic);

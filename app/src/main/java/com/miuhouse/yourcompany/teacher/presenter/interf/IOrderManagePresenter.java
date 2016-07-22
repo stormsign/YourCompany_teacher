@@ -5,9 +5,9 @@ package com.miuhouse.yourcompany.teacher.presenter.interf;
  */
 public interface IOrderManagePresenter {
 
-    void getAOrders(int page);
-    void getBOrders(int page);
-    void getCOrders(int page);
-    void getDOrders(int page);
+    void getAOrders(String teacherId, int page);
+    void getBOrders(String teacherId, int page);
+    void getCOrders(String teacherId, int page);
+    void getDOrders(String teacherId, int page);
 
 }

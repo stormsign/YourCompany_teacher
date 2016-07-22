@@ -12,30 +12,34 @@ import com.miuhouse.yourcompany.teacher.view.ui.fragment.interf.IOrderManageFrag
 public class OrderManagePresenter implements IOrderManagePresenter, OnLoadCallBack {
 
     private IOrderManageInteractor interactor;
+    private IOrderManageFragment fragment;
 
     public OrderManagePresenter(IOrderManageFragment fragment) {
         this.interactor = new OrderManageInteractor(this);
+        this.fragment = fragment;
     }
 
     @Override
-    public void getAOrders(int page) {
-
+    public void getAOrders(String teacherId, int page) {
+        interactor.getAOrders(teacherId, page);
     }
 
     @Override
-    public void getBOrders(int page) {
-
+    public void getBOrders(String teacherId, int page) {
+        interactor.getBOrders(teacherId, page);
     }
 
     @Override
-    public void getCOrders(int page) {
-
+    public void getCOrders(String teacherId, int page) {
+        interactor.getCOrders(teacherId, page);
     }
 
     @Override
-    public void getDOrders(int page) {
-
+    public void getDOrders(String teacherId, int page) {
+        interactor.getDOrders(teacherId, page);
     }
+
+
 
     @Override
     public void onPreLoad() {
@@ -44,7 +48,8 @@ public class OrderManagePresenter implements IOrderManagePresenter, OnLoadCallBa
 
     @Override
     public void onLoadSuccess(Object data) {
-
+        OrderManageInteractor.OrderListBean bean = (OrderManageInteractor.OrderListBean) data;
+        fragment.refresh(bean);
     }
 
     @Override

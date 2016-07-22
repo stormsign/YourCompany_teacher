@@ -47,6 +47,7 @@
     <!--订单状态-->
     <string name="order_status_waiting">等待中</string>
     <string name="order_status_chosen">已选择你作为上课老师</string>
+    <string name="order_status_cancel">已取消</string>
     <!-- 我的资料-->
     <string name="change_username">使用真是姓名</string>
     <!--<string name="msg_type_11">到账通知</string>-->
@@ -60,7 +61,7 @@
     <string name="order_status_3">待上课</string>
     <string name="order_status_4">进行中</string>
     <string name="order_status_5">待评价</string>
-    <string name="order_status_6">完成</string>
+    <string name="order_status_6">已完成</string>
     <string name="order_status_7">投诉</string>
     <string name="order_status_8">待退款</string>
     <string name="order_status_0">取消</string>

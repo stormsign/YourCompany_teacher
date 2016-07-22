@@ -26,6 +26,11 @@ public class OrderDetailPresenter implements IOrderDetailPresenter, OnLoadCallBa
     }
 
     @Override
+    public void beginClass(String teacherId, String orderInfoId) {
+        interactor.beginClass(teacherId, orderInfoId);
+    }
+
+    @Override
     public void onPreLoad() {
         activity.showLoading(null);
     }

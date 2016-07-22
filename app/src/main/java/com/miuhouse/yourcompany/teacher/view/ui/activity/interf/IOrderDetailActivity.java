@@ -10,7 +10,7 @@ public interface IOrderDetailActivity extends BaseView {
 
     void showOrderStatus(OrderEntity order);
     void showCountdown(OrderEntity order);
-    void call();
+    void call(String number);
 
     void fillView(OrderEntity order);
 

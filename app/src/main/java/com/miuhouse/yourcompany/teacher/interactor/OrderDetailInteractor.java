@@ -15,7 +15,7 @@ import java.util.Map;
 /**
  * Created by khb on 2016/7/21.
  */
-public class OrderDetailInteractor implements IOrderDetailInteractor, Response.Listener<OrderDetailInteractor.OrderListBean>, Response.ErrorListener {
+public class OrderDetailInteractor implements IOrderDetailInteractor {
     private OnLoadCallBack onLoadCallBack;
 
     public OrderDetailInteractor(OnLoadCallBack onLoadCallBack) {
@@ -26,23 +26,45 @@ public class OrderDetailInteractor implements IOrderDetailInteractor, Response.L
     @Override
     public void getInfo(String teacherId, String orderInfoId) {
         onLoadCallBack.onPreLoad();
-        String url = Constants.URL_VALUE + "ordreInfo";
+        String url = Constants.URL_VALUE + "orderInfo";
         Map<String, Object> params = new HashMap<>();
         params.put("teacherId", teacherId);
         params.put("orderInfoId", orderInfoId);
         VolleyManager.getInstance().sendGsonRequest(null, url, params,
                 "6eca806dffed65f70f6d50a3b435069b",
-                OrderListBean.class, this, this);
+                OrderListBean.class, new Response.Listener<OrderListBean>() {
+                    @Override
+                    public void onResponse(OrderListBean response) {
+                        onLoadCallBack.onLoadSuccess(response);
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        onLoadCallBack.onLoadFailed(error.toString());
+                    }
+                });
     }
 
     @Override
-    public void onResponse(OrderListBean response) {
-        onLoadCallBack.onLoadSuccess(response);
-    }
-
-    @Override
-    public void onErrorResponse(VolleyError error) {
-        onLoadCallBack.onLoadFailed(error.toString());
+    public void beginClass(String teacherId, String orderInfoId) {
+        onLoadCallBack.onPreLoad();
+        String url = Constants.URL_VALUE + "classBegin";
+        Map<String, Object> params = new HashMap<>();
+        params.put("teacherId", teacherId);
+        params.put("orderInfoId", orderInfoId);
+        VolleyManager.getInstance().sendStringRequest(null, url, params,
+                "6eca806dffed65f70f6d50a3b435069b",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        onLoadCallBack.onLoadSuccess(response);
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        onLoadCallBack.onLoadFailed(error.toString());
+                    }
+                });
     }
 
     public class OrderListBean extends BaseBean{

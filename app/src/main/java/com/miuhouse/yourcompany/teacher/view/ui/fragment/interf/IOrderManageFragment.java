@@ -1,5 +1,6 @@
 package com.miuhouse.yourcompany.teacher.view.ui.fragment.interf;
 
+import com.miuhouse.yourcompany.teacher.interactor.OrderManageInteractor;
 import com.miuhouse.yourcompany.teacher.view.ui.base.BaseView;
 
 /**
@@ -7,6 +8,6 @@ import com.miuhouse.yourcompany.teacher.view.ui.base.BaseView;
  */
 public interface IOrderManageFragment extends BaseView{
 
-    void refresh();
+    void refresh(OrderManageInteractor.OrderListBean bean);
 
 }

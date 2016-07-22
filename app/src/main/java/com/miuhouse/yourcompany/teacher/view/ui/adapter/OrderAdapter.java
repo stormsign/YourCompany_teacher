@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -15,7 +14,9 @@ import com.miuhouse.yourcompany.teacher.R;
 import com.miuhouse.yourcompany.teacher.model.OrderEntity;
 import com.miuhouse.yourcompany.teacher.utils.L;
 import com.miuhouse.yourcompany.teacher.utils.Util;
+import com.miuhouse.yourcompany.teacher.utils.Values;
 import com.miuhouse.yourcompany.teacher.view.ui.base.BaseRVAdapter;
+import com.miuhouse.yourcompany.teacher.view.widget.MyRoundImageView;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -41,7 +42,7 @@ public class OrderAdapter extends BaseRVAdapter{
     class OrderHolder extends RecyclerView.ViewHolder{
         TextView orderType;
         TextView orderStatus;
-        ImageView studentHead;
+        MyRoundImageView studentHead;
         TextView studentName;
         TextView time;
         TextView totalPrice;
@@ -54,7 +55,7 @@ public class OrderAdapter extends BaseRVAdapter{
             content = (LinearLayout) itemView.findViewById(R.id.orderContent);
             orderType = (TextView) itemView.findViewById(R.id.orderType);
             orderStatus = (TextView) itemView.findViewById(R.id.orderStatus);
-            studentHead = (ImageView) itemView.findViewById(R.id.studentHead);
+            studentHead = (MyRoundImageView) itemView.findViewById(R.id.studentHead);
             studentName = (TextView) itemView.findViewById(R.id.studentName);
             time = (TextView) itemView.findViewById(R.id.time);
             totalPrice = (TextView) itemView.findViewById(R.id.totalPrice);
@@ -75,7 +76,7 @@ public class OrderAdapter extends BaseRVAdapter{
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         L.i("position :"+position + " holder : " + holder.toString());
 
-        OrderEntity order = (OrderEntity) list.get(position);
+        final OrderEntity order = (OrderEntity) list.get(position);
         OrderHolder mholder = (OrderHolder) holder;
         setOrderType(mholder.orderType, order.getMajorDemand());
         setOrderStatus(mholder.orderStatus, order.getOrderStatus());
@@ -95,7 +96,7 @@ public class OrderAdapter extends BaseRVAdapter{
             @Override
             public void onClick(View v) {
                 if (null != mOnOrderClick) {
-                    mOnOrderClick.onOrderClick();
+                    mOnOrderClick.onOrderClick(order);
                 }
             }
         });
@@ -111,7 +112,7 @@ public class OrderAdapter extends BaseRVAdapter{
 
     }
 
-    private void setButton(TextView button, OrderEntity order, int position) {
+    private void setButton(TextView button, final OrderEntity order, int position) {
 //        int status = Integer.parseInt(orderStatus);
 //        switch (status){
 //
@@ -147,7 +148,7 @@ public class OrderAdapter extends BaseRVAdapter{
             @Override
             public void onClick(View v) {
                 if (null != mOnOrderClick){
-                    mOnOrderClick.onButtonClick();
+                    mOnOrderClick.onButtonClick(order);
                 }
             }
         });
@@ -161,7 +162,7 @@ public class OrderAdapter extends BaseRVAdapter{
 
 
     private void setOrderStatus(TextView orderStatus, String orderStatus1) {
-        orderStatus.setText("待上课");
+        orderStatus.setText(Values.orderStatuses.get(orderStatus1));
     }
 
     private void setOrderType(TextView orderType, String majorDemand) {
@@ -175,8 +176,8 @@ public class OrderAdapter extends BaseRVAdapter{
     }
 
     public interface OnOrderClick{
-        void onOrderClick();
-        void onButtonClick();
+        void onOrderClick(OrderEntity order);
+        void onButtonClick(OrderEntity order);
     }
 
     private OnOrderClick mOnOrderClick;

@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -15,6 +14,7 @@ import com.miuhouse.yourcompany.teacher.listener.OnListItemClick;
 import com.miuhouse.yourcompany.teacher.model.OrderEntity;
 import com.miuhouse.yourcompany.teacher.utils.Util;
 import com.miuhouse.yourcompany.teacher.view.ui.base.BaseRVAdapter;
+import com.miuhouse.yourcompany.teacher.view.widget.MyRoundImageView;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -69,10 +69,16 @@ public class MyOrderAdapter extends BaseRVAdapter {
         if (orderStatus.equals("2")){
             status.setText(context.getResources().getString(R.string.order_status_waiting));
             status.setTextColor(context.getResources().getColor(R.color.textBlue));
-        }else if (Integer.parseInt(orderStatus) > 2){
+        }else if (Integer.parseInt(orderStatus) > 2
+                && Integer.parseInt(orderStatus) != 8
+                && Integer.parseInt(orderStatus) != 0){
             status.setText(context.getResources().getString(R.string.order_status_chosen));
             status.setTextColor(context.getResources().getColor(R.color.textOrange));
-        }else{
+        }else if ((Integer.parseInt(orderStatus) == 8
+                || Integer.parseInt(orderStatus) == 0)){
+            status.setText("已取消");
+            status.setTextColor(context.getResources().getColor(R.color.textDarkfour));
+        }else {
             status.setText("错误状态");
             status.setTextColor(context.getResources().getColor(R.color.textDarkfour));
         }
@@ -139,7 +145,7 @@ public class MyOrderAdapter extends BaseRVAdapter {
 
     class OrderListHolder extends RecyclerView.ViewHolder{
         TextView orderType;
-        ImageView header;
+        MyRoundImageView header;
         TextView name;
         TextView price;
         TextView topic;
@@ -153,7 +159,7 @@ public class MyOrderAdapter extends BaseRVAdapter {
         public OrderListHolder(View itemView) {
             super(itemView);
             orderType = (TextView) itemView.findViewById(R.id.type);
-            header = (ImageView) itemView.findViewById(R.id.header);
+            header = (MyRoundImageView) itemView.findViewById(R.id.header);
             name = (TextView) itemView.findViewById(R.id.name);
             price = (TextView) itemView.findViewById(R.id.price);
             topic = (TextView) itemView.findViewById(R.id.topic);

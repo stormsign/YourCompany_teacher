@@ -6,5 +6,5 @@ package com.miuhouse.yourcompany.teacher.presenter.interf;
 public interface IOrderDetailPresenter {
 
     void getOrderDetail(String teacherId, String orderInfoId);
-
+    void beginClass(String teacherId, String orderInfoId);
 }

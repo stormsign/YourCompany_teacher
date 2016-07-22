@@ -12,7 +12,7 @@ import java.util.Map;
 public class Values {
 
     public static Map<Integer, String> teacherVerifyStatuses = new HashMap<>();
-    public static Map<Integer, String> orderStatuses = new HashMap<>();
+    public static Map<String, String> orderStatuses = new HashMap<>();
     public static Map<Integer, String> stars = new HashMap<>();
     public static Map<Integer, String> studentGrades = new HashMap<>();
     public static Map<Integer, String> teacherGrades = new HashMap<>();
@@ -26,15 +26,15 @@ public class Values {
         teacherVerifyStatuses.put(3, "已认证");
         teacherVerifyStatuses.put(4, "审核失败");
 
-        orderStatuses.put(1, "待支付");
-        orderStatuses.put(2, "待抢单");
-        orderStatuses.put(3, "待上课");
-        orderStatuses.put(4, "进行中");
-        orderStatuses.put(5, "待评价");
-        orderStatuses.put(6, "完成");
-        orderStatuses.put(7, "投诉");
-        orderStatuses.put(8, "待退款");
-        orderStatuses.put(0, "取消");
+        orderStatuses.put("1", "待支付");
+        orderStatuses.put("2", "待抢单");
+        orderStatuses.put("3", "待上课");
+        orderStatuses.put("4", "进行中");
+        orderStatuses.put("5", "待评价");
+        orderStatuses.put("6", "已完成");
+        orderStatuses.put("7", "投诉");
+        orderStatuses.put("8", "待退款");
+        orderStatuses.put("0", "取消");
 
         stars.put(1, "一星");
         stars.put(2, "二星");

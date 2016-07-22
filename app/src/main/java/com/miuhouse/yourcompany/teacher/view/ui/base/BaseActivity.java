@@ -148,7 +148,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
      */
     @Override
     public void showLoading(String msg) {
-
+        viewOverrideManager.showLoading(msg);
     }
 
     /**
