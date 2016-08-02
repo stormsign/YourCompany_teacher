@@ -21,16 +21,17 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         this.applicationContext = getApplicationContext();
-        instance =this;
+        instance = this;
 //        Constants.IMEI_VALUE = Util.getIMEI(this);
         Constants.IMEI_VALUE = "863175020757478";
+        initLogin();
     }
 
     private void initLogin() {
         TeacherInfo info = AccountDBTask.getAccount();
         if (info != null) {
             login = true;
-            teacherId = info.getTeacherId();
+            teacherId = info.getId();
         } else {
             login = false;
         }
@@ -39,6 +40,7 @@ public class App extends Application {
     public static Context getContext() {
         return applicationContext;
     }
+
     public static App getInstance() {
         return instance;
     }
@@ -51,9 +53,9 @@ public class App extends Application {
         this.login = login;
     }
 
-    private String getTeacherId() {
-        if (teacherId==null){
-            teacherId= AccountDBTask.getAccount().getTeacherId();
+    public String getTeacherId() {
+        if (teacherId == null) {
+            teacherId = AccountDBTask.getAccount().getId();
         }
         return teacherId;
     }

@@ -7,4 +7,5 @@ public interface IOrderListPresenter {
 //    void initViews();
     void getAllList(int page);
     void getMyList(int page);
+    void grabOrder(String teacherId, String orderId);
 }

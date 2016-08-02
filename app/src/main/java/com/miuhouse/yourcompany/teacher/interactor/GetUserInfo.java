@@ -29,11 +29,10 @@ public class GetUserInfo implements IGetUser {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-//        map.put("deviceToken", SPUtils.getSPData("token", "token"));
         map.put("type", 4);
         L.i("TAG", "name=" + name);
         L.i("TAG", "password=" + password);
-        L.i("TAG","urlPath="+urlPath);
+        L.i("TAG", "urlPath=" + urlPath);
         VolleyManager.getInstance().sendGsonRequest("login", urlPath, map, User.class, listener, errorListener);
     }
 
@@ -48,7 +47,6 @@ public class GetUserInfo implements IGetUser {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-//        map.put("deviceToken", SPUtils.getSPData("token", "token"));
         map.put("type", 4);
         VolleyManager.getInstance().sendGsonRequest("register", urlPath, map, BaseBean.class, listener, errorListener);
     }

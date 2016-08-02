@@ -7,7 +7,8 @@ import com.miuhouse.yourcompany.teacher.view.ui.base.BaseView;
  */
 public interface IMessageFragment extends BaseView{
 
-    void refresh();
+    void refreshList();
+    void refreshTop();
     void instantAdd();
-    void setTop(int count, String msg);
+    void setTop(int sysCount, String sysMsg, int purseCount, String purseMsg);
 }

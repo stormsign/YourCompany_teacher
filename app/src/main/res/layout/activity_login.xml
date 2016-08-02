@@ -121,6 +121,5 @@
             android:layout_gravity="center_horizontal"
             android:visibility="gone"
             />
-
     </LinearLayout>
 </android.support.v7.widget.CardView>

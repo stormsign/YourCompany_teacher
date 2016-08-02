@@ -69,7 +69,7 @@ public class ActivityManager {
             return ;
         }
         while (activityStack.size()>0){
-            activityStack.remove(activityStack.lastElement());
+            popActivity(activityStack.lastElement());
         }
     }
 }

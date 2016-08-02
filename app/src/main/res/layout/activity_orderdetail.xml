@@ -19,7 +19,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"/>
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="6dp"/>
 
 
         <LinearLayout
@@ -79,7 +80,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <com.miuhouse.yourcompany.teacher.view.widget.MyRoundImageView
+                        <com.miuhouse.yourcompany.teacher.view.widget.CircularImageViewHome
                             android:id="@+id/studentHead"
                             android:layout_width="50dp"
                             android:layout_height="50dp"
@@ -98,7 +99,7 @@
                             <TextView android:id="@+id/studentName"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="学生：--"
+                                android:text="学生："
                                 android:textColor="@color/textDarkone"
                                 android:textSize="15sp"
                                 android:layout_marginBottom="5dp"/>
@@ -112,16 +113,29 @@
 
                         </LinearLayout>
 
-                        <ImageView android:id="@+id/call"
+                        <LinearLayout android:id="@+id/call"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@mipmap/ico_orderdetail_call"
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
-                            android:paddingRight="20dp"
-                            android:paddingLeft="10dp"
-                            android:paddingTop="10dp"
-                            android:paddingBottom="10dp"/>
+                            android:gravity="center_vertical"
+                            android:layout_marginRight="10dp"
+                            android:paddingRight="10dp"
+                            android:background="@drawable/shape_orange_round_border">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@mipmap/ico_orderdetail_call"
+                                android:padding="10dp"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="拨号"
+                                android:textColor="@color/textOrange" />
+
+                        </LinearLayout>
 
                     </RelativeLayout>
 

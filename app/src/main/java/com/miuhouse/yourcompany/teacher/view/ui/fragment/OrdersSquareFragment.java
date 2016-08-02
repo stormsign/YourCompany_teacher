@@ -6,8 +6,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.miuhouse.yourcompany.teacher.R;
+import com.miuhouse.yourcompany.teacher.db.AccountDBTask;
 import com.miuhouse.yourcompany.teacher.interactor.OrderListInteractor;
 import com.miuhouse.yourcompany.teacher.model.OrderEntity;
 import com.miuhouse.yourcompany.teacher.presenter.OrderListPresenter;
@@ -16,6 +18,7 @@ import com.miuhouse.yourcompany.teacher.view.ui.activity.OrderActivity;
 import com.miuhouse.yourcompany.teacher.view.ui.adapter.OrderListAdapter;
 import com.miuhouse.yourcompany.teacher.view.ui.base.BaseFragment;
 import com.miuhouse.yourcompany.teacher.view.ui.fragment.interf.IOrdersListFragment;
+import com.miuhouse.yourcompany.teacher.view.widget.ViewOverrideManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,11 +80,7 @@ public class OrdersSquareFragment extends BaseFragment implements IOrdersListFra
                         && lastVisibleItem + 1 == adapter.getItemCount()
                         && firstVisibleItem != 0) {
                     page += 1;
-//                    if (isAllList){
-//                        orderListPresenter.getAllList(page);
-//                    }else {
-//                        orderListPresenter.getMyList(page);
-//                    }
+                    orderListPresenter.getAllList(page);
                 }
             }
 
@@ -105,26 +104,28 @@ public class OrdersSquareFragment extends BaseFragment implements IOrdersListFra
     @Override
     public void onResume() {
         super.onResume();
+        page = 1;
         orderListPresenter.getAllList(page);
     }
 
     @Override
     public void refresh(OrderListInteractor.OrderListBean data) {
 //        OrderEntity entity = new OrderEntity();
-            if (page == 1) {
-                list.clear();
-            }
-            list.addAll(data.getOrderList());
-            adapter.notifyDataSetChanged();
+//        mRefresh.setRefreshing(false);
+        if (page == 1) {
+            list.clear();
+        }
+        list.addAll(data.getOrderList());
+        adapter.notifyDataSetChanged();
 //            if (data.getCount() > 0) {
 //                orderCount.setText(data.getCount() + "");
 //            } else {
 //                orderCount.setText("0");
 //            }
-            count = (int) (data.getCount());
+        count = (int) (data.getCount());
 
 //            parentFragment.setSquareTop((int) (data.getCount()));
-            parentFragment.setSquareCount(count);
+        parentFragment.setSquareCount(count);
     }
 
     @Override
@@ -140,16 +141,27 @@ public class OrdersSquareFragment extends BaseFragment implements IOrdersListFra
 
     @Override
     public void onGetOrderClick(OrderEntity entity) {
-//        orderListPresenter
+        orderListPresenter.grabOrder(AccountDBTask.getAccount().getId(), entity.getId());
     }
 
     @Override
     public void onRefresh() {
-        if (mRefresh.isRefreshing()) {
-            mRefresh.setRefreshing(false);
-        }
+//        if (mRefresh.isRefreshing()) {
+//            mRefresh.setRefreshing(false);
+//        }
         page = 1;
         orderListPresenter.getAllList(page);
+    }
+
+    @Override
+    public void showSecondLoading() {
+        viewOverrideManager.showLoading();
+    }
+
+    @Override
+    public void changeListToggle() {
+        OrdersFragment parentFragment = (OrdersFragment)getParentFragment();
+        parentFragment.changeListToggle(false);
     }
 
     @Override
@@ -173,14 +185,39 @@ public class OrdersSquareFragment extends BaseFragment implements IOrdersListFra
     }
 
     @Override
-    public void showError(String msg) {
+    public void showError(int type) {
 //        top.setVisibility(View.INVISIBLE);
-        super.showError(msg);
+//        super.showError(msg);
+        if (type == ViewOverrideManager.NO_STUDENT) {
+            viewOverrideManager.showLoading(type,
+                    new ViewOverrideManager.OnExceptionalClick() {
+                        @Override
+                        public void onExceptionalClick() {
+                            page = 1;
+                            orderListPresenter.getAllList(page);
+//                            hideError();
+                        }
+                    });
+        }else if (type == ViewOverrideManager.NO_NETWORK){
+            viewOverrideManager.showLoading(type, new ViewOverrideManager.OnExceptionalClick() {
+                @Override
+                public void onExceptionalClick() {
+                    page = 1;
+                    orderListPresenter.getAllList(page);
+                }
+            });
+        }else if (type == -1){
+            Toast.makeText(context, "请设置接单地址", Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
     public void hideError() {
-//        top.setVisibility(View.VISIBLE);
         super.hideError();
+    }
+
+    @Override
+    public void onTokenExpired() {
+        super.onTokenExpired();
     }
 }

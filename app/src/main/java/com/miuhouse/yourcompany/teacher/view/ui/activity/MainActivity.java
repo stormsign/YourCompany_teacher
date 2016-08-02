@@ -27,6 +27,7 @@ import com.miuhouse.yourcompany.teacher.utils.L;
 import com.miuhouse.yourcompany.teacher.view.ui.adapter.MainPageAdapter;
 import com.miuhouse.yourcompany.teacher.view.ui.base.BaseActivity;
 import com.miuhouse.yourcompany.teacher.view.ui.base.BaseFragment;
+import com.miuhouse.yourcompany.teacher.view.ui.fragment.MessagesFragment;
 import com.miuhouse.yourcompany.teacher.view.widget.ViewPagerIndicator;
 
 import java.util.ArrayList;
@@ -106,7 +107,7 @@ public class MainActivity extends BaseActivity implements OnReceiveListener {
     @Override
     public void onBackClick() {
         L.i("back or finish!!!");
-        showError("dd");
+//        showError();
     }
 
     @Override
@@ -149,7 +150,7 @@ public class MainActivity extends BaseActivity implements OnReceiveListener {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        FragmentFactory.getFragment(BaseFragment.MESSAGES).onResume();
+        ((MessagesFragment)FragmentFactory.getFragment(BaseFragment.MESSAGES)).refreshTop();
     }
 
     @Override

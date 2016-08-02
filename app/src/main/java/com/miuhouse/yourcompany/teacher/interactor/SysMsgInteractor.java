@@ -2,12 +2,14 @@ package com.miuhouse.yourcompany.teacher.interactor;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.miuhouse.yourcompany.teacher.application.App;
 import com.miuhouse.yourcompany.teacher.http.VolleyManager;
 import com.miuhouse.yourcompany.teacher.interactor.interf.ISysMsgInteractor;
 import com.miuhouse.yourcompany.teacher.listener.OnLoadCallBack;
 import com.miuhouse.yourcompany.teacher.model.BaseBean;
 import com.miuhouse.yourcompany.teacher.model.SysMsgEntity;
 import com.miuhouse.yourcompany.teacher.utils.Constants;
+import com.miuhouse.yourcompany.teacher.utils.SPUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -28,11 +30,11 @@ public class SysMsgInteractor implements ISysMsgInteractor,
         onLoadCallBack.onPreLoad();
         String url = Constants.URL_VALUE + "noticeMsg";
         Map<String, Object> params = new HashMap<>();
-        params.put("teacherId", "4028b88155c4dd070155c4dd8a340000");
+        params.put("teacherId", App.getInstance().getTeacherId());
         params.put("page", page);
         params.put("pageSize", 15);
         VolleyManager.getInstance().sendGsonRequest(null, url, params,
-                "6eca806dffed65f70f6d50a3b435069b",
+                SPUtils.getData(SPUtils.TOKEN, null),
                 SysMsgBean.class,
                 this, this);
     }

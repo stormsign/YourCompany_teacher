@@ -1,5 +1,6 @@
 package com.miuhouse.yourcompany.teacher.http.request;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
@@ -30,6 +31,7 @@ public class StringRequest extends Request<String> {
                          Response.Listener<String> listener, Response.ErrorListener errorListener) {
         super(method, url, errorListener);
         this.listener = listener;
+        setRetryPolicy(new DefaultRetryPolicy(Constants.TIMEOUT * 1000, Constants.MAX_RETRIES, 1.0f));
     }
 
     //post
@@ -38,6 +40,7 @@ public class StringRequest extends Request<String> {
         super(method, url, errorListener);
         this.params = params;
         this.listener = listener;
+        setRetryPolicy(new DefaultRetryPolicy(Constants.TIMEOUT * 1000, Constants.MAX_RETRIES, 1.0f));
     }
 
     //get token验证的请求
@@ -46,6 +49,7 @@ public class StringRequest extends Request<String> {
         super(method, url, errorListener);
         this.listener = listener;
         this.token = token;
+        setRetryPolicy(new DefaultRetryPolicy(Constants.TIMEOUT * 1000, Constants.MAX_RETRIES, 1.0f));
     }
 
     //post token验证的请求
@@ -55,6 +59,7 @@ public class StringRequest extends Request<String> {
         this.params = params;
         this.listener = listener;
         this.token = token;
+        setRetryPolicy(new DefaultRetryPolicy(Constants.TIMEOUT * 1000, Constants.MAX_RETRIES, 1.0f));
     }
 
     @Override

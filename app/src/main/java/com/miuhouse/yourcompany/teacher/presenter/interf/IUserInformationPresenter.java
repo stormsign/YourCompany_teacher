@@ -10,4 +10,6 @@ public interface IUserInformationPresenter {
     void doChangeUserInformation(String teacherId, ArrayList<String> images, String tName, int sex, String college, String profession, int education, int grade, List<Integer> pbxType, String introduction, String headUrl);
 
     void getUserInfo(String teacherId);
+
+    void updatePhone(String teacherId,String mobile);
 }

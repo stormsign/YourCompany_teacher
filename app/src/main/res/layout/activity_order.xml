@@ -15,7 +15,8 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:paddingBottom="10dp">
-            <ImageView android:id="@+id/header"
+            <com.miuhouse.yourcompany.teacher.view.widget.CircularImageViewHome
+                android:id="@+id/header"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_marginBottom="5dp"/>
@@ -61,7 +62,6 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/textDarkthree"
                         android:textSize="15sp"
-                        android:text="五年级量子物理"
                         android:layout_alignParentLeft="true"/>
 
                 </RelativeLayout>
@@ -223,8 +223,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/textDarktwo"
-            android:layout_margin="10dp"
-            android:text="的三个地方瓜娃儿线程V社发起的v拔丝地瓜第三方广东省大概是的范德萨的轨道上该分公司的法国队的的"/>
+            android:layout_margin="10dp"/>
 
     </LinearLayout>
     <View android:layout_below="@id/detailContent"
@@ -232,7 +231,7 @@
         android:layout_height="3dp"
         android:background="@drawable/shadow_down"/>
 
-    <TextView
+    <TextView android:id="@+id/grabOrder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="抢单"

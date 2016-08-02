@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.miuhouse.yourcompany.teacher.model.TeacherInfo;
+import com.miuhouse.yourcompany.teacher.utils.L;
 
 /**
  * Created by kings on 7/11/2016.
@@ -26,10 +27,11 @@ public class AccountDBTask {
     }
 
     public static void saveUserBean(TeacherInfo teacherInfo) {
+        clear();
         if (getWsd().isOpen()) {
             ContentValues contentValues = new ContentValues();
-            contentValues.put(AccountTable.TEACHER_ID, teacherInfo.getTeacherId());
-            contentValues.put(AccountTable.TABLE_NAME, teacherInfo.gettName());
+            contentValues.put(AccountTable.TEACHER_ID, teacherInfo.getId());
+            contentValues.put(AccountTable.TNAME, teacherInfo.gettName());
             contentValues.put(AccountTable.MOBILE, teacherInfo.getMobile());
             contentValues.put(AccountTable.TOKEN, teacherInfo.getToken());
             getWsd().insert(AccountTable.TABLE_NAME, null, contentValues);
@@ -55,8 +57,17 @@ public class AccountDBTask {
 
             colid = c.getColumnIndex(AccountTable.BALANCE);
             account.setBalance(c.getDouble(colid));
+            L.i("TAG", "account=" + account.getId());
             return account;
         }
+        c.close();
         return null;
     }
+
+    public static void clear() {
+        String sql = "delete from " + AccountTable.TABLE_NAME;
+
+        getWsd().execSQL(sql);
+    }
+
 }

@@ -41,6 +41,6 @@ public class SysMsgPresenter implements ISysMsgPresenter, OnLoadCallBack {
 
     @Override
     public void onLoadFailed(String msg) {
-        activity.showError(msg);
+//        activity.showError(msg);
     }
 }

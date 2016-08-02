@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 字典表
  * Created by kings on 7/19/2016.
  */
 public class TradingRecordListBean extends BaseBean {

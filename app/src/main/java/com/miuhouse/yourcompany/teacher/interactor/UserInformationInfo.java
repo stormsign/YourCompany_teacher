@@ -1,12 +1,14 @@
 package com.miuhouse.yourcompany.teacher.interactor;
 
 import com.android.volley.Response;
+import com.miuhouse.yourcompany.teacher.application.App;
 import com.miuhouse.yourcompany.teacher.http.VolleyManager;
 import com.miuhouse.yourcompany.teacher.interactor.interf.IUserInformation;
 import com.miuhouse.yourcompany.teacher.model.BaseBean;
 import com.miuhouse.yourcompany.teacher.model.User;
 import com.miuhouse.yourcompany.teacher.utils.Constants;
 import com.miuhouse.yourcompany.teacher.utils.L;
+import com.miuhouse.yourcompany.teacher.utils.SPUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,7 +24,7 @@ public class UserInformationInfo implements IUserInformation {
     public void updateUserInformation(String teacherId, ArrayList<String> images, String tName, int sex, String college, String profession, int education, int grade, List<Integer> pbxType, String introduction, String headUrl, Response.Listener<BaseBean> listener, Response.ErrorListener errorListener) {
         String urlPath = Constants.URL_VALUE + "teacherUpdate";
         Map<String, Object> map = new HashMap<>();
-        map.put("teacherId", "4028b88155c4dd070155c4dd8a340000");
+        map.put("teacherId", App.getInstance().getTeacherId());
         map.put("tName", tName);
         map.put("sex", sex);
         map.put("college", college);
@@ -34,17 +36,28 @@ public class UserInformationInfo implements IUserInformation {
         map.put("headUrl", headUrl);
         map.put("pbxType", pbxType);
         map.put("images", images);
-        L.i("images="+(String)images.toString());
-        L.i("images="+images.toArray());
-        VolleyManager.getInstance().sendGsonRequest(null, urlPath, map, "6eca806dffed65f70f6d50a3b435069b", BaseBean.class, listener, errorListener);
+        L.i("images=" + (String) images.toString());
+        L.i("images=" + images.toArray());
+        VolleyManager.getInstance().sendGsonRequest(null, urlPath, map, SPUtils.getData(SPUtils.TOKEN, null), BaseBean.class, listener, errorListener);
     }
 
     @Override
     public void getUserInfo(String teacherId, Response.Listener<User> listener, Response.ErrorListener errorListener) {
         String urlPath = Constants.URL_VALUE + "teacherInfo";
         Map<String, Object> map = new HashMap<>();
-        map.put("teacherId", "4028b88155c4dd070155c4dd8a340000");
-        VolleyManager.getInstance().sendGsonRequest(null, urlPath, map, "6eca806dffed65f70f6d50a3b435069b", User.class, listener, errorListener);
+        map.put("teacherId", App.getInstance().getTeacherId());
+        L.i("TAG", "token=" + SPUtils.getData(SPUtils.TOKEN, null));
+        L.i("TAG","teacherId="+App.getInstance().getTeacherId());
+        VolleyManager.getInstance().sendGsonRequest(null, urlPath, map, SPUtils.getData(SPUtils.TOKEN, null), User.class, listener, errorListener);
 
+    }
+
+    @Override
+    public void updateUserPhone(String teacherId, String mobile, Response.Listener<BaseBean> listener, Response.ErrorListener errorListener) {
+        String urlPath = Constants.URL_VALUE + "updateMobile";
+        Map<String, Object> map = new HashMap<>();
+        map.put("teacherId", App.getInstance().getTeacherId());
+        map.put("mobile", mobile);
+        VolleyManager.getInstance().sendGsonRequest(null, urlPath, map, SPUtils.getData(SPUtils.TOKEN, null), BaseBean.class, listener, errorListener);
     }
 }

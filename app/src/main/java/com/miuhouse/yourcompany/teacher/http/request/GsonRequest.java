@@ -42,7 +42,7 @@ public class GsonRequest<T> extends Request<T> {
         mGson = new Gson();
         this.clazz = clazz;
         this.mListener = listener;
-        setRetryPolicy(new DefaultRetryPolicy(Constants.TIMEOUT * 1000, 1, 1.0f));
+        setRetryPolicy(new DefaultRetryPolicy(Constants.TIMEOUT * 1000, Constants.MAX_RETRIES, 1.0f));
     }
 
     //post
@@ -53,7 +53,7 @@ public class GsonRequest<T> extends Request<T> {
         this.params = params;
         this.clazz = clazz;
         this.mListener = listener;
-        setRetryPolicy(new DefaultRetryPolicy(Constants.TIMEOUT * 1000, 1, 1.0f));
+        setRetryPolicy(new DefaultRetryPolicy(Constants.TIMEOUT * 1000, Constants.MAX_RETRIES, 1.0f));
     }
 
     //post
@@ -64,7 +64,7 @@ public class GsonRequest<T> extends Request<T> {
         this.params = params;
         this.typeToken = typeToken;
         this.mListener = listener;
-        setRetryPolicy(new DefaultRetryPolicy(Constants.TIMEOUT * 1000, 1, 1.0f));
+        setRetryPolicy(new DefaultRetryPolicy(Constants.TIMEOUT * 1000, Constants.MAX_RETRIES, 1.0f));
     }
 
     //post 需要token验证 的请求
@@ -76,7 +76,7 @@ public class GsonRequest<T> extends Request<T> {
         this.clazz = clazz;
         this.mListener = listener;
         this.token = token;
-        setRetryPolicy(new DefaultRetryPolicy(Constants.TIMEOUT * 1000, 1, 1.0f));
+        setRetryPolicy(new DefaultRetryPolicy(Constants.TIMEOUT * 1000, Constants.MAX_RETRIES, 1.0f));
     }
 
     //post 需要token验证的请求
@@ -88,7 +88,7 @@ public class GsonRequest<T> extends Request<T> {
         this.typeToken = typeToken;
         this.mListener = listener;
         this.token = token;
-        setRetryPolicy(new DefaultRetryPolicy(Constants.TIMEOUT * 1000, 1, 1.0f));
+        setRetryPolicy(new DefaultRetryPolicy(Constants.TIMEOUT * 1000, Constants.MAX_RETRIES, 1.0f));
     }
 
 

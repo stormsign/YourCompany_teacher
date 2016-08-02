@@ -2,6 +2,7 @@ package com.miuhouse.yourcompany.teacher.view.ui.base;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +13,7 @@ import android.widget.FrameLayout;
 import com.miuhouse.yourcompany.teacher.R;
 import com.miuhouse.yourcompany.teacher.application.ActivityManager;
 import com.miuhouse.yourcompany.teacher.utils.Util;
+import com.miuhouse.yourcompany.teacher.view.ui.activity.LoginRegistActivity;
 import com.miuhouse.yourcompany.teacher.view.widget.MyTitlebar;
 import com.miuhouse.yourcompany.teacher.view.widget.StatusCompat;
 import com.miuhouse.yourcompany.teacher.view.widget.ViewOverrideManager;
@@ -23,7 +25,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
     public Context context;
     public Activity activity;
     private MyTitlebar myTitlebar;
-    private ViewOverrideManager viewOverrideManager;
+    public ViewOverrideManager viewOverrideManager;
     private View baseView;
     private View contentView;
 
@@ -51,6 +53,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
         }
 //        设置异常页面管理
         viewOverrideManager = new ViewOverrideManager(getOverrideParentView());
+        request();
     }
 
     @Override
@@ -148,17 +151,23 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
      */
     @Override
     public void showLoading(String msg) {
-        viewOverrideManager.showLoading(msg);
+        if (null == viewOverrideManager){
+            viewOverrideManager = new ViewOverrideManager(getOverrideParentView());
+        }
+        viewOverrideManager.showLoading();
     }
 
     /**
      * 设置错误页面，子类可覆盖
      *
-     * @param msg
+     * @param type
      */
     @Override
-    public void showError(String msg) {
-        viewOverrideManager.showLoading(msg);
+    public void showError(int type) {
+        if (null == viewOverrideManager){
+            viewOverrideManager = new ViewOverrideManager(getOverrideParentView());
+        }
+        viewOverrideManager.showLoading(type, null);
     }
 
     /**
@@ -166,6 +175,9 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
      */
     @Override
     public void hideLoading() {
+        if (null == viewOverrideManager){
+            viewOverrideManager = new ViewOverrideManager(getOverrideParentView());
+        }
         viewOverrideManager.restoreView();
     }
 
@@ -174,7 +186,9 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
      */
     @Override
     public void hideError() {
-
+        if (null == viewOverrideManager){
+            viewOverrideManager = new ViewOverrideManager(getOverrideParentView());
+        }
     }
 
     /**
@@ -182,7 +196,10 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
      */
     @Override
     public void netError() {
-
+        if (null == viewOverrideManager){
+            viewOverrideManager = new ViewOverrideManager(getOverrideParentView());
+        }
+        showError(ViewOverrideManager.NO_NETWORK);
     }
 
     /**
@@ -227,5 +244,14 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
     protected void onDestroy() {
         ActivityManager.getInstance().popActivity(activity);
         super.onDestroy();
+    }
+
+    public void request() {
+
+    }
+
+    @Override
+    public void onTokenExpired() {
+        startActivity(new Intent(this, LoginRegistActivity.class));
     }
 }

@@ -1,18 +1,20 @@
 package com.miuhouse.yourcompany.teacher.view.ui.activity;
 
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.miuhouse.yourcompany.teacher.R;
+import com.miuhouse.yourcompany.teacher.db.DictDBTask;
 import com.miuhouse.yourcompany.teacher.model.OrderEntity;
 import com.miuhouse.yourcompany.teacher.utils.Util;
 import com.miuhouse.yourcompany.teacher.view.ui.activity.interf.IOrderActivity;
 import com.miuhouse.yourcompany.teacher.view.ui.base.BaseActivity;
+import com.miuhouse.yourcompany.teacher.view.widget.CircularImageViewHome;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by khb on 2016/7/11.
@@ -20,7 +22,7 @@ import java.util.Date;
 public class OrderActivity extends BaseActivity implements IOrderActivity {
 
     private OrderEntity order;
-    private ImageView header;
+    private CircularImageViewHome header;
     private TextView name;
     private TextView orderType;
     private TextView topic;
@@ -44,7 +46,7 @@ public class OrderActivity extends BaseActivity implements IOrderActivity {
     @Override
     protected void initViewAndEvents() {
         order = (OrderEntity) getIntent().getSerializableExtra("order");
-        header = (ImageView) findViewById(R.id.header);
+        header = (CircularImageViewHome) findViewById(R.id.header);
         name = (TextView) findViewById(R.id.name);
         orderType = (TextView) findViewById(R.id.orderType);
         topic = (TextView) findViewById(R.id.topic);
@@ -65,10 +67,21 @@ public class OrderActivity extends BaseActivity implements IOrderActivity {
         setOrderTopic(topic, order.getMajorDemand(), order.getMinorDemand());
         beginTime.setText(formatTime(order.getClassBeginTimePromise()));
         distance.setText(formatDistance(order.getDistance()));
-        price.setText("￥"+getPrice(order.getMajorDemand()));
+        price.setText("￥"+getPrice(order));
         classCount.setText("x"+order.getLesson());
         totalPrice.setText("￥"+order.getAmount());
         detail.setText(order.getDescription());
+        TextView grabOrder = (TextView) findViewById(R.id.grabOrder);
+        if (order.getOrderStatus().equals("2")){
+            grabOrder.setVisibility(View.GONE);
+        }else {
+            grabOrder.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+        }
     }
 
     private void setOrderType(String majorDemand, TextView orderType) {
@@ -85,11 +98,13 @@ public class OrderActivity extends BaseActivity implements IOrderActivity {
             return ;
         }
         if (majorDemand.equals("1")){
+//            DictDBTask.getDcNameList()
         }else if (majorDemand.equals("2")){
+            List<String> list =  DictDBTask.getDcNameList("subject_type");
+            topic.setText(list.get(Integer.parseInt(minorDemand)));
         }else if (majorDemand.equals("3")){
-            if (minorDemand.equals("3")){
-                topic.setText("书法");
-            }
+            List<String> list =  DictDBTask.getDcNameList("interest_type");
+            topic.setText(list.get(Integer.parseInt(minorDemand)));
         }
     }
 
@@ -111,18 +126,10 @@ public class OrderActivity extends BaseActivity implements IOrderActivity {
         }
     }
 
-    private String getPrice(String majorDemand) {
-        if (null == majorDemand){
-            return "";
-        }
-        if (majorDemand.equals("1")){
-            return "40";
-        }else if (majorDemand.equals("2")){
-            return "50";
-        }else if (majorDemand.equals("3")){
-            return "60";
-        }
-        return null;
+    private String getPrice(OrderEntity order) {
+        float fPrice = order.getAmount()/Integer.parseInt(order.getLesson());
+        float price = (float)(Math.round(fPrice*100)/100);
+        return price+"";
     }
 
     private int getTotalPrice(int count, int price){
@@ -138,5 +145,10 @@ public class OrderActivity extends BaseActivity implements IOrderActivity {
     @Override
     protected View getOverrideParentView() {
         return null;
+    }
+
+    @Override
+    public void showError(int type) {
+        super.showError(type);
     }
 }

@@ -10,10 +10,12 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.miuhouse.yourcompany.teacher.R;
+import com.miuhouse.yourcompany.teacher.db.DictDBTask;
 import com.miuhouse.yourcompany.teacher.model.OrderEntity;
+import com.miuhouse.yourcompany.teacher.utils.L;
 import com.miuhouse.yourcompany.teacher.utils.Util;
 import com.miuhouse.yourcompany.teacher.view.ui.base.BaseRVAdapter;
-import com.miuhouse.yourcompany.teacher.view.widget.MyRoundImageView;
+import com.miuhouse.yourcompany.teacher.view.widget.CircularImageViewHome;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -51,7 +53,7 @@ public class OrderListAdapter extends BaseRVAdapter {
                     .into(mholder.header);
         }
         setOrderType(mholder.orderType, entity.getMajorDemand());
-        mholder.price.setText(getPrice(entity.getMajorDemand()));
+        mholder.price.setText(getPrice(entity));
         setOrderTopic(mholder.topic, entity.getMajorDemand(), entity.getMinorDemand());
         mholder.classCount.setText("x" + entity.getLesson());
         mholder.beginTime.setText(formatTime(entity.getClassBeginTimePromise()));
@@ -60,6 +62,7 @@ public class OrderListAdapter extends BaseRVAdapter {
         mholder.getOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                L.i("getOrder clicked");
                 if (null != onOrderItemClickListener) {
                     onOrderItemClickListener.onGetOrderClick(entity);
                 }
@@ -75,18 +78,10 @@ public class OrderListAdapter extends BaseRVAdapter {
         });
     }
 
-    private String getPrice(String majorDemand) {
-        if (null == majorDemand){
-            return "";
-        }
-        if (majorDemand.equals("1")){
-            return "40";
-        }else if (majorDemand.equals("2")){
-            return "50";
-        }else if (majorDemand.equals("3")){
-            return "60";
-        }
-        return "";
+    private String getPrice(OrderEntity order) {
+        float fPrice = order.getAmount()/Integer.parseInt(order.getLesson());
+        float price = (float)(Math.round(fPrice*100)/100);
+        return price+"";
     }
 
 
@@ -113,11 +108,13 @@ public class OrderListAdapter extends BaseRVAdapter {
             return ;
         }
         if (majorDemand.equals("1")){
+//            DictDBTask.getDcNameList()
         }else if (majorDemand.equals("2")){
+            List<String> list =  DictDBTask.getDcNameList("subject_type");
+            topic.setText(list.get(Integer.parseInt(minorDemand)));
         }else if (majorDemand.equals("3")){
-            if (minorDemand.equals("3")){
-                topic.setText("书法");
-            }
+            List<String> list =  DictDBTask.getDcNameList("interest_type");
+            topic.setText(list.get(Integer.parseInt(minorDemand)));
         }
     }
 
@@ -144,7 +141,7 @@ public class OrderListAdapter extends BaseRVAdapter {
 
     class OrderListHolder extends RecyclerView.ViewHolder{
         TextView orderType;
-        MyRoundImageView header;
+        CircularImageViewHome header;
         TextView name;
         TextView price;
         TextView topic;
@@ -158,7 +155,7 @@ public class OrderListAdapter extends BaseRVAdapter {
         public OrderListHolder(View itemView) {
             super(itemView);
             orderType = (TextView) itemView.findViewById(R.id.type);
-            header = (MyRoundImageView) itemView.findViewById(R.id.header);
+            header = (CircularImageViewHome) itemView.findViewById(R.id.header);
             name = (TextView) itemView.findViewById(R.id.name);
             price = (TextView) itemView.findViewById(R.id.price);
             topic = (TextView) itemView.findViewById(R.id.topic);

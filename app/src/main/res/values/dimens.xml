@@ -50,9 +50,10 @@
     <dimen name="text_msg_content">14sp</dimen>
     <dimen name="img_msg_rightarrow_size">16dp</dimen>
     <dimen name="img_moneyarrive_detail_size">14dp</dimen>
-    <dimen name="img_moneyarrive_size">16dp</dimen>
+    <dimen name="img_moneyarrive_size">32dp</dimen>
     <dimen name="img_order_head_size">55dp</dimen>
     <dimen name="text_ordermanage_button_width">81dp</dimen>
     <dimen name="text_ordermanage_button_height">27dp</dimen>
     <dimen name="img_orderlist_head_size">50dp</dimen>
+    <dimen name="img_purse_head_size">32dp</dimen>
 </resources>

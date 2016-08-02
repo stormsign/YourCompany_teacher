@@ -4,6 +4,10 @@ import android.support.v4.app.Fragment;
 
 import com.miuhouse.yourcompany.teacher.view.ui.base.BaseFragment;
 import com.miuhouse.yourcompany.teacher.view.ui.fragment.AccountFragment;
+import com.miuhouse.yourcompany.teacher.view.ui.fragment.FragmentA;
+import com.miuhouse.yourcompany.teacher.view.ui.fragment.FragmentB;
+import com.miuhouse.yourcompany.teacher.view.ui.fragment.FragmentC;
+import com.miuhouse.yourcompany.teacher.view.ui.fragment.FragmentD;
 import com.miuhouse.yourcompany.teacher.view.ui.fragment.MessagesFragment;
 import com.miuhouse.yourcompany.teacher.view.ui.fragment.MyOrdersFragment;
 import com.miuhouse.yourcompany.teacher.view.ui.fragment.OrdersFragment;
@@ -42,6 +46,18 @@ public class FragmentFactory {
                 case BaseFragment.MYORDERS:
                     baseFragment = new MyOrdersFragment();
                     break;
+                case BaseFragment.A:
+                        baseFragment = new FragmentA();
+                        break;
+                case BaseFragment.B:
+                        baseFragment = new FragmentB();
+                        break;
+                case BaseFragment.C:
+                        baseFragment = new FragmentC();
+                        break;
+                case BaseFragment.D:
+                        baseFragment = new FragmentD();
+                        break;
             }
             map.put(position, baseFragment);
         }

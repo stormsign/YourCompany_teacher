@@ -6,11 +6,13 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.miuhouse.yourcompany.teacher.R;
+import com.miuhouse.yourcompany.teacher.application.App;
 import com.miuhouse.yourcompany.teacher.model.OrderEntity;
 import com.miuhouse.yourcompany.teacher.presenter.OrderDetailPresenter;
 import com.miuhouse.yourcompany.teacher.presenter.interf.IOrderDetailPresenter;
@@ -18,7 +20,7 @@ import com.miuhouse.yourcompany.teacher.utils.Util;
 import com.miuhouse.yourcompany.teacher.utils.Values;
 import com.miuhouse.yourcompany.teacher.view.ui.activity.interf.IOrderDetailActivity;
 import com.miuhouse.yourcompany.teacher.view.ui.base.BaseActivity;
-import com.miuhouse.yourcompany.teacher.view.widget.MyRoundImageView;
+import com.miuhouse.yourcompany.teacher.view.widget.CircularImageViewHome;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -28,7 +30,7 @@ import java.util.Date;
  */
 public class OrderDetailActivity extends BaseActivity implements IOrderDetailActivity {
 
-    private MyRoundImageView studentHead;
+    private CircularImageViewHome studentHead;
     private TextView orderType;
     private ImageView ivOrderStatus;
     private TextView tvOrderStatus;
@@ -38,7 +40,7 @@ public class OrderDetailActivity extends BaseActivity implements IOrderDetailAct
     private TextView address;
     private TextView schedule;
     private TextView demend;
-    private ImageView call;
+    private LinearLayout call;
     private RelativeLayout content;
     private IOrderDetailPresenter presenter;
     private TextView classCount;
@@ -63,7 +65,7 @@ public class OrderDetailActivity extends BaseActivity implements IOrderDetailAct
                 time.setText(strHour + ":" + strMinute);
                 Message msg2 = Message.obtain();
                 msg2.obj = order;
-                handler.sendMessageDelayed(msg, 1000*10);
+                handler.sendMessageDelayed(msg2, 1000*10);
             }else {
                 time.setText("已到点");
             }
@@ -77,6 +79,7 @@ public class OrderDetailActivity extends BaseActivity implements IOrderDetailAct
     private String teacherId;
     private String orderInfoId;
 
+    private OrderEntity order;
     @Override
     protected String setTitle() {
         return "订单详情";
@@ -106,7 +109,7 @@ public class OrderDetailActivity extends BaseActivity implements IOrderDetailAct
         tvOrderStatus = (TextView) findViewById(R.id.tvOrderStatus);
         time = (TextView) findViewById(R.id.time);
         orderType = (TextView) findViewById(R.id.orderType);
-        studentHead = (MyRoundImageView) findViewById(R.id.studentHead);
+        studentHead = (CircularImageViewHome) findViewById(R.id.studentHead);
         studentName = (TextView) findViewById(R.id.studentName);
         classCount = (TextView) findViewById(R.id.classCount);
         totalPrice = (TextView) findViewById(R.id.totalPrice);
@@ -115,7 +118,7 @@ public class OrderDetailActivity extends BaseActivity implements IOrderDetailAct
         address = (TextView) findViewById(R.id.classAddress);
         schedule = (TextView) findViewById(R.id.schedule);
         demend = (TextView) findViewById(R.id.demand);
-        call = (ImageView) findViewById(R.id.call);
+        call = (LinearLayout) findViewById(R.id.call);
         content = (RelativeLayout) findViewById(R.id.content);
         actual = (TextView) findViewById(R.id.actual);
         bottom = (RelativeLayout) findViewById(R.id.bottom);
@@ -123,7 +126,7 @@ public class OrderDetailActivity extends BaseActivity implements IOrderDetailAct
 
 //      teacherId = AccountDBTask.getAccount().getTeacherId();
         orderInfoId = getIntent().getStringExtra("orderId");
-        teacherId = "4028b88155c4dd070155c4dd8a340000";
+        teacherId = App.getInstance().getTeacherId();
 //        orderInfoId = "4028b88155c4836f0155c48f0a020006";
         presenter.getOrderDetail(teacherId, orderInfoId);
 
@@ -131,6 +134,7 @@ public class OrderDetailActivity extends BaseActivity implements IOrderDetailAct
 
     @Override
     public void fillView(final OrderEntity order) {
+        this.order = order;
         if (!Util.isEmpty(order.getUserHeader())){
             Glide.with(activity).load(order.getUserHeader())
                     .placeholder(R.mipmap.asy)
@@ -179,8 +183,8 @@ public class OrderDetailActivity extends BaseActivity implements IOrderDetailAct
 
     @Override
     public void showCountdown(OrderEntity order) {
-        if (Integer.parseInt(order.getMajorDemand())
-                == Values.getKey(Values.majorDemand, "进行中")){
+        if (Integer.parseInt(order.getOrderStatus())
+                == 4){
 
             Message msg = Message.obtain();
             msg.obj = order;
@@ -208,9 +212,9 @@ public class OrderDetailActivity extends BaseActivity implements IOrderDetailAct
         ivOrderStatus.setImageResource(imgId);
         tvOrderStatus.setText(getResources().getString(strId));
         actual.setVisibility(View.GONE);
-        button.setVisibility(View.GONE);
+        bottom.setVisibility(View.GONE);
         if (Values.orderStatuses.get(order.getOrderStatus()).equals("待上课")){
-            button.setVisibility(View.VISIBLE);
+            bottom.setVisibility(View.VISIBLE);
             button.setText("开始上课");
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -244,15 +248,14 @@ public class OrderDetailActivity extends BaseActivity implements IOrderDetailAct
         startActivity(intent);
     }
 
-
     @Override
     public void showLoading(String msg) {
-//        super.showLoading("LOADING...");
+        super.showLoading("LOADING...");
     }
 
     @Override
-    public void showError(String msg) {
-        super.showError(msg);
+    public void showError(int type) {
+        viewOverrideManager.showLoading(type, null);
     }
 
     @Override
@@ -263,5 +266,40 @@ public class OrderDetailActivity extends BaseActivity implements IOrderDetailAct
     @Override
     public void hideError() {
         super.hideError();
+    }
+
+    @Override
+    public void onBackClick() {
+        if (null != order){
+            if (order.getOrderStatus().equals("4")){        //当前为进行中状态
+                setResult(1);
+            }
+        }
+        super.onBackClick();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (null != order){
+            if (order.getOrderStatus().equals("4")){        //当前为进行中状态
+                setResult(1);
+            }
+        }
+        super.onBackPressed();
+    }
+
+    @Override
+    public void beforeBeginClass() {
+        showLoading(null);
+    }
+
+    @Override
+    public void afterBeginClass() {
+//        if (null != order){
+//            if (order.getOrderStatus().equals("3")){        //当前为待上课状态
+                setResult(1);
+                finish();
+//            }
+//        }
     }
 }

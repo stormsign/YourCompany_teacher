@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:state_selected="true">
+        <shape>
+            <solid android:color="@color/themeColor" />
+
+            <!--<stroke android:width="1dp" android:color="@color/btn_tint_green" />-->
+
+            <corners android:bottomLeftRadius="3dp" android:topLeftRadius="3dp" />
+        </shape>
+    </item>
+    <item android:state_pressed="true">
+        <shape>
+            <solid android:color="@color/themeColor" />
+
+            <!--<stroke android:width="1dp" android:color="@color/btn_tint_green" />-->
+
+            <corners android:bottomLeftRadius="3dp" android:topLeftRadius="3dp" />
+        </shape>
+    </item>
+    <!--<item android:state_enabled="true">-->
+        <!--<shape>-->
+            <!--<solid android:color="@color/themeColor" />-->
+
+            <!--&lt;!&ndash;<stroke android:width="1dp" android:color="@color/btn_tint_green" />&ndash;&gt;-->
+
+            <!--<corners android:bottomLeftRadius="3dp" android:topLeftRadius="3dp" />-->
+        <!--</shape>-->
+    <!--</item>-->
+    <!--<item android:state_enabled="false">-->
+        <!--<shape >-->
+            <!--<solid android:color="@color/view_line" />-->
+
+            <!--&lt;!&ndash;<stroke android:width="1dp" android:color="@color/textDarkfour" />&ndash;&gt;-->
+
+            <!--<corners android:bottomLeftRadius="3dp" android:topLeftRadius="3dp" />-->
+        <!--</shape>-->
+    <!--</item>-->
+    <item android:state_selected="false">
+        <shape>
+            <solid android:color="@color/view_line" />
+
+            <!--<stroke android:width="1dp" android:color="@color/textDarkfour" />-->
+
+            <corners android:bottomLeftRadius="3dp" android:topLeftRadius="3dp" />
+        </shape>
+    </item>
+    <item >
+        <shape>
+            <solid android:color="@color/view_line" />
+
+            <!--<stroke android:width="1dp" android:color="@color/textDarkfour" />-->
+
+            <corners android:bottomLeftRadius="3dp" android:topLeftRadius="3dp" />
+        </shape>
+    </item>
+</selector>

@@ -17,12 +17,13 @@ public class MessagePresenter implements IMessagePresenter, OnLoadCallBack{
         this.messageFragment = messageFragment;
     }
 
-
     @Override
-    public void getLatestMsg() {
-        int count = SPUtils.getData(Constants.UNREAD_SYSMSG_COUNT, 0);
-        String latestMsg = SPUtils.getData(Constants.LATEST_SYSMSG, null);
-        messageFragment.setTop(count, latestMsg);
+    public void getTopMsgs() {
+        int sysCount = SPUtils.getData(Constants.UNREAD_SYSMSG_COUNT, 0);
+        String latestSysMsg = SPUtils.getData(Constants.LATEST_SYSMSG, null);
+        int purseCount = SPUtils.getData(Constants.UNREAD_PURSEMSG_COUNT, 0);
+        String latestPurseMsg = SPUtils.getData(Constants.LATEST_PURSEMSG, null);
+        messageFragment.setTop(sysCount, latestSysMsg, purseCount, latestPurseMsg);
     }
 
     @Override

@@ -41,6 +41,7 @@ public class LoginPresenter implements ILoginPresenter {
 //                L.i("TAG", "user=" + response.getName());
                 if (response != null && response.getTeacherInfo() != null) {
                     if (response.getTeacherInfo().getToken() != null) {
+                        L.i("TAG","TOKEN="+response.getTeacherInfo().getToken());
                         SPUtils.saveData(SPUtils.TOKEN, response.getTeacherInfo().getToken());
                     }
                     AccountDBTask.saveUserBean(response.getTeacherInfo());
@@ -53,7 +54,7 @@ public class LoginPresenter implements ILoginPresenter {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                iLoginView.netError();
             }
         });
     }
@@ -70,6 +71,8 @@ public class LoginPresenter implements ILoginPresenter {
             @Override
             public void onErrorResponse(VolleyError error) {
                 L.i("TAG", "error=" + error);
+                iLoginView.netError();
+
             }
         });
     }

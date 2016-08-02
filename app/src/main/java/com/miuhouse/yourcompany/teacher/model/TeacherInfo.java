@@ -8,7 +8,7 @@ import java.util.List;
  * Created by kings on 7/8/2016.
  */
 public class TeacherInfo implements Serializable {
-    private String teacherId;
+    private String id;
     private String tName;
     private String mobile;
     private String token;
@@ -27,7 +27,7 @@ public class TeacherInfo implements Serializable {
 
 
     public void setId(String id) {
-        this.teacherId = teacherId;
+        this.id = id;
     }
 
     public void settName(String tName) {
@@ -50,9 +50,7 @@ public class TeacherInfo implements Serializable {
         this.balance = balance;
     }
 
-    public String getTeacherId() {
-        return teacherId;
-    }
+
 
     public String gettName() {
         return tName;
@@ -130,9 +128,6 @@ public class TeacherInfo implements Serializable {
         this.headUrl = headUrl;
     }
 
-    public void setTeacherId(String teacherId) {
-        this.teacherId = teacherId;
-    }
 
     public ArrayList<String> getPbxType() {
         return pbxType;
@@ -148,5 +143,9 @@ public class TeacherInfo implements Serializable {
 
     public void setImages(ArrayList<String> images) {
         this.images = images;
+    }
+
+    public String getId() {
+        return id;
     }
 }

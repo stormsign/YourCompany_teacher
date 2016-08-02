@@ -13,7 +13,8 @@ import android.widget.TextView;
 import com.miuhouse.yourcompany.teacher.R;
 
 
-/**自定义标题栏
+/**
+ * 自定义标题栏
  * Created by khb on 2016/6/30.
  */
 public class MyTitlebar extends FrameLayout {
@@ -49,7 +50,7 @@ public class MyTitlebar extends FrameLayout {
         back.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mOnMyTitlebarClickListener!=null){
+                if (mOnMyTitlebarClickListener != null) {
                     mOnMyTitlebarClickListener.onBackClick();
                 }
             }
@@ -57,8 +58,16 @@ public class MyTitlebar extends FrameLayout {
         right.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mOnMyTitlebarClickListener !=null){
+                if (mOnMyTitlebarClickListener != null) {
                     mOnMyTitlebarClickListener.onRightClick();
+                }
+            }
+        });
+        title.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mOnMyTitlebarClickListener != null) {
+                    mOnMyTitlebarClickListener.onBackClick();
                 }
             }
         });
@@ -67,32 +76,35 @@ public class MyTitlebar extends FrameLayout {
 
     /**
      * 设置标题栏标题
+     *
      * @param titleText
      */
-    public void setTitle(String titleText){
+    public void setTitle(String titleText) {
         title.setText(titleText);
     }
 
     /**
      * 设置右键文本，如果为null则不显示右键
+     *
      * @param text
      */
-    public void setRightButtonText(String text){
-        if (TextUtils.isEmpty(text)){
+    public void setRightButtonText(String text) {
+        if (TextUtils.isEmpty(text)) {
             right.setVisibility(GONE);
-            return ;
+            return;
         }
         right.setText(text);
     }
 
     public interface OnMyTitlebarClickListener {
         void onBackClick();
+
         void onRightClick();
     }
 
     private OnMyTitlebarClickListener mOnMyTitlebarClickListener;
 
-    public void setOnMyTitlebarClickListener(OnMyTitlebarClickListener onMyTitlebarClickListener){
+    public void setOnMyTitlebarClickListener(OnMyTitlebarClickListener onMyTitlebarClickListener) {
         this.mOnMyTitlebarClickListener = onMyTitlebarClickListener;
     }
 

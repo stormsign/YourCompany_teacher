@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.miuhouse.yourcompany.teacher.R;
 import com.miuhouse.yourcompany.teacher.interactor.OrderListInteractor;
@@ -16,6 +17,7 @@ import com.miuhouse.yourcompany.teacher.view.ui.activity.OrderActivity;
 import com.miuhouse.yourcompany.teacher.view.ui.adapter.MyOrderAdapter;
 import com.miuhouse.yourcompany.teacher.view.ui.base.BaseFragment;
 import com.miuhouse.yourcompany.teacher.view.ui.fragment.interf.IOrdersListFragment;
+import com.miuhouse.yourcompany.teacher.view.widget.ViewOverrideManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,6 +72,7 @@ public class MyOrdersFragment extends BaseFragment implements IOrdersListFragmen
                         && lastVisibleItem + 1 == adapter.getItemCount()
                         && firstVisibleItem != 0) {
                     page += 1;
+                    orderListPresenter.getMyList(page);
 //                    if (isAllList){
 //                        orderListPresenter.getAllList(page);
 //                    }else {
@@ -98,11 +101,14 @@ public class MyOrdersFragment extends BaseFragment implements IOrdersListFragmen
     @Override
     public void onResume() {
         super.onResume();
+        page = 1;
         orderListPresenter.getMyList(page);
     }
 
     @Override
     public void refresh(OrderListInteractor.OrderListBean data) {
+
+
             if (page == 1) {
                 list.clear();
             }
@@ -125,9 +131,10 @@ public class MyOrdersFragment extends BaseFragment implements IOrdersListFragmen
 
     @Override
     public void onRefresh() {
-        if (refresh.isRefreshing()) {
-            refresh.setRefreshing(false);
-        }
+//        if (refresh.isRefreshing()) {
+//            refresh.setRefreshing(false);
+//        }
+
         page = 1;
         orderListPresenter.getMyList(page);
     }
@@ -139,6 +146,15 @@ public class MyOrdersFragment extends BaseFragment implements IOrdersListFragmen
                 .putExtra("order", order));
     }
 
+    @Override
+    public void changeListToggle() {
+
+    }
+
+    @Override
+    public void showSecondLoading() {
+
+    }
 
     @Override
     public void showLoading(String msg) {
@@ -161,9 +177,31 @@ public class MyOrdersFragment extends BaseFragment implements IOrdersListFragmen
     }
 
     @Override
-    public void showError(String msg) {
+    public void showError(int type) {
 //        top.setVisibility(View.INVISIBLE);
-        super.showError(msg);
+//        super.showError(msg);
+        if (type == ViewOverrideManager.NO_STUDENT) {
+            viewOverrideManager.showLoading(type,
+                    new ViewOverrideManager.OnExceptionalClick() {
+                        @Override
+                        public void onExceptionalClick() {
+                            page = 1;
+                            orderListPresenter.getMyList(page);
+                            hideError();
+                        }
+                    });
+        }else if (type == ViewOverrideManager.NO_NETWORK){
+            viewOverrideManager.showLoading(type, new ViewOverrideManager.OnExceptionalClick() {
+                @Override
+                public void onExceptionalClick() {
+                    page = 1;
+                    orderListPresenter.getMyList(page);
+                }
+            });
+        }else if (type == -1){
+//            viewOverrideManager.showLoading();
+            Toast.makeText(context, "请设置接单地址", Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override

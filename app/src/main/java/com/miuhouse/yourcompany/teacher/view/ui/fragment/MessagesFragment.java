@@ -14,7 +14,8 @@ import com.miuhouse.yourcompany.teacher.model.MsgEntity;
 import com.miuhouse.yourcompany.teacher.presenter.MessagePresenter;
 import com.miuhouse.yourcompany.teacher.presenter.interf.IMessagePresenter;
 import com.miuhouse.yourcompany.teacher.utils.Util;
-import com.miuhouse.yourcompany.teacher.view.ui.activity.MoneyArriveActivity;
+import com.miuhouse.yourcompany.teacher.view.ui.activity.OrderDetailActivity;
+import com.miuhouse.yourcompany.teacher.view.ui.activity.PurseMsgActivity;
 import com.miuhouse.yourcompany.teacher.view.ui.activity.SysMsgActivity;
 import com.miuhouse.yourcompany.teacher.view.ui.adapter.MsgAdapter;
 import com.miuhouse.yourcompany.teacher.view.ui.base.BaseFragment;
@@ -35,9 +36,12 @@ public class MessagesFragment extends BaseFragment implements IMessageFragment, 
     private int page = 1;
     private MsgAdapter adapter;
     private IMessagePresenter messagePresenter;
-    private TextView unread;
+    private TextView unreadSysMsg;
     private RelativeLayout sysMsg;
-    private TextView msgSummary;
+    private TextView sysMsgSummary;
+    private RelativeLayout purseMsg;
+    private TextView purseMsgSummary;
+    private TextView unreadPurseMsg;
 
     @Override
     public int getFragmentResourceId() {
@@ -50,9 +54,15 @@ public class MessagesFragment extends BaseFragment implements IMessageFragment, 
         list = new ArrayList<>();
         refresh = (SwipeRefreshLayout) view.findViewById(R.id.refresh);
         msgList = (RecyclerView) view.findViewById(R.id.msgList);
-        unread = (TextView) view.findViewById(R.id.unread);
+
+        unreadSysMsg = (TextView) view.findViewById(R.id.unreadSysMsg);
         sysMsg = (RelativeLayout) view.findViewById(R.id.sysMsg);
-        msgSummary = (TextView) view.findViewById(R.id.msgSummary);
+        sysMsgSummary = (TextView) view.findViewById(R.id.sysMsgSummary);
+
+        unreadPurseMsg = (TextView) view.findViewById(R.id.unreadPurseMsg);
+        purseMsg = (RelativeLayout) view.findViewById(R.id.purseMsg);
+        purseMsgSummary = (TextView) view.findViewById(R.id.purseMsgSummary);
+
     }
 
     @Override
@@ -89,13 +99,19 @@ public class MessagesFragment extends BaseFragment implements IMessageFragment, 
                 startActivity(new Intent(context, SysMsgActivity.class));
             }
         });
+        purseMsg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(context, PurseMsgActivity.class));
+            }
+        });
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        messagePresenter.getLatestMsg();
-        refresh();
+        refreshTop();
+        refreshList();
     }
 
 
@@ -105,10 +121,15 @@ public class MessagesFragment extends BaseFragment implements IMessageFragment, 
     }
 
     @Override
-    public void refresh() {
-        for (int i=0;i<10; i++){
-            list.add(new MsgEntity());
-        }
+    public void refreshTop() {
+        messagePresenter.getTopMsgs();
+    }
+
+    @Override
+    public void refreshList() {
+//        for (int i=0;i<10; i++){
+//            list.add(new MsgEntity());
+//        }
         adapter.notifyDataSetChanged();
     }
 
@@ -123,31 +144,34 @@ public class MessagesFragment extends BaseFragment implements IMessageFragment, 
     }
 
     @Override
-    public void setTop(int count, String msg) {
-        showUnreadCount(count);
-        showLatestMsg(msg);
+    public void setTop(int sysCount, String sysMsg, int purseCount, String purseMsg) {
+        showUnreadCount(sysCount,unreadSysMsg);
+        showLatestMsg(sysMsg, sysMsgSummary);
+        showUnreadCount(purseCount, unreadPurseMsg);
+        showLatestMsg(purseMsg, purseMsgSummary);
     }
 
-    private void showUnreadCount(int unreadCount){
+    private void showUnreadCount(int unreadCount, TextView unreadTextView){
         if (unreadCount>0){
-            unread.setText(""+unreadCount);
+            unreadTextView.setText("" + unreadCount);
         }else {
-            unread.setVisibility(View.GONE);
+            unreadTextView.setVisibility(View.GONE);
         }
     }
 
-    private void showLatestMsg(String msg){
+    private void showLatestMsg(String msg, TextView summary){
         if (!Util.isEmpty(msg)){
-            msgSummary.setText(msg);
+            summary.setText(msg);
         }else {
-            msgSummary.setVisibility(View.INVISIBLE);
+            summary.setVisibility(View.INVISIBLE);
         }
     }
 
     @Override
     public void onItemClick(Object data) {
         MsgEntity msg = (MsgEntity) data;
-        startActivity(new Intent(context, MoneyArriveActivity.class));
+        startActivity(new Intent(context, OrderDetailActivity.class)
+                .putExtra("orderId", msg.toString()));
     }
 
     @Override
@@ -164,8 +188,8 @@ public class MessagesFragment extends BaseFragment implements IMessageFragment, 
     }
 
     @Override
-    public void showError(String msg) {
-        super.showError(msg);
+    public void showError(int type) {
+//        super.showError(msg);
     }
 
     @Override

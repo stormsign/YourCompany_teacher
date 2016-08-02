@@ -10,11 +10,12 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.miuhouse.yourcompany.teacher.R;
+import com.miuhouse.yourcompany.teacher.db.DictDBTask;
 import com.miuhouse.yourcompany.teacher.listener.OnListItemClick;
 import com.miuhouse.yourcompany.teacher.model.OrderEntity;
 import com.miuhouse.yourcompany.teacher.utils.Util;
 import com.miuhouse.yourcompany.teacher.view.ui.base.BaseRVAdapter;
-import com.miuhouse.yourcompany.teacher.view.widget.MyRoundImageView;
+import com.miuhouse.yourcompany.teacher.view.widget.CircularImageViewHome;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -48,7 +49,7 @@ public class MyOrderAdapter extends BaseRVAdapter {
                     .into(mholder.header);
         }
         setOrderType(mholder.orderType, entity.getMajorDemand());
-        mholder.price.setText(getPrice(entity.getMajorDemand()));
+        mholder.price.setText(getPrice(entity));
         setOrderTopic(mholder.topic, entity.getMajorDemand(), entity.getMinorDemand());
         mholder.classCount.setText("x" + entity.getLesson());
         mholder.beginTime.setText(formatTime(entity.getClassBeginTimePromise()));
@@ -76,7 +77,7 @@ public class MyOrderAdapter extends BaseRVAdapter {
             status.setTextColor(context.getResources().getColor(R.color.textOrange));
         }else if ((Integer.parseInt(orderStatus) == 8
                 || Integer.parseInt(orderStatus) == 0)){
-            status.setText("已取消");
+            status.setText(context.getResources().getString(R.string.order_status_not_chosen));
             status.setTextColor(context.getResources().getColor(R.color.textDarkfour));
         }else {
             status.setText("错误状态");
@@ -84,18 +85,10 @@ public class MyOrderAdapter extends BaseRVAdapter {
         }
     }
 
-    private String getPrice(String majorDemand) {
-        if (null == majorDemand){
-            return "";
-        }
-        if (majorDemand.equals("1")){
-            return "40";
-        }else if (majorDemand.equals("2")){
-            return "50";
-        }else if (majorDemand.equals("3")){
-            return "60";
-        }
-        return "";
+    private String getPrice(OrderEntity order) {
+        float fPrice = order.getAmount()/Integer.parseInt(order.getLesson());
+        float price = (float)(Math.round(fPrice*100)/100);
+        return price+"";
     }
 
 
@@ -122,11 +115,13 @@ public class MyOrderAdapter extends BaseRVAdapter {
             return ;
         }
         if (majorDemand.equals("1")){
+//            DictDBTask.getDcNameList()
         }else if (majorDemand.equals("2")){
+            List<String> list =  DictDBTask.getDcNameList("subject_type");
+            topic.setText(list.get(Integer.parseInt(minorDemand)));
         }else if (majorDemand.equals("3")){
-            if (minorDemand.equals("3")){
-                topic.setText("书法");
-            }
+            List<String> list =  DictDBTask.getDcNameList("interest_type");
+            topic.setText(list.get(Integer.parseInt(minorDemand)));
         }
     }
 
@@ -145,7 +140,7 @@ public class MyOrderAdapter extends BaseRVAdapter {
 
     class OrderListHolder extends RecyclerView.ViewHolder{
         TextView orderType;
-        MyRoundImageView header;
+        CircularImageViewHome header;
         TextView name;
         TextView price;
         TextView topic;
@@ -159,7 +154,7 @@ public class MyOrderAdapter extends BaseRVAdapter {
         public OrderListHolder(View itemView) {
             super(itemView);
             orderType = (TextView) itemView.findViewById(R.id.type);
-            header = (MyRoundImageView) itemView.findViewById(R.id.header);
+            header = (CircularImageViewHome) itemView.findViewById(R.id.header);
             name = (TextView) itemView.findViewById(R.id.name);
             price = (TextView) itemView.findViewById(R.id.price);
             topic = (TextView) itemView.findViewById(R.id.topic);

@@ -1,59 +1,102 @@
 package com.miuhouse.yourcompany.teacher.presenter;
 
-import com.miuhouse.yourcompany.teacher.interactor.OrderDetailInteractor;
-import com.miuhouse.yourcompany.teacher.interactor.interf.IOrderDetailInteractor;
+import com.miuhouse.yourcompany.teacher.interactor.OrderInteractor;
+import com.miuhouse.yourcompany.teacher.interactor.interf.IOrderInteractor;
 import com.miuhouse.yourcompany.teacher.listener.OnLoadCallBack;
 import com.miuhouse.yourcompany.teacher.presenter.interf.IOrderDetailPresenter;
 import com.miuhouse.yourcompany.teacher.view.ui.activity.interf.IOrderDetailActivity;
+import com.miuhouse.yourcompany.teacher.view.widget.ViewOverrideManager;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by khb on 2016/7/21.
  */
-public class OrderDetailPresenter implements IOrderDetailPresenter, OnLoadCallBack{
+public class OrderDetailPresenter implements IOrderDetailPresenter {
 
 
     private IOrderDetailActivity activity;
-    private IOrderDetailInteractor interactor;
+    private IOrderInteractor interactor;
 
-    public OrderDetailPresenter(IOrderDetailActivity activity){
+    public OrderDetailPresenter(IOrderDetailActivity activity) {
         this.activity = activity;
-        interactor = new OrderDetailInteractor(this);
+        interactor = new OrderInteractor();
     }
 
     @Override
     public void getOrderDetail(String teacherId, String orderInfoId) {
-        interactor.getInfo(teacherId, orderInfoId);
+        interactor.getInfo(teacherId, orderInfoId, new OnLoadCallBack() {
+            @Override
+            public void onPreLoad() {
+                activity.showLoading(null);
+            }
+
+            @Override
+            public void onLoadSuccess(Object data) {
+                activity.hideLoading();
+                if (data instanceof OrderInteractor.OrderListBean) {
+
+                    OrderInteractor.OrderListBean bean
+                            = (OrderInteractor.OrderListBean) data;
+                    if (bean.getCode() == 1) {
+                        activity.onTokenExpired();
+                        return;
+                    }
+                    if (null != bean) {
+                        if (bean.getCode() == 0) {
+                            if (null != bean.getOrderList()) {
+                                activity.fillView(bean.getOrderList());
+                            } else {
+//                        activity.showError("无数据");
+                            }
+                        } else {
+//                    activity.showError("请求失败"+bean.getMsg());
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onLoadFailed(String msg) {
+//        activity.showError(msg);
+                activity.showError(ViewOverrideManager.NO_NETWORK);
+            }
+        });
     }
 
     @Override
     public void beginClass(String teacherId, String orderInfoId) {
-        interactor.beginClass(teacherId, orderInfoId);
-    }
-
-    @Override
-    public void onPreLoad() {
-        activity.showLoading(null);
-    }
-
-    @Override
-    public void onLoadSuccess(Object data) {
-        OrderDetailInteractor.OrderListBean bean
-                = (OrderDetailInteractor.OrderListBean) data;
-        if (null != bean){
-            if (bean.getCode() == 0) {
-                if (null != bean.getOrderList()) {
-                    activity.fillView(bean.getOrderList());
-                }else {
-                    activity.showError("无数据");
-                }
-            }else {
-                activity.showError("请求失败");
+        activity.beforeBeginClass();
+        interactor.beginClass(teacherId, orderInfoId, new OnLoadCallBack() {
+            @Override
+            public void onPreLoad() {
+                activity.showLoading(null);
             }
-        }
+
+            @Override
+            public void onLoadSuccess(Object data) {
+                if (data instanceof String) {
+                    String resp = (String) data;
+                    try {
+                        JSONObject jObject = new JSONObject(resp);
+                        if (jObject.getInt("code") == 0) {
+//                    activity.showLoading();
+                            activity.afterBeginClass();
+                        } else {
+//                    activity.showError(jObject.getString("msg"));
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onLoadFailed(String msg) {
+
+            }
+        });
     }
 
-    @Override
-    public void onLoadFailed(String msg) {
-        activity.showError(msg);
-    }
 }

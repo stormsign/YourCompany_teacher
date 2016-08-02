@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.CountDownTimer;
 import android.widget.TextView;
 
+import com.miuhouse.yourcompany.teacher.R;
 
 
 /**
@@ -22,7 +23,7 @@ public class MyCount extends CountDownTimer {
     @Override
     public void onTick(long millisUntilFinished) {
         btnCode.setEnabled(false);
-//        btnCode.setTextColor(context.getResources().getColor(R.color.text_color));
+        btnCode.setTextColor(context.getResources().getColor(R.color.themeColor));
         btnCode.setText(millisUntilFinished/1000+"s");
     }
 
@@ -31,6 +32,6 @@ public class MyCount extends CountDownTimer {
         btnCode.setEnabled(true);
 //        btnCode.setTextColor(context.getResources().getColor(R.color.rbuttonNo));
         btnCode.setText("获取验证码");
-//        btnCode.setTextColor(context.getResources().getColor(R.color.text_color));
+        btnCode.setTextColor(context.getResources().getColor(R.color.themeColor));
     }
 }

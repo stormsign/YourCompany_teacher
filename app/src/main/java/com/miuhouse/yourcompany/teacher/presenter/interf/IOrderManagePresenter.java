@@ -9,5 +9,5 @@ public interface IOrderManagePresenter {
     void getBOrders(String teacherId, int page);
     void getCOrders(String teacherId, int page);
     void getDOrders(String teacherId, int page);
-
+    void beginClass(String teacherId, String orderId);
 }

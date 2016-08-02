@@ -18,7 +18,7 @@
 
 
 
-        <LinearLayout android:id="@+id/msgRight"
+        <LinearLayout android:id="@+id/sysMsgRight"
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -28,7 +28,7 @@
 
 
 
-            <TextView android:id="@+id/unread"
+            <TextView android:id="@+id/unreadSysMsg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="3"
@@ -52,18 +52,18 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_toRightOf="@id/sysMsgIcon"
-            android:layout_toLeftOf="@id/msgRight"
+            android:layout_toLeftOf="@id/sysMsgRight"
             android:layout_centerVertical="true"
             android:gravity="center_vertical">
 
-            <TextView android:id="@+id/msgTitle"
+            <TextView android:id="@+id/sysMsgTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/textDarkone"
                 android:textSize="@dimen/text_msg_title"
-                android:text="系统通知"/>
+                android:text="通知消息"/>
 
-            <TextView android:id="@+id/msgSummary"
+            <TextView android:id="@+id/sysMsgSummary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/textDarkthree"
@@ -74,6 +74,83 @@
         </LinearLayout>
 
     </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/line" />
+
+    <RelativeLayout android:id="@+id/purseMsg"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/home_sysmsg_height"
+        android:background="@color/white">
+
+        <ImageView android:id="@+id/purseMsgIcon"
+            android:layout_width="@dimen/img_sysmsg_size"
+            android:layout_height="@dimen/img_sysmsg_size"
+            android:src="@mipmap/ico_msg_xitongtongzhi"
+            android:layout_margin="10dp"
+            android:layout_alignParentLeft="true"/>
+
+
+
+        <LinearLayout android:id="@+id/purseMsgRight"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical">
+
+
+
+            <TextView android:id="@+id/unreadPurseMsg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="3"
+                android:textSize="12sp"
+                android:gravity="center"
+                android:background="@drawable/ico_unread_msg"
+                android:padding="2dp"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ico_rightarrow_grey"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_toRightOf="@id/purseMsgIcon"
+            android:layout_toLeftOf="@id/purseMsgRight"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical">
+
+            <TextView android:id="@+id/purseMsgTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/textDarkone"
+                android:textSize="@dimen/text_msg_title"
+                android:text="账户消息"/>
+
+            <TextView android:id="@+id/purseMsgSummary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/textDarkthree"
+                android:textSize="@dimen/text_msg_summary"
+                android:ellipsize="end"
+                android:layout_marginTop="8dp"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"

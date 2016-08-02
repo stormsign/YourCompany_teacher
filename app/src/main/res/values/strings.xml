@@ -66,5 +66,13 @@
     <string name="order_status_8">待退款</string>
     <string name="order_status_0">取消</string>
 
-    <!-- -->
+    <!-- 异常消息 -->
+    <string name="exception_no_msg">暂无消息</string>
+    <string name="exception_no_comment">你还没有收到评价</string>
+    <string name="exception_no_student">现在还没有学生找老师\n等会再来吧</string>
+    <string name="exception_no_order">你还没有订单\n赶快去抢单吧</string>
+    <string name="exception_no_network">网络有些问题，请稍后再试</string>
+    <string name="order_status_not_chosen">已选择其他老师</string>
+
+
 </resources>

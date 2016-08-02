@@ -12,11 +12,10 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.miuhouse.yourcompany.teacher.R;
 import com.miuhouse.yourcompany.teacher.model.OrderEntity;
-import com.miuhouse.yourcompany.teacher.utils.L;
 import com.miuhouse.yourcompany.teacher.utils.Util;
 import com.miuhouse.yourcompany.teacher.utils.Values;
 import com.miuhouse.yourcompany.teacher.view.ui.base.BaseRVAdapter;
-import com.miuhouse.yourcompany.teacher.view.widget.MyRoundImageView;
+import com.miuhouse.yourcompany.teacher.view.widget.CircularImageViewHome;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -42,7 +41,7 @@ public class OrderAdapter extends BaseRVAdapter{
     class OrderHolder extends RecyclerView.ViewHolder{
         TextView orderType;
         TextView orderStatus;
-        MyRoundImageView studentHead;
+        CircularImageViewHome studentHead;
         TextView studentName;
         TextView time;
         TextView totalPrice;
@@ -55,7 +54,7 @@ public class OrderAdapter extends BaseRVAdapter{
             content = (LinearLayout) itemView.findViewById(R.id.orderContent);
             orderType = (TextView) itemView.findViewById(R.id.orderType);
             orderStatus = (TextView) itemView.findViewById(R.id.orderStatus);
-            studentHead = (MyRoundImageView) itemView.findViewById(R.id.studentHead);
+            studentHead = (CircularImageViewHome) itemView.findViewById(R.id.studentHead);
             studentName = (TextView) itemView.findViewById(R.id.studentName);
             time = (TextView) itemView.findViewById(R.id.time);
             totalPrice = (TextView) itemView.findViewById(R.id.totalPrice);
@@ -74,7 +73,7 @@ public class OrderAdapter extends BaseRVAdapter{
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        L.i("position :"+position + " holder : " + holder.toString());
+//        L.i("position :"+position + " holder : " + holder.toString());
 
         final OrderEntity order = (OrderEntity) list.get(position);
         OrderHolder mholder = (OrderHolder) holder;
@@ -117,7 +116,7 @@ public class OrderAdapter extends BaseRVAdapter{
 //        switch (status){
 //
 //        }
-        if (orderType == 4) {
+        if (order.getOrderStatus().equals("4")) {
             long beginTime = order.getClassBeginTimeActual();
             long endTime = Integer.parseInt(order.getLesson()) * 60 * 60 * 1000 + beginTime;
             long diffTime = System.currentTimeMillis() - beginTime;
@@ -137,7 +136,7 @@ public class OrderAdapter extends BaseRVAdapter{
             }
             button.setEnabled(false);
             button.setTextColor(context.getResources().getColor(R.color.textWhite));
-        }else if (orderType == 3){
+        }else if (order.getOrderStatus().equals("3")){
             button.setEnabled(true);
             button.setText("开始上课");
         }else {

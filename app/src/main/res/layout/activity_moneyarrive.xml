@@ -10,123 +10,149 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-    <RelativeLayout android:id="@+id/purse"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="16dp">
-
-        <TextView android:id="@+id/tvpurse"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="账户余额"
-            android:textColor="@color/textDarkone"
-            android:textSize="14sp"/>
-        <ImageView
-            android:layout_width="@dimen/img_moneyarrive_detail_size"
-            android:layout_height="@dimen/img_moneyarrive_detail_size"
-            android:src="@mipmap/ico_rightarrow_grey"
-            android:layout_toRightOf="@id/tvpurse"
-            android:layout_centerVertical="true"/>
-
-    </RelativeLayout>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="+100.00"
-        android:textColor="@color/textDarkone"
-        android:textSize="32sp"
-        android:layout_gravity="center_horizontal"
-        android:id="@+id/money" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="12dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp">
-
-        <RelativeLayout
+        <RelativeLayout android:id="@+id/purse"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp">
+            android:gravity="center"
+            android:padding="16dp">
 
-            <TextView
+            <TextView android:id="@+id/tvpurse"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="账户余额"
                 android:textColor="@color/textDarkone"
-                android:text="汇款人"
-                android:layout_alignParentLeft="true"/>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true">
-
-                <ImageView android:id="@+id/mylord"
-                    android:layout_width="@dimen/img_moneyarrive_size"
-                    android:layout_height="@dimen/img_moneyarrive_size"
-                    />
-
-                <TextView android:id="@+id/mylordName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="迪克"
-                    android:textColor="@color/textDarkfour"
-                    />
-
-
-            </LinearLayout>
+                android:textSize="14sp"/>
+            <ImageView
+                android:layout_width="@dimen/img_moneyarrive_detail_size"
+                android:layout_height="@dimen/img_moneyarrive_detail_size"
+                android:src="@mipmap/ico_rightarrow_grey"
+                android:layout_toRightOf="@id/tvpurse"
+                android:layout_centerVertical="true"/>
 
         </RelativeLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+100.00"
+            android:textColor="@color/textDarkone"
+            android:textSize="32sp"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/money" />
 
-        <RelativeLayout
+        <LinearLayout android:id="@+id/moneyArrive"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp">
+            android:orientation="vertical"
+            android:layout_marginTop="20dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:visibility="visible">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/textDarkone"
-                android:text="上课方式"
-                android:layout_alignParentLeft="true"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-                <TextView android:id="@+id/classType"
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="陪伴"
+                    android:textColor="@color/textDarkone"
+                    android:text="汇款人"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true">
+
+                    <com.miuhouse.yourcompany.teacher.view.widget.CircularImageViewHome
+                        android:id="@+id/mylord"
+                        android:layout_width="@dimen/img_moneyarrive_size"
+                        android:layout_height="@dimen/img_moneyarrive_size"/>
+
+                    <TextView android:id="@+id/mylordName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="迪克"
+                        android:textColor="@color/textDarkfour"
+                        android:layout_gravity="center_vertical"/>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/textDarkone"
+                    android:text="上课方式"
+                    android:layout_alignParentLeft="true"/>
+
+                    <TextView android:id="@+id/classType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="陪伴"
+                        android:textColor="@color/textDarkfour"
+                        android:layout_alignParentRight="true"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/textDarkone"
+                    android:text="到账时间"
+                    android:layout_alignParentLeft="true"/>
+
+                <TextView android:id="@+id/time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2016-07-17 20:30"
                     android:textColor="@color/textDarkfour"
                     android:layout_alignParentRight="true"/>
 
-        </RelativeLayout>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <RelativeLayout android:id="@+id/withdraw"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp">
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="提款账户"
                 android:textColor="@color/textDarkone"
-                android:text="到账时间"
-                android:layout_alignParentLeft="true"/>
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="10dp"/>
 
-            <TextView android:id="@+id/time"
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="2016-07-17 20:30"
                 android:textColor="@color/textDarkfour"
-                android:layout_alignParentRight="true"/>
-
-
+                android:text="103203843@qq.com"
+                android:layout_alignParentRight="true"
+                android:id="@+id/account" />
 
         </RelativeLayout>
-
-    </LinearLayout>
 
     </LinearLayout>
 

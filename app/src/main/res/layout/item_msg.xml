@@ -46,7 +46,7 @@
         <ImageView android:id="@+id/img_msg_type"
             android:layout_width="@dimen/img_msg_size"
             android:layout_height="@dimen/img_msg_size"
-            android:src="@mipmap/ico_msg_1"
+            android:src="@mipmap/ico_msg_3"
             android:layout_marginRight="10dp"/>
 
         <TextView android:id="@+id/msg_content"

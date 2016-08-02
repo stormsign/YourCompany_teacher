@@ -5,8 +5,10 @@ package com.miuhouse.yourcompany.teacher.view.ui.base;
  */
 public interface BaseView {
     void showLoading(String msg);
-    void showError(String msg);
+    void showError(int type);
     void hideLoading();
     void hideError();
     void netError();
+    //参数错误
+    void onTokenExpired();
 }

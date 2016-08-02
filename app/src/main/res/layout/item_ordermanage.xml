@@ -37,7 +37,7 @@
                 android:layout_marginLeft="1dp"
                 android:layout_marginRight="1dp">
 
-                <com.miuhouse.yourcompany.teacher.view.widget.MyRoundImageView
+                <com.miuhouse.yourcompany.teacher.view.widget.CircularImageViewHome
                     android:id="@+id/studentHead"
                     android:layout_width="@dimen/img_order_head_size"
                     android:layout_height="@dimen/img_order_head_size"

@@ -49,8 +49,9 @@ public class PhotoAlbumActivity extends BaseActivity implements UpdateImageAdapt
                     intetnMultiImageSelector();
             }
         });
-
-        imageList.addAll(getIntent().getStringArrayListExtra("images"));
+        if (getIntent().getStringArrayListExtra("images") != null) {
+            imageList.addAll(getIntent().getStringArrayListExtra("images"));
+        }
         adapter = new UpdateImageAdapter(this, imageList);
         adapter.setOnDelectClickListener(this);
         adapter.setShape(true);

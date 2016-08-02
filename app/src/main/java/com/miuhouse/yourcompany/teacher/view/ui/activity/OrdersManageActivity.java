@@ -1,17 +1,16 @@
 package com.miuhouse.yourcompany.teacher.view.ui.activity;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import com.miuhouse.yourcompany.teacher.R;
+import com.miuhouse.yourcompany.teacher.factory.FragmentFactory;
 import com.miuhouse.yourcompany.teacher.view.ui.activity.interf.IOrdersManageActivity;
 import com.miuhouse.yourcompany.teacher.view.ui.adapter.MainPageAdapter;
 import com.miuhouse.yourcompany.teacher.view.ui.base.BaseActivity;
-import com.miuhouse.yourcompany.teacher.view.ui.fragment.FragmentA;
-import com.miuhouse.yourcompany.teacher.view.ui.fragment.FragmentB;
-import com.miuhouse.yourcompany.teacher.view.ui.fragment.FragmentC;
-import com.miuhouse.yourcompany.teacher.view.ui.fragment.FragmentD;
+import com.miuhouse.yourcompany.teacher.view.ui.base.BaseFragment;
 import com.miuhouse.yourcompany.teacher.view.widget.ViewPagerIndicator;
 
 import java.util.ArrayList;
@@ -43,10 +42,10 @@ public class OrdersManageActivity extends BaseActivity implements IOrdersManageA
         textList.add("进行中");
         textList.add("待评价");
         List<Fragment> fragmentList = new ArrayList<>();
-        fragmentList.add(new FragmentA());
-        fragmentList.add(new FragmentB());
-        fragmentList.add(new FragmentC());
-        fragmentList.add(new FragmentD());
+        fragmentList.add(FragmentFactory.getFragment(BaseFragment.A));
+        fragmentList.add(FragmentFactory.getFragment(BaseFragment.B));
+        fragmentList.add(FragmentFactory.getFragment(BaseFragment.C));
+        fragmentList.add(FragmentFactory.getFragment(BaseFragment.D));
         orderIndicator = (ViewPagerIndicator) findViewById(R.id.orderIndicator);
         orderpager = (ViewPager) findViewById(R.id.orderpager);
         orderpager.setAdapter(new MainPageAdapter(getSupportFragmentManager(), fragmentList));
@@ -62,5 +61,24 @@ public class OrdersManageActivity extends BaseActivity implements IOrdersManageA
     @Override
     protected View getOverrideParentView() {
         return null;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+//        if (requestCode == 0){
+//
+//        }else
+        if (resultCode == 1){
+//            FragmentFactory.getFragment(BaseFragment.B).onResume();
+//            FragmentFactory.getFragment(BaseFragment.C).onResume();
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    orderIndicator.setViewPager(orderpager, 2);
+                }
+            });
+
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.miuhouse.yourcompany.teacher.view.ui.activity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -24,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.miuhouse.yourcompany.teacher.R;
+import com.miuhouse.yourcompany.teacher.application.App;
 import com.miuhouse.yourcompany.teacher.model.BaseBean;
 import com.miuhouse.yourcompany.teacher.model.User;
 
@@ -54,7 +56,6 @@ public class LoginRegistActivity extends AppCompatActivity implements ILoginView
     private EditText etName;
     private EditText etPassword;
     private Button login;
-    private ILoginPresenter loginPresenter;
     private TextView tvRegist;
     private ViewPager pager;
     private PagerAdapter pagerAdapter;
@@ -64,12 +65,17 @@ public class LoginRegistActivity extends AppCompatActivity implements ILoginView
     private ProgressBar mProgressbar;
     private TextView tvReset;
     private TextView tvCode;
-    boolean isOpaque = true;
-    private String etNameStr;
-    private String etPasswordStr;
-    private LovelyCustomDialog mDialog;
     private LinearLayout linearCode;
     private EditText etCode;
+
+    private ILoginPresenter loginPresenter;
+    boolean isOpaque = true;
+
+    private String etNameStr;
+    private String etPasswordStr;
+    private String vCode;
+
+    private LovelyCustomDialog mDialog;
     private EventHandler eventHandler;
     private boolean isMsg = false;
     private MyCount mc;
@@ -78,54 +84,59 @@ public class LoginRegistActivity extends AppCompatActivity implements ILoginView
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+         int code = getIntent().getIntExtra("code",0);
+        if (code!=1&&App.getInstance().isLogin()) {
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+        }
         Window window = getWindow();
         window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 
         setContentView(R.layout.activity_tutorial);
+
         btnLogin = Button.class.cast(findViewById(R.id.btn_login));
+        btnRegist = Button.class.cast(findViewById(R.id.btn_regist));
+        pager = (ViewPager) findViewById(R.id.pager);
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                clearTextViewStr();
                 mDialog = new LovelyCustomDialog(LoginRegistActivity.this, R.style.TintTheme);
-
                 mDialog.setView(R.layout.activity_login)
                         .goneView()
                         .show();
-
                 View view = mDialog.getAddedView();
                 mDialog.show();
-
                 initDialogView(view);
                 LoginHandle();
             }
         });
 
-        btnRegist = Button.class.cast(findViewById(R.id.btn_regist));
         btnRegist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                clearTextViewStr();
+
                 mDialog = new LovelyCustomDialog(LoginRegistActivity.this, R.style.TintTheme);
 
                 mDialog.setView(R.layout.activity_login)
                         .goneView()
                         .show();
-
                 View view = mDialog.getAddedView();
-
                 mDialog.show();
                 initDialogView(view);
                 rigstHandle();
             }
         });
 
-        pager = (ViewPager) findViewById(R.id.pager);
         pagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         pager.setAdapter(pagerAdapter);
         pager.setPageTransformer(true, new CrossfadePageTransformer());
         pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
                 if (position == NUM_PAGES - 2 && positionOffset > 0) {
                     if (isOpaque) {
                         pager.setBackgroundColor(Color.TRANSPARENT);
@@ -187,10 +198,7 @@ public class LoginRegistActivity extends AppCompatActivity implements ILoginView
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-//                            sendRequest();
-//                                goToStepTwo();
                                 loginPresenter.doRegist(etNameStr, etPasswordStr);
-
                             }
                         });
                     } else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {
@@ -213,8 +221,8 @@ public class LoginRegistActivity extends AppCompatActivity implements ILoginView
 
                         @Override
                         public void run() {
-//                        ToastUtils.showToast(activity, "验证码验证失败");
-//                        progress.dismissAllowingStateLoss();
+                            showProgressBar(false);
+                            Toast.makeText(LoginRegistActivity.this, "验证码验证失败", Toast.LENGTH_LONG).show();
                         }
                     });
 
@@ -252,7 +260,6 @@ public class LoginRegistActivity extends AppCompatActivity implements ILoginView
                 etNameStr = s.toString();
                 if (Util.isEmpty(etNameStr)) {
                     login.setEnabled(false);
-
                 } else {
                     if (Util.isMobile(etNameStr)) {
                         if (Util.isEmpty(etPasswordStr)) {
@@ -286,18 +293,19 @@ public class LoginRegistActivity extends AppCompatActivity implements ILoginView
             public void afterTextChanged(Editable s) {
                 etPasswordStr = s.toString();
                 if (Util.isEmpty(etPasswordStr.toString())) {
-                    etPassword.setError("请输入密码");
-
+                    etPassword.setError("密码不能为空");
                     login.setEnabled(false);
                     return;
                 } else {
                     if (Util.isEmpty(etNameStr)) {
-                        etName.setError("请输入手机号码");
+                        etName.setError("手机号码不能为空");
+                        etName.findFocus();
                         login.setEnabled(false);
                         return;
                     }
                     if (!Util.isMobile(etNameStr)) {
-                        etName.setError("手机号码格式不对");
+                        etName.setError("手机号码格式不对哦");
+                        etName.findFocus();
                         login.setEnabled(false);
                         return;
                     }
@@ -305,10 +313,10 @@ public class LoginRegistActivity extends AppCompatActivity implements ILoginView
                 }
             }
         });
+
     }
 
-    //        findViewById(R.id.tv_regist).setOnClickListener(this);
-//        btnLogin.setOnClickListener(this);
+
     private void LoginHandle() {
         if (linearCode.getVisibility() == View.VISIBLE) {
             linearCode.setVisibility(View.GONE);
@@ -320,7 +328,6 @@ public class LoginRegistActivity extends AppCompatActivity implements ILoginView
             @Override
             public void onClick(View v) {
                 login();
-                showProgressBar(true);
             }
         });
 
@@ -336,7 +343,6 @@ public class LoginRegistActivity extends AppCompatActivity implements ILoginView
             @Override
             public void onClick(View v) {
                 regsit();
-                showProgressBar(true);
             }
         });
         tvCode.setOnClickListener(new View.OnClickListener() {
@@ -345,6 +351,56 @@ public class LoginRegistActivity extends AppCompatActivity implements ILoginView
                 sendCode();
             }
         });
+
+        etCode.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                vCode = s.toString();
+                if (Util.isEmpty(vCode)) {
+                    etCode.setError("验证码不能为空");
+                    etCode.findFocus();
+                    login.setEnabled(false);
+                    return;
+                } else {
+                    if (Util.isEmpty(etNameStr)) {
+                        etName.setError("手机号码不能为空");
+                        etName.findFocus();
+                        login.setEnabled(false);
+                        return;
+                    }
+                    if (!Util.isMobile(etNameStr)) {
+                        etName.setError("手机号码格式不对哦");
+                        etName.findFocus();
+                        login.setEnabled(false);
+                        return;
+                    }
+                    if (Util.isEmpty(etPasswordStr)) {
+                        etPassword.setError("密码不能为空");
+                        etPassword.findFocus();
+                        login.setEnabled(false);
+                        return;
+                    }
+                    login.setEnabled(true);
+
+                }
+            }
+        });
+    }
+
+    private void clearTextViewStr() {
+        etNameStr = null;
+        etPasswordStr = null;
+        vCode = null;
     }
 
     private void sendCode() {
@@ -386,38 +442,41 @@ public class LoginRegistActivity extends AppCompatActivity implements ILoginView
             etPassword.requestFocus();
             return;
         }
+        showProgressBar(true);
         loginPresenter.doLogin(etName.getText().toString(), etPassword.getText().toString());
     }
 
     private void regsit() {
+
         if (!Util.hasInternet()) {
             Toast.makeText(this, R.string.tip_no_internet, Toast.LENGTH_LONG).show();
         }
-        String strPassword = etPassword.getText().toString().trim();
-        String strUser = etName.getText().toString().trim();
-        if (Util.isEmpty(strUser)) {
+
+        etPasswordStr = etPassword.getText().toString().trim();
+        etNameStr = etName.getText().toString().trim();
+        vCode = etCode.getText().toString();
+
+        if (Util.isEmpty(etNameStr)) {
             etName.setError("请输入手机号码");
             etName.requestFocus();
             return;
         }
-        if (!Util.isMobile(strUser)) {
+        if (!Util.isMobile(etNameStr)) {
             etName.setError("手机号码格式不对");
             etName.requestFocus();
             return;
         }
-        if (Util.isEmpty(strPassword)) {
+        if (Util.isEmpty(etPasswordStr)) {
             etPassword.setError("请输入密码");
             etPassword.requestFocus();
             return;
         }
-        String vCode = etCode.getText().toString();
-
-//        sendRequest();
-
         if (Util.isEmpty(vCode)) {
             etCode.setError("请输入验证码");
             return;
         }
+
+        showProgressBar(true);
         SMSSDK.submitVerificationCode(Constants.SMSSDK_COUNTRYCODE, etNameStr, vCode);
 
     }
@@ -478,22 +537,28 @@ public class LoginRegistActivity extends AppCompatActivity implements ILoginView
     @Override
     public void showLoginSuccess(User user) {
         showProgressBar(false);
-        if (user != null) {
-            Toast.makeText(this, "登录成功", Toast.LENGTH_LONG).show();
+        if (user != null && user.getCode() == 0) {
+            startActivity(new Intent(this, MainActivity.class));
+            Toast.makeText(this, user.getMsg(), Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(this, user.getMsg(), Toast.LENGTH_LONG).show();
         }
     }
 
     @Override
     public void showRegistSuccess(BaseBean baseBean) {
-        showProgressBar(false);
-        if (baseBean != null) {
-            Toast.makeText(this, "注册成功", Toast.LENGTH_LONG).show();
+
+        if (baseBean.getCode() == 0) {
+            login();
+        } else {
+            showProgressBar(false);
+            Toast.makeText(this, baseBean.getMsg(), Toast.LENGTH_LONG).show();
         }
     }
 
     private void showProgressBar(boolean show) {
-        mProgressbar.setVisibility(show ? View.VISIBLE : View.GONE);
-        login.setVisibility(show ? View.GONE : View.VISIBLE);
+//        mProgressbar.setVisibility(show ? View.VISIBLE : View.GONE);
+//        login.setVisibility(show ? View.GONE : View.VISIBLE);
     }
 
     @Override
@@ -502,7 +567,7 @@ public class LoginRegistActivity extends AppCompatActivity implements ILoginView
     }
 
     @Override
-    public void showError(String msg) {
+    public void showError(int type) {
 
     }
 
@@ -518,6 +583,11 @@ public class LoginRegistActivity extends AppCompatActivity implements ILoginView
 
     @Override
     public void netError() {
+        showProgressBar(false);
+    }
+
+    @Override
+    public void onTokenExpired() {
 
     }
 

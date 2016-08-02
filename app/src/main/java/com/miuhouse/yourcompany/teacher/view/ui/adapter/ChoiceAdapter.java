@@ -50,9 +50,7 @@ public class ChoiceAdapter extends ArrayAdapter<String> {
         public ViewHolder(View view) {
             tvDescription = (TextView) view.findViewById(R.id.tv_description);
             radioButton = (RadioButton) view.findViewById(R.id.radio_genders);
-        }
-
-        ;
+        };
     }
 
 }

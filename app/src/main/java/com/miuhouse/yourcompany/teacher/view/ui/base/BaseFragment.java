@@ -1,6 +1,7 @@
 package com.miuhouse.yourcompany.teacher.view.ui.base;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -8,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.miuhouse.yourcompany.teacher.utils.L;
+import com.miuhouse.yourcompany.teacher.view.ui.activity.LoginRegistActivity;
 import com.miuhouse.yourcompany.teacher.view.widget.ViewOverrideManager;
 
 /**
@@ -23,7 +26,12 @@ public abstract class BaseFragment extends Fragment implements BaseView {
     public static final int ACCOUNT = 2;
     public static final int ORDERSSQUARE = 3;
     public static final int MYORDERS = 4;
-    private ViewOverrideManager viewOverrideManager;
+    public static final int A = 5;
+    public static final int B = 6;
+    public static final int C = 7;
+    public static final int D = 8;
+    public ViewOverrideManager viewOverrideManager;
+    private boolean tag = true;
 
     @Override
     public void onAttach(Context context) {
@@ -34,11 +42,11 @@ public abstract class BaseFragment extends Fragment implements BaseView {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (getFragmentResourceId()!=0) {
+        if (getFragmentResourceId() != 0) {
             view = inflater.inflate(getFragmentResourceId(), null);
             getViews(view);
             return view;
-        }else {
+        } else {
             return super.onCreateView(inflater, container, savedInstanceState);
         }
     }
@@ -52,33 +60,66 @@ public abstract class BaseFragment extends Fragment implements BaseView {
     }
 
     public abstract int getFragmentResourceId();
+
     public abstract void getViews(View view);
+
     public abstract void setupView();
+
     public abstract View getOverrideParentView();
 
 
     @Override
     public void showLoading(String msg) {
-        viewOverrideManager.showLoading(msg);
+        if (null == viewOverrideManager){
+            viewOverrideManager = new ViewOverrideManager(getOverrideParentView());
+        }
+        viewOverrideManager.showLoading();
     }
 
     @Override
-    public void showError(String msg) {
-        viewOverrideManager.showLoading(msg);
+    public void showError(int type) {
+        if (null == viewOverrideManager){
+            viewOverrideManager = new ViewOverrideManager(getOverrideParentView());
+        }
+//        viewOverrideManager.showLoading(type);
     }
 
     @Override
     public void hideLoading() {
+        if (null == viewOverrideManager){
+            viewOverrideManager = new ViewOverrideManager(getOverrideParentView());
+        }
         viewOverrideManager.restoreView();
     }
 
     @Override
     public void hideError() {
+        if (null == viewOverrideManager){
+            viewOverrideManager = new ViewOverrideManager(getOverrideParentView());
+        }
         viewOverrideManager.restoreView();
     }
 
     @Override
     public void netError() {
+        if (null == viewOverrideManager){
+            viewOverrideManager = new ViewOverrideManager(getOverrideParentView());
+        }
+    }
 
+    @Override
+    public void onTokenExpired() {
+//        Object obj = new Object();//申请一个对象
+//        synchronized (obj) {
+//            if (tag) {
+        L.i("TAG", "onTokenExpired");
+//                tag = false;
+        Intent intent = new Intent(getActivity(), LoginRegistActivity.class);
+        intent.putExtra("code", 1);
+        startActivity(intent);
+        getActivity().finish();
+
+//            }
+//        }
     }
 }

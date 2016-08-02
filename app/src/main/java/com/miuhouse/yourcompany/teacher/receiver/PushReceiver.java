@@ -9,6 +9,9 @@ import com.miuhouse.yourcompany.teacher.utils.L;
 import com.miuhouse.yourcompany.teacher.utils.SPUtils;
 import com.miuhouse.yourcompany.teacher.view.ui.activity.SysMsgActivity;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.List;
 
 /**
@@ -74,12 +77,35 @@ public class PushReceiver extends PushMessageReceiver{
                 + "\" description=\"" + description + "\" customContent="
                 + customContentString;
         L.i(notifyString);
-        int count = SPUtils.getData(Constants.UNREAD_SYSMSG_COUNT, 0);
-        count += 1;
-        SPUtils.saveData(Constants.UNREAD_SYSMSG_COUNT, count);
-        SPUtils.saveData(Constants.LATEST_SYSMSG, description);
+        try {
+            JSONObject jObject = new JSONObject(customContentString);
+            int type = jObject.getInt("type");
 
-        Intent intent = new Intent(Constants.INTENT_ACTOIN_RECEIVE);
-        context.sendBroadcast(intent);
+            switch (type){
+                case 1:     //订单通知
+
+                    break;
+                case 2:     //上课提醒
+
+                    break;
+                case 3:      //账户变动， 账户通知
+                    int count3 = SPUtils.getData(Constants.UNREAD_PURSEMSG_COUNT, 0);
+                    count3 += 1;
+                    SPUtils.saveData(Constants.UNREAD_PURSEMSG_COUNT, count3);
+                    SPUtils.saveData(Constants.LATEST_PURSEMSG, description);
+                    break;
+                case 4:     //系统通知
+                    int count4 = SPUtils.getData(Constants.UNREAD_SYSMSG_COUNT, 0);
+                    count4 += 1;
+                    SPUtils.saveData(Constants.UNREAD_SYSMSG_COUNT, count4);
+                    SPUtils.saveData(Constants.LATEST_SYSMSG, description);
+                    break;
+            }
+
+            Intent intent = new Intent(Constants.INTENT_ACTOIN_RECEIVE);
+            context.sendBroadcast(intent);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }

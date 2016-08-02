@@ -4,13 +4,13 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.miuhouse.yourcompany.teacher.R;
 import com.miuhouse.yourcompany.teacher.db.DictDBTask;
-import com.miuhouse.yourcompany.teacher.listener.IUserInformationView;
 import com.miuhouse.yourcompany.teacher.model.BaseBean;
 import com.miuhouse.yourcompany.teacher.model.HeadUrl;
 import com.miuhouse.yourcompany.teacher.model.TeacherInfo;
@@ -21,15 +21,14 @@ import com.miuhouse.yourcompany.teacher.utils.L;
 import com.miuhouse.yourcompany.teacher.utils.MyAsyn;
 import com.miuhouse.yourcompany.teacher.utils.Util;
 import com.miuhouse.yourcompany.teacher.utils.Values;
+import com.miuhouse.yourcompany.teacher.view.ui.activity.interf.IUserInformationView;
 import com.miuhouse.yourcompany.teacher.view.ui.adapter.ChoiceAdapter;
 import com.miuhouse.yourcompany.teacher.view.ui.base.BaseActivity;
 import com.miuhouse.yourcompany.teacher.view.widget.LovelyChoiceDialog;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 //import com.yalantis.ucrop.UCrop;
 //import com.yalantis.ucrop.UCrop;
@@ -58,6 +57,7 @@ public class UserInformationActivity extends BaseActivity implements View.OnClic
     private TextView tvEducations;
     private ImageView imgAvatar;
     private TextView tvPbxType;
+    private ScrollView content;
 
     private String strUserName;
     private String strUniversity;
@@ -104,6 +104,7 @@ public class UserInformationActivity extends BaseActivity implements View.OnClic
         findViewById(R.id.relative_avatar).setOnClickListener(this);
         findViewById(R.id.relative_images).setOnClickListener(this);
 
+        content = (ScrollView) findViewById(R.id.content);
         tvNicename = (TextView) findViewById(R.id.tv_nicename);
         tvUniversity = (TextView) findViewById(R.id.tv_university);
         tvMajor = (TextView) findViewById(R.id.tv_major);
@@ -115,8 +116,11 @@ public class UserInformationActivity extends BaseActivity implements View.OnClic
         imgAvatar = (ImageView) findViewById(R.id.avatar);
 
         userInformationPresenter = new UserInformationPresenter(this);
+    }
 
-        getUserInfo();
+    @Override
+    protected void onStart() {
+        super.onStart();
     }
 
     @Override
@@ -126,9 +130,8 @@ public class UserInformationActivity extends BaseActivity implements View.OnClic
 
     @Override
     protected View getOverrideParentView() {
-        return null;
+        return content;
     }
-
 
     /**
      * 点击提交
@@ -168,6 +171,7 @@ public class UserInformationActivity extends BaseActivity implements View.OnClic
             case R.id.relative_nicename:
                 Intent intent = new Intent(this, ChangeUserNameActivity.class);
                 intent.putExtra("title", "姓名");
+                intent.putExtra("value", strUserName);
                 intent.putExtra("isShow", true);
                 startActivityForResult(intent, USER_NAME);
                 break;
@@ -180,7 +184,6 @@ public class UserInformationActivity extends BaseActivity implements View.OnClic
                 showMultChoiceDialog();
                 break;
             case R.id.relative_grade:
-
                 grades = Values.getListValue(Values.teacherGrades);
                 showSingleChoiceDialog(grades, "年级", USER_GRADES);
                 break;
@@ -189,15 +192,15 @@ public class UserInformationActivity extends BaseActivity implements View.OnClic
                 showSingleChoiceDialog(educations, "学历", USER_EDUCATIONS);
                 break;
             case R.id.relative_university:
-
                 Intent intentUniversity = new Intent(this, ChangeUserNameActivity.class);
                 intentUniversity.putExtra("title", "院校");
+                intentUniversity.putExtra("value", strUniversity);
                 startActivityForResult(intentUniversity, USER_UNIVERSITY);
                 break;
             case R.id.relative_major:
-
                 Intent intentMajor = new Intent(this, ChangeUserNameActivity.class);
                 intentMajor.putExtra("title", "专业");
+                intentMajor.putExtra("value", strMajor);
                 startActivityForResult(intentMajor, USER_MAJOR);
                 break;
             case R.id.relative_recommend:
@@ -339,7 +342,8 @@ public class UserInformationActivity extends BaseActivity implements View.OnClic
         tvNicename.setText(strUserName);
         strHeadUrl = teacherInfo.getHeadUrl();
         Glide.with(this).load(strHeadUrl).centerCrop().override(Util.dip2px(this, 50), Util.dip2px(this, 50)).into(imgAvatar);
-        pbxTypeList = teacherInfo.getPbxType();
+        if (teacherInfo.getPbxType()!=null)
+        pbxTypeList.addAll(teacherInfo.getPbxType());
         tvPbxType.setText(getPdxType(pbxTypeList));
         if (teacherInfo.getImages() != null)
             albumList.addAll(teacherInfo.getImages());
@@ -364,6 +368,11 @@ public class UserInformationActivity extends BaseActivity implements View.OnClic
         return result.toString();
     }
 
+    /**
+     * 头像上传返回图片路径
+     *
+     * @param result
+     */
     @Override
     public void processFinish(String result) {
         Gson gson = new Gson();
@@ -376,5 +385,16 @@ public class UserInformationActivity extends BaseActivity implements View.OnClic
     @Override
     public void processError() {
 
+    }
+
+    @Override
+    public void showLoading(String msg) {
+//        super.showLoading(msg);
+        viewOverrideManager.showLoading(msg, true);
+    }
+
+    @Override
+    public void request() {
+        getUserInfo();
     }
 }

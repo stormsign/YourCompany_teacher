@@ -20,19 +20,4 @@
         <attr name="circularImageViewStyle" format="reference"></attr>
     </declare-styleable>
 
-    <declare-styleable name="MyRoundImageView">
-        <attr name="radius" format="dimension"/>
-        <attr name="type" format="enum">
-            <enum name="circle" value="0"/>
-            <enum name="round" value="1"/>
-        </attr>
-        <attr name="side" format="enum">
-            <enum name="all" value="-1"/>
-            <enum name="left" value="0"/>
-            <enum name="top" value="1"/>
-            <enum name="right" value="2"/>
-            <enum name="bottom" value="3"/>
-        </attr>
-    </declare-styleable>
-
 </resources>

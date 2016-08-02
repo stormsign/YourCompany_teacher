@@ -32,10 +32,15 @@ public class ChangeUserNameActivity extends BaseActivity {
     protected void initViewAndEvents() {
         String title = getIntent().getStringExtra("title");
         isShow = getIntent().getBooleanExtra("isShow", false);
+        strNiceName = getIntent().getStringExtra("value");
+
         setLeftText("更改" + title);
+
         editText = (EditText) findViewById(R.id.edit_user);
         final TextView tvHind = (TextView) findViewById(R.id.tv_hint);
         editText.setHint(title);
+        editText.setText(strNiceName);
+
         if (isShow)
             tvHind.setVisibility(View.VISIBLE);
         else

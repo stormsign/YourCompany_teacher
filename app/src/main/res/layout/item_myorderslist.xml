@@ -22,7 +22,7 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp">
                 <!--android:src="@mipmap/ico_map_radio_bus_pressd"-->
-                <com.miuhouse.yourcompany.teacher.view.widget.MyRoundImageView
+                <com.miuhouse.yourcompany.teacher.view.widget.CircularImageViewHome
                     android:id="@+id/header"
                     android:layout_width="@dimen/img_orderlist_head_size"
                     android:layout_height="@dimen/img_orderlist_head_size"

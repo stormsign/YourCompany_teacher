@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.miuhouse.yourcompany.teacher.application.App;
 import com.miuhouse.yourcompany.teacher.db.DictDBTask;
 import com.miuhouse.yourcompany.teacher.http.VolleyManager;
 import com.miuhouse.yourcompany.teacher.model.BaseBean;
@@ -32,8 +33,8 @@ public class DictManager {
     public void init() {
         String url = Constants.URL_VALUE + "dict";
         Map<String, Object> map = new HashMap<>();
-        map.put("teacherId", "4028b88155c4dd070155c4dd8a340000");
-        VolleyManager.getInstance().sendGsonRequest(null, url, map, "6eca806dffed65f70f6d50a3b435069b", DictListBean.class, new Response.Listener<DictListBean>() {
+        map.put("teacherId", App.getInstance().getTeacherId());
+        VolleyManager.getInstance().sendGsonRequest(null, url, map, SPUtils.getData(SPUtils.TOKEN, null), DictListBean.class, new Response.Listener<DictListBean>() {
             @Override
             public void onResponse(DictListBean response) {
                 L.i("TAG", "response=" + response.getMsg());

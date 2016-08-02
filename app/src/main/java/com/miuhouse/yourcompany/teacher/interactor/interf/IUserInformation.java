@@ -12,5 +12,10 @@ import java.util.List;
  */
 public interface IUserInformation {
     void updateUserInformation(String teacherId, ArrayList<String> images, String tName, int sex, String college, String profession, int education, int grade, List<Integer> pbxType, String introduction, String headUrl, Response.Listener<BaseBean> listener, Response.ErrorListener errorListener);
-    void getUserInfo(String teacherId,Response.Listener<User> listener, Response.ErrorListener errorListener);
+
+    void getUserInfo(String teacherId, Response.Listener<User> listener, Response.ErrorListener errorListener);
+
+    void updateUserPhone(String teacherId, String mobile, Response.Listener<BaseBean> listener, Response.ErrorListener errorListener);
+
+
 }

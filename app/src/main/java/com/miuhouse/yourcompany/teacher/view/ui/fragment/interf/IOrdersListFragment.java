@@ -10,6 +10,7 @@ public interface IOrdersListFragment extends BaseView{
 //    void setupView();
     void refresh(OrderListInteractor.OrderListBean data);
 //    void goToOrderDetail(OrderEntity orderEntity);
-//    void changeListToggle(boolean isAllList);
+    void showSecondLoading();
+    void changeListToggle();
     void remove();
 }

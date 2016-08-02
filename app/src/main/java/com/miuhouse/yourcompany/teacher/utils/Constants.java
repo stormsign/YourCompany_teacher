@@ -18,7 +18,9 @@ public class Constants {
     public final static String DEVICETYPE = "deviceType";
     public final static String VERSIONCODE = "version_code";
 //    请求超时时间
-    public final static int TIMEOUT = 3;
+    public final static int TIMEOUT = 10;
+//    最大请求重试次数
+    public static final int MAX_RETRIES = 0;
 
     public final static String DEVICETYPE_VALUE = "3";
     public final static String VERSIONCODE_VALUE = "1";
@@ -35,6 +37,9 @@ public class Constants {
 //  未读系统消息
     public static final String UNREAD_SYSMSG_COUNT = "unread_sysmsg_count";
     public static final String LATEST_SYSMSG = "latest_sysmsg";
+//    未读账户消息
+    public static final String UNREAD_PURSEMSG_COUNT = "unread_pursemsg_count";
+    public static final String LATEST_PURSEMSG = "latest_pursemsg";
 
     public static final String INTENT_ACTOIN_RECEIVE = "com.miuhouse.yourcompany.teacher.RECEIVE";
 
