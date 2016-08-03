@@ -6,6 +6,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.miuhouse.yourcompany.teacher.R;
+import com.miuhouse.yourcompany.teacher.utils.Util;
 import com.miuhouse.yourcompany.teacher.view.ui.base.BaseActivity;
 
 import org.w3c.dom.Text;
@@ -40,6 +41,8 @@ public class ChangeUserNameActivity extends BaseActivity {
         final TextView tvHind = (TextView) findViewById(R.id.tv_hint);
         editText.setHint(title);
         editText.setText(strNiceName);
+        if (!Util.isEmpty(strNiceName))
+            editText.setSelection(strNiceName.length());
 
         if (isShow)
             tvHind.setVisibility(View.VISIBLE);

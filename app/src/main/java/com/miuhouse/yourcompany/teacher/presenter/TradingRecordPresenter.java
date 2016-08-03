@@ -4,7 +4,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.miuhouse.yourcompany.teacher.interactor.TradingRecordInfo;
 import com.miuhouse.yourcompany.teacher.interactor.interf.ITradingRecordInteractor;
-import com.miuhouse.yourcompany.teacher.model.TradingRecordBean;
 import com.miuhouse.yourcompany.teacher.model.TradingRecordListBean;
 import com.miuhouse.yourcompany.teacher.presenter.interf.ITradingRecordPresenter;
 import com.miuhouse.yourcompany.teacher.view.ui.activity.interf.ITradingRecordView;

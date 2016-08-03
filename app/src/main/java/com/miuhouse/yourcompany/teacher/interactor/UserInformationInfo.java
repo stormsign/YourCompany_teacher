@@ -34,9 +34,10 @@ public class UserInformationInfo implements IUserInformation {
         map.put("pbxType", teacherId);
         map.put("introduction", introduction);
         map.put("headUrl", headUrl);
+
         map.put("pbxType", pbxType);
         map.put("images", images);
-        L.i("images=" + (String) images.toString());
+        L.i("pbxType=" + (String) pbxType.toString());
         L.i("images=" + images.toArray());
         VolleyManager.getInstance().sendGsonRequest(null, urlPath, map, SPUtils.getData(SPUtils.TOKEN, null), BaseBean.class, listener, errorListener);
     }

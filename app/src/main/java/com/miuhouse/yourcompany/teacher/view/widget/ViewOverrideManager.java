@@ -48,8 +48,11 @@ public class ViewOverrideManager implements ValueAnimator.AnimatorUpdateListener
         layoutParams = parentView.getLayoutParams();
         if (null != parentView.getParent()) {
             container = (ViewGroup) parentView.getParent();
-        } else {
-            container = (ViewGroup) parentView.getRootView().findViewById(android.R.id.content);
+        } /*else if (parentView.getRootView().findViewById(android.R.id.content) == null){
+            container = (ViewGroup) parentView.findViewById(android.R.id.content);
+        }*/ else{
+            ViewGroup root = (ViewGroup) parentView.getRootView();
+            container = (ViewGroup) root.findViewById(android.R.id.content);
         }
         for (int i = 0; i < container.getChildCount(); i++) {
             if (parentView == container.getChildAt(i)) {

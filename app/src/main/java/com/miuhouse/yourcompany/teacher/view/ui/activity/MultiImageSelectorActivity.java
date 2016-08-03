@@ -45,7 +45,7 @@ public class MultiImageSelectorActivity extends BaseActivity implements MultiIma
 
     @Override
     protected String setRight() {
-        return "完成(0/9)";
+        return "完成";
     }
 
     @Override

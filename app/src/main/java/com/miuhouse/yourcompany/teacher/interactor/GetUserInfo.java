@@ -8,6 +8,7 @@ import com.miuhouse.yourcompany.teacher.model.User;
 import com.miuhouse.yourcompany.teacher.utils.AesUtil;
 import com.miuhouse.yourcompany.teacher.utils.Constants;
 import com.miuhouse.yourcompany.teacher.utils.L;
+import com.miuhouse.yourcompany.teacher.view.ui.activity.LoginRegistActivity;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -37,8 +38,14 @@ public class GetUserInfo implements IGetUser {
     }
 
     @Override
-    public void getRegistInfo(String name, String password, Response.Listener<BaseBean> listener, Response.ErrorListener errorListener) {
-        String urlPath = Constants.URL_VALUE + "regist";
+    public void getRegistInfo(int typeMark, String name, String password, Response.Listener<BaseBean> listener, Response.ErrorListener errorListener) {
+
+        String urlPath = null;
+        if (typeMark == LoginRegistActivity.TYPE_MARK_REGIST) {
+            urlPath = Constants.URL_VALUE + "regist";
+        } else {
+            urlPath = Constants.URL_VALUE + "reset";
+        }
         Map<String, Object> map = new HashMap<>();
         map.put("mobile", name);
         try {

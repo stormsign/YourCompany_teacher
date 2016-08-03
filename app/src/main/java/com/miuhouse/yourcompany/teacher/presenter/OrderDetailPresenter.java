@@ -34,16 +34,15 @@ public class OrderDetailPresenter implements IOrderDetailPresenter {
 
             @Override
             public void onLoadSuccess(Object data) {
-                activity.hideLoading();
-                if (data instanceof OrderInteractor.OrderListBean) {
 
-                    OrderInteractor.OrderListBean bean
+                activity.hideLoading();
+                OrderInteractor.OrderListBean bean
                             = (OrderInteractor.OrderListBean) data;
-                    if (bean.getCode() == 1) {
+                if (bean.getCode() == 1) {
                         activity.onTokenExpired();
                         return;
                     }
-                    if (null != bean) {
+                if (null != bean) {
                         if (bean.getCode() == 0) {
                             if (null != bean.getOrderList()) {
                                 activity.fillView(bean.getOrderList());
@@ -54,7 +53,6 @@ public class OrderDetailPresenter implements IOrderDetailPresenter {
 //                    activity.showError("请求失败"+bean.getMsg());
                         }
                     }
-                }
             }
 
             @Override
@@ -76,7 +74,6 @@ public class OrderDetailPresenter implements IOrderDetailPresenter {
 
             @Override
             public void onLoadSuccess(Object data) {
-                if (data instanceof String) {
                     String resp = (String) data;
                     try {
                         JSONObject jObject = new JSONObject(resp);
@@ -89,7 +86,6 @@ public class OrderDetailPresenter implements IOrderDetailPresenter {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                }
             }
 
             @Override

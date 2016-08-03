@@ -6,5 +6,5 @@ package com.miuhouse.yourcompany.teacher.presenter.interf;
 public interface ILoginPresenter {
     void clear();
     void doLogin(String name,String passwd);
-    void doRegist(String name,String password);
+    void doRegist(int typeMark,String name,String password);
 }

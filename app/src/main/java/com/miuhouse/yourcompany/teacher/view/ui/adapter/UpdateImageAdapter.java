@@ -18,6 +18,7 @@ import com.miuhouse.yourcompany.teacher.utils.MyAsyn;
 import com.miuhouse.yourcompany.teacher.utils.Util;
 
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -136,7 +137,8 @@ public class UpdateImageAdapter extends BaseAdapter {
 
         if (mDatas.size() != position && mDatas.get(position) != null && !list.contains(mDatas.get(position)) && !mDatas.get(position).contains(Constants.IMGURL_HEAD)) {
             list.add(mDatas.get(position));
-            MyAsyn asyn = new MyAsyn(context, getAsynResponse(holder.tvUpdate), mDatas.get(position), "pbx/teacherphoto_android");
+            File file = new File(mDatas.get(position));
+            MyAsyn asyn = new MyAsyn(context, getAsynResponse(holder.tvUpdate), file, "pbx/teacherphoto_android");
             asyn.executeOnExecutor(fixedThreadPool, String.valueOf(position));
             holder.tvUpdate.setVisibility(View.VISIBLE);
         } else {

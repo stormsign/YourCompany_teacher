@@ -15,11 +15,11 @@ public class TeacherInfo implements Serializable {
     private long tokenTime;
     private double balance; //帐号余额
 
-    private int sex;
+    private String sex;
     private String college;//院校
     private String profession;//专业
-    private int education;//学历
-    private int grade;//年级
+    private String education;//学历
+    private String grade;//年级
     private ArrayList<String> pbxType; //订单类型
     private String introduction;//自我介绍
     private String headUrl;//头像
@@ -51,7 +51,6 @@ public class TeacherInfo implements Serializable {
     }
 
 
-
     public String gettName() {
         return tName;
     }
@@ -72,11 +71,11 @@ public class TeacherInfo implements Serializable {
         return balance;
     }
 
-    public int getSex() {
+    public String getSex() {
         return sex;
     }
 
-    public void setSex(int sex) {
+    public void setSex(String sex) {
         this.sex = sex;
     }
 
@@ -96,19 +95,19 @@ public class TeacherInfo implements Serializable {
         this.profession = profession;
     }
 
-    public int getEducation() {
+    public String getEducation() {
         return education;
     }
 
-    public void setEducation(int education) {
+    public void setEducation(String education) {
         this.education = education;
     }
 
-    public int getGrade() {
+    public String getGrade() {
         return grade;
     }
 
-    public void setGrade(int grade) {
+    public void setGrade(String grade) {
         this.grade = grade;
     }
 

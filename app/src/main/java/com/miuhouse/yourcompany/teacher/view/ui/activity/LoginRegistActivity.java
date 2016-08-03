@@ -32,6 +32,7 @@ import com.miuhouse.yourcompany.teacher.model.User;
 import com.miuhouse.yourcompany.teacher.presenter.LoginPresenter;
 import com.miuhouse.yourcompany.teacher.presenter.interf.ILoginPresenter;
 import com.miuhouse.yourcompany.teacher.utils.Constants;
+import com.miuhouse.yourcompany.teacher.utils.L;
 import com.miuhouse.yourcompany.teacher.utils.MyCount;
 import com.miuhouse.yourcompany.teacher.utils.Util;
 import com.miuhouse.yourcompany.teacher.view.ui.activity.interf.ILoginView;
@@ -50,6 +51,10 @@ import cn.smssdk.SMSSDK;
  * Created by kings on 7/6/2016.
  */
 public class LoginRegistActivity extends AppCompatActivity implements ILoginView {
+
+    //用来区别是注册还是修改密码
+    public static final int TYPE_MARK_RESET = 1;
+    public static final int TYPE_MARK_REGIST = 0;
 
     static final int NUM_PAGES = 3;
 
@@ -79,13 +84,15 @@ public class LoginRegistActivity extends AppCompatActivity implements ILoginView
     private EventHandler eventHandler;
     private boolean isMsg = false;
     private MyCount mc;
+    //用来区别是注册还是修改密码
+    private int typeMark = TYPE_MARK_REGIST;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-         int code = getIntent().getIntExtra("code",0);
-        if (code!=1&&App.getInstance().isLogin()) {
+        int code = getIntent().getIntExtra("code", 0);
+        if (code != 1 && App.getInstance().isLogin()) {
             startActivity(new Intent(this, MainActivity.class));
             finish();
         }
@@ -126,7 +133,7 @@ public class LoginRegistActivity extends AppCompatActivity implements ILoginView
                 View view = mDialog.getAddedView();
                 mDialog.show();
                 initDialogView(view);
-                rigstHandle();
+                rigstHandle(TYPE_MARK_REGIST);
             }
         });
 
@@ -198,7 +205,8 @@ public class LoginRegistActivity extends AppCompatActivity implements ILoginView
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                loginPresenter.doRegist(etNameStr, etPasswordStr);
+                                L.i("TAG", "doRegist");
+                                loginPresenter.doRegist(typeMark, etNameStr, etPasswordStr);
                             }
                         });
                     } else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {
@@ -331,13 +339,34 @@ public class LoginRegistActivity extends AppCompatActivity implements ILoginView
             }
         });
 
+        tvReset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDialog.dismiss();
+                clearTextViewStr();
+
+                mDialog = new LovelyCustomDialog(LoginRegistActivity.this, R.style.TintTheme);
+
+                mDialog.setView(R.layout.activity_login)
+                        .goneView()
+                        .show();
+                View view = mDialog.getAddedView();
+                initDialogView(view);
+                rigstHandle(TYPE_MARK_RESET);
+            }
+        });
+
     }
 
-    private void rigstHandle() {
+    private void rigstHandle(final int typeMark) {
+        this.typeMark = typeMark;
         if (linearCode.getVisibility() == View.GONE) {
             linearCode.setVisibility(View.VISIBLE);
         }
-        login.setText(R.string.regist);
+        if (typeMark == TYPE_MARK_REGIST)
+            login.setText(R.string.regist);
+        else
+            login.setText("修改密码");
         tvReset.setVisibility(View.GONE);
         login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -487,6 +516,8 @@ public class LoginRegistActivity extends AppCompatActivity implements ILoginView
         if (pager != null) {
             pager.clearOnPageChangeListeners();
         }
+        if (mDialog != null)
+            mDialog.dismiss();
     }
 
     private void buildCircles() {
@@ -537,12 +568,14 @@ public class LoginRegistActivity extends AppCompatActivity implements ILoginView
     @Override
     public void showLoginSuccess(User user) {
         showProgressBar(false);
+        mDialog.dismiss();
         if (user != null && user.getCode() == 0) {
             startActivity(new Intent(this, MainActivity.class));
             Toast.makeText(this, user.getMsg(), Toast.LENGTH_LONG).show();
         } else {
             Toast.makeText(this, user.getMsg(), Toast.LENGTH_LONG).show();
         }
+        finish();
     }
 
     @Override
@@ -679,4 +712,5 @@ public class LoginRegistActivity extends AppCompatActivity implements ILoginView
             }
         }
     }
+
 }

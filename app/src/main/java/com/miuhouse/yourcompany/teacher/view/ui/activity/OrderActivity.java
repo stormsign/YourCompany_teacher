@@ -1,12 +1,16 @@
 package com.miuhouse.yourcompany.teacher.view.ui.activity;
 
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.miuhouse.yourcompany.teacher.R;
+import com.miuhouse.yourcompany.teacher.db.AccountDBTask;
 import com.miuhouse.yourcompany.teacher.db.DictDBTask;
 import com.miuhouse.yourcompany.teacher.model.OrderEntity;
+import com.miuhouse.yourcompany.teacher.presenter.OrderPresenter;
+import com.miuhouse.yourcompany.teacher.presenter.interf.IOrderPresenter;
 import com.miuhouse.yourcompany.teacher.utils.Util;
 import com.miuhouse.yourcompany.teacher.view.ui.activity.interf.IOrderActivity;
 import com.miuhouse.yourcompany.teacher.view.ui.base.BaseActivity;
@@ -33,6 +37,9 @@ public class OrderActivity extends BaseActivity implements IOrderActivity {
     private TextView totalPrice;
     private TextView detail;
 
+    private IOrderPresenter presenter ;
+    private RelativeLayout content;
+
     @Override
     protected String setTitle() {
         return "需求详情";
@@ -45,6 +52,7 @@ public class OrderActivity extends BaseActivity implements IOrderActivity {
 
     @Override
     protected void initViewAndEvents() {
+        presenter = new OrderPresenter(this);
         order = (OrderEntity) getIntent().getSerializableExtra("order");
         header = (CircularImageViewHome) findViewById(R.id.header);
         name = (TextView) findViewById(R.id.name);
@@ -72,16 +80,17 @@ public class OrderActivity extends BaseActivity implements IOrderActivity {
         totalPrice.setText("￥"+order.getAmount());
         detail.setText(order.getDescription());
         TextView grabOrder = (TextView) findViewById(R.id.grabOrder);
-        if (order.getOrderStatus().equals("2")){
+        if (!order.getOrderStatus().equals("2")){
             grabOrder.setVisibility(View.GONE);
         }else {
             grabOrder.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    presenter.grabOrder(AccountDBTask.getAccount().getId(), order.getId());
                 }
             });
         }
+        content = (RelativeLayout) findViewById(R.id.content);
     }
 
     private void setOrderType(String majorDemand, TextView orderType) {
@@ -144,7 +153,12 @@ public class OrderActivity extends BaseActivity implements IOrderActivity {
 
     @Override
     protected View getOverrideParentView() {
-        return null;
+        return content;
+    }
+
+    @Override
+    public void showLoading(String msg) {
+        super.showLoading(msg);
     }
 
     @Override

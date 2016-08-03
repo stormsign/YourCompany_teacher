@@ -6,6 +6,7 @@ import android.content.Context;
 import com.miuhouse.yourcompany.teacher.db.AccountDBTask;
 import com.miuhouse.yourcompany.teacher.model.TeacherInfo;
 import com.miuhouse.yourcompany.teacher.utils.Constants;
+import com.miuhouse.yourcompany.teacher.utils.SPUtils;
 
 /**
  * Created by khb on 2016/5/13.
@@ -60,4 +61,10 @@ public class App extends Application {
         return teacherId;
     }
 
+    public void logout() {
+        SPUtils.saveData(SPUtils.TOKEN, null);
+        AccountDBTask.clear();
+        teacherId = null;
+        login = false;
+    }
 }

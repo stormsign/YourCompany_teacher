@@ -180,8 +180,8 @@ public class OrdersSquareFragment extends BaseFragment implements IOrdersListFra
     @Override
     public void hideLoading() {
         mRefresh.setRefreshing(false);
-//        super.hideLoading();
         parentFragment.setSquareCount(count);
+        super.hideLoading();
     }
 
     @Override

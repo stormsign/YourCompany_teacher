@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/backgroundcolor_common"
     android:orientation="vertical">
+
     <LinearLayout
         android:id="@+id/content"
         android:layout_width="match_parent"
@@ -162,7 +163,7 @@
                 android:background="@color/view_line" />
 
             <RelativeLayout
-                android:id="@+id/relative_sex"
+                android:id="@+id/relative_certification"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/linear_45dp"
                 android:background="@drawable/selectable_item_background"
@@ -230,6 +231,7 @@
             android:orientation="vertical">
 
             <RelativeLayout
+                android:id="@+id/relative_feedback"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/linear_45dp"
                 android:background="@drawable/selectable_item_background"

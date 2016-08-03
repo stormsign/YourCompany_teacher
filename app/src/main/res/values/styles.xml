@@ -128,9 +128,15 @@
         <item name="colorPrimaryDark">@color/background_order_2</item>
         <item name="colorButtonNormal">@color/background_order_2</item>
     </style>
+
     <style name="BrandedSwitch.control" parent="Theme.AppCompat.Light">
         <!-- active thumb & track color (30% transparency) -->
         <item name="colorControlActivated">@color/themeColor</item>
     </style>
 
+    <style name="progressBarStyleHorizontal" parent="@android:style/Widget.Holo.ProgressBar.Horizontal">
+        <item name="android:progressDrawable">@drawable/progress_horizontal</item>
+        <item name="android:minHeight">16dip</item>
+        <item name="android:maxHeight">16dip</item>
+    </style>
 </resources>

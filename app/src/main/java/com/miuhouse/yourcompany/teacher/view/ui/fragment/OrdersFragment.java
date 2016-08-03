@@ -91,6 +91,7 @@ public class OrdersFragment extends BaseFragment implements IOrdersFragment, Vie
     @Override
     public void changeListToggle(boolean isAllList) {
 //        page = 1;
+        this.isAllList = isAllList;
         if (isAllList) {
             ivSquare.setImageResource(R.mipmap.ico_orderlist_s);
             mTvSquare.setTextColor(getResources().getColor(R.color.themeColor));
@@ -116,6 +117,7 @@ public class OrdersFragment extends BaseFragment implements IOrdersFragment, Vie
 
     public void setSquareCount(int squareCount) {
         this.squareCount = squareCount;
+        setSquareTop(squareCount);
     }
 
     public int getMyOrderCount() {
@@ -124,25 +126,30 @@ public class OrdersFragment extends BaseFragment implements IOrdersFragment, Vie
 
     public void setMyOrderCount(int myOrderCount) {
         this.myOrderCount = myOrderCount;
+        setMyOrdersTop(myOrderCount);
     }
 
     @Override
     public void setSquareTop(int count) {
-        if (count > 0) {
-            orderCount.setText(count + "");
-        } else {
-            orderCount.setText("0");
+        if (isAllList){
+            if (count > 0) {
+                orderCount.setText(count + "");
+            } else {
+                orderCount.setText("0");
+            }
+            textTop.setText(context.getResources().getString(R.string.orderlist_top_square));
         }
-        textTop.setText(context.getResources().getString(R.string.orderlist_top_square));
     }
 
     @Override
     public void setMyOrdersTop(int myOrdersTop) {
-        if (myOrdersTop > 0) {
-            orderCount.setText(myOrdersTop + "");
-        } else {
-            orderCount.setText("0");
+        if (!isAllList) {
+            if (myOrdersTop > 0) {
+                orderCount.setText(myOrdersTop + "");
+            } else {
+                orderCount.setText("0");
+            }
+            textTop.setText(context.getResources().getString(R.string.orderlist_top_myorder));
         }
-        textTop.setText(context.getResources().getString(R.string.orderlist_top_myorder));
     }
 }

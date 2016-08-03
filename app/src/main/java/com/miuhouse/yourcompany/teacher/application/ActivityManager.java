@@ -3,6 +3,8 @@ package com.miuhouse.yourcompany.teacher.application;
 import android.app.Activity;
 import android.content.Context;
 
+import com.miuhouse.yourcompany.teacher.utils.L;
+
 import java.util.Stack;
 
 /** 管理Activity的出入栈管理类
@@ -44,6 +46,7 @@ public class ActivityManager {
      */
     public void popActivity(Activity activity){
         if (null!=activity) {
+            L.i("TAG","finish="+activity);
             activity.finish();
             activityStack.remove(activity);
             activity = null;

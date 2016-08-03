@@ -65,8 +65,6 @@
         android:layout_height="@dimen/linear_45dp"
         android:background="@drawable/selectable_item_background"
         android:elevation="1dp">
-
-
         <TextView
             style="@style/user_info_text"
             android:layout_alignParentLeft="true"
@@ -76,6 +74,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/relative_logout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/linear_45dp"
         android:layout_marginTop="10dp"

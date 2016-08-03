@@ -123,13 +123,13 @@ public class OrderListPresenter implements IOrderListPresenter {
 
             @Override
             public void onLoadSuccess(Object data) {
-                iOrdersFragment.hideLoading();
                 String resp = (String) data;
                 try {
                     JSONObject jsonObject = new JSONObject(resp);
                     int code = jsonObject.getInt("code");
                     if (code == 0){
                         FragmentFactory.getFragment(BaseFragment.MYORDERS).onResume();
+                        getAllList(1);
                         iOrdersFragment.changeListToggle();
                     }else if (code == 3){
 
@@ -137,7 +137,7 @@ public class OrderListPresenter implements IOrderListPresenter {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
+                iOrdersFragment.hideLoading();
             }
 
             @Override

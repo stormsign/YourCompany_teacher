@@ -11,6 +11,7 @@ import com.miuhouse.yourcompany.teacher.http.MyRequest;
 import com.miuhouse.yourcompany.teacher.model.PhotoBean;
 import com.miuhouse.yourcompany.teacher.model.Photos;
 
+import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
@@ -21,15 +22,16 @@ public class MyAsyn extends AsyncTask<String, String, String> {
     private WeakReference<FragmentActivity> oAuthActivityWeakReference;
     private String returnStr; // 请求后的返回值
     private String fileName;
+    private File file;
     private String folder;
     private Photos photos;
     private Context recordDetailActivity;
 
-    public MyAsyn(Context recordDetailActivity, AsyncResponse mAsyncResPonse, String fileName, String folder) {
+    public MyAsyn(Context recordDetailActivity, AsyncResponse mAsyncResPonse, File file, String folder) {
 //        oAuthActivityWeakReference = new WeakReference<FragmentActivity>(recordDetailActivity);
         this.recordDetailActivity = recordDetailActivity;
         this.mAsyncResponse = mAsyncResPonse;
-        this.fileName = fileName;
+        this.file = file;
         this.folder = folder;
     }
 
@@ -40,7 +42,8 @@ public class MyAsyn extends AsyncTask<String, String, String> {
         String bitStr;
         Bitmap bitmap;
         try {
-            bitmap = Util.createImageThumbnail(recordDetailActivity, fileName, 800);
+            fileName = file.getName();
+            bitmap = Util.createImageThumbnail(recordDetailActivity, file.getPath(), 800);
             bitStr = Base64.encode(Util.Bitmap2Bytes(bitmap));
             photos = new Photos();
             photos.setBase64String(bitStr);

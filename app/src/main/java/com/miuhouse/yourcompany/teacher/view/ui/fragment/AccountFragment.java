@@ -16,6 +16,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.bumptech.glide.Glide;
 import com.miuhouse.yourcompany.teacher.R;
+import com.miuhouse.yourcompany.teacher.application.App;
+import com.miuhouse.yourcompany.teacher.db.AccountDBTask;
 import com.miuhouse.yourcompany.teacher.http.VolleyManager;
 import com.miuhouse.yourcompany.teacher.model.BaseBean;
 import com.miuhouse.yourcompany.teacher.model.User;
@@ -23,8 +25,10 @@ import com.miuhouse.yourcompany.teacher.presenter.UserInformationPresenter;
 import com.miuhouse.yourcompany.teacher.presenter.interf.IUserInformationPresenter;
 import com.miuhouse.yourcompany.teacher.utils.Constants;
 import com.miuhouse.yourcompany.teacher.utils.L;
+import com.miuhouse.yourcompany.teacher.utils.SPUtils;
 import com.miuhouse.yourcompany.teacher.utils.Util;
 import com.miuhouse.yourcompany.teacher.view.ui.activity.AccountBlanceActivity;
+import com.miuhouse.yourcompany.teacher.view.ui.activity.BrowserActivity;
 import com.miuhouse.yourcompany.teacher.view.ui.activity.MyCommentActivity;
 import com.miuhouse.yourcompany.teacher.view.ui.activity.OrdersManageActivity;
 import com.miuhouse.yourcompany.teacher.view.ui.activity.SettingActivity;
@@ -40,6 +44,8 @@ import java.util.Map;
  * Created by khb on 2016/7/6.
  */
 public class AccountFragment extends BaseFragment implements IAccountFragment, IUserInformationView, View.OnClickListener {
+
+    private static final int REQUEST = 1;
     private IUserInformationPresenter userInformationPresenter;
     private TextView tvName;
     private ImageView imgAvatar;
@@ -61,7 +67,7 @@ public class AccountFragment extends BaseFragment implements IAccountFragment, I
         view.findViewById(R.id.tv_information).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), UserInformationActivity.class));
+                startActivityForResult(new Intent(getActivity(), UserInformationActivity.class), REQUEST);
 
             }
         });
@@ -75,6 +81,8 @@ public class AccountFragment extends BaseFragment implements IAccountFragment, I
         view.findViewById(R.id.relative_money).setOnClickListener(this);
         view.findViewById(R.id.relative_comment).setOnClickListener(this);
         view.findViewById(R.id.relative_setting).setOnClickListener(this);
+        view.findViewById(R.id.relative_certification).setOnClickListener(this);
+        view.findViewById(R.id.relative_feedback).setOnClickListener(this);
 
         contentLinear = (LinearLayout) view.findViewById(R.id.content);
         tvName = (TextView) view.findViewById(R.id.tv_name);
@@ -99,12 +107,11 @@ public class AccountFragment extends BaseFragment implements IAccountFragment, I
     public void request(String isChecked) {
         String url = Constants.URL_VALUE + "orderSwitch";
         Map<String, Object> map = new HashMap<>();
-        map.put("teacherId", "4028b88155c4dd070155c4dd8a340000");
+        map.put("teacherId", AccountDBTask.getAccount().getId());
         map.put("orderSwitch", isChecked);
-        VolleyManager.getInstance().sendGsonRequest(null, url, map, "6eca806dffed65f70f6d50a3b435069b", BaseBean.class, new Response.Listener<BaseBean>() {
+        VolleyManager.getInstance().sendGsonRequest(null, url, map, SPUtils.getData(SPUtils.TOKEN, null), BaseBean.class, new Response.Listener<BaseBean>() {
             @Override
             public void onResponse(BaseBean response) {
-                L.i("TAG", "response=" + response.getMsg());
                 showSnackbar(switchcompatAppointment, response.getMsg());
             }
         }, new Response.ErrorListener() {
@@ -165,6 +172,18 @@ public class AccountFragment extends BaseFragment implements IAccountFragment, I
                 intentSetting.putExtra("phone", phone);
                 startActivity(intentSetting);
                 break;
+            case R.id.relative_certification:
+                Intent intentC = new Intent(getActivity(), BrowserActivity.class);
+                intentC.putExtra(BrowserActivity.BROWSER_KEY, Constants.URL_HEAD + "/mobile/check/" + App.getInstance().getTeacherId());
+                intentC.putExtra("title", "认证中心");
+                startActivity(intentC);
+                break;
+            case R.id.relative_feedback:
+                Intent intentF = new Intent(getActivity(), BrowserActivity.class);
+                intentF.putExtra(BrowserActivity.BROWSER_KEY, Constants.URL_HEAD + "/mobile/suggest");
+                intentF.putExtra("title", "意见反馈");
+                startActivity(intentF);
+                break;
         }
     }
 
@@ -193,5 +212,20 @@ public class AccountFragment extends BaseFragment implements IAccountFragment, I
 //        super.showLoading(msg);
         L.i("TAG", "msg=" + msg);
         viewOverrideManager.showLoading(msg, true);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == getActivity().RESULT_OK && requestCode == REQUEST) {
+            String name = data.getStringExtra("name");
+            String headUrl = data.getStringExtra("headUrl");
+
+            if (!Util.isEmpty(name)) {
+                tvName.setText(data.getStringExtra("name"));
+            }
+            if (!Util.isEmpty(headUrl))
+                Glide.with(this).load(headUrl).centerCrop().override(Util.dip2px(getActivity(), 50), Util.dip2px(getActivity(), 50)).into(imgAvatar);
+        }
     }
 }

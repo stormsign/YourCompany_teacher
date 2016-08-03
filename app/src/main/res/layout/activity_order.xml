@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/content"
     android:background="@color/backgroundcolor_common">
 
     <RelativeLayout android:id="@+id/orderContent"
@@ -240,6 +241,6 @@
         android:background="@color/themeColor"
         android:gravity="center"
         android:layout_alignParentBottom="true"
-        android:padding="20dp"/>
+        android:padding="16dp"/>
 
 </RelativeLayout>

@@ -364,4 +364,17 @@ public class Util {
         SimpleDateFormat format = new SimpleDateFormat("MM-dd HH:mm");
         return format.format(new Date(time));
     }
+
+    public static String getVersionName() {
+        String name = "";
+
+        try {
+            name = App.getInstance().getPackageManager().getPackageInfo(App.getInstance().getPackageName(),
+                    0).versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            name = "";
+        }
+        return name;
+    }
+
 }

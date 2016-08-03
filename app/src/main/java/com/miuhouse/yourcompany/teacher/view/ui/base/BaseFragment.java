@@ -109,17 +109,14 @@ public abstract class BaseFragment extends Fragment implements BaseView {
 
     @Override
     public void onTokenExpired() {
-//        Object obj = new Object();//申请一个对象
-//        synchronized (obj) {
-//            if (tag) {
-        L.i("TAG", "onTokenExpired");
-//                tag = false;
-        Intent intent = new Intent(getActivity(), LoginRegistActivity.class);
-        intent.putExtra("code", 1);
-        startActivity(intent);
-        getActivity().finish();
+        L.i("TAG", "getActivity=" + getActivity());
+        if (getActivity() != null) {
+            Intent intent = new Intent(getActivity(), LoginRegistActivity.class);
+            intent.putExtra("code", 1);
+            startActivity(intent);
+            getActivity().finish();
+        }
 
-//            }
-//        }
+
     }
 }

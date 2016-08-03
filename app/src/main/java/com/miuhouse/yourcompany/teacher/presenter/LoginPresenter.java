@@ -60,8 +60,8 @@ public class LoginPresenter implements ILoginPresenter {
     }
 
     @Override
-    public void doRegist(String name, String password) {
-        getUser.getRegistInfo(name, password, new Response.Listener<BaseBean>() {
+    public void doRegist(int typeMark,String name, String password) {
+        getUser.getRegistInfo(typeMark,name, password, new Response.Listener<BaseBean>() {
             @Override
             public void onResponse(BaseBean response) {
                 L.i("TAG", "user=" + response);

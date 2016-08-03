@@ -252,6 +252,9 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
 
     @Override
     public void onTokenExpired() {
-        startActivity(new Intent(this, LoginRegistActivity.class));
+        Intent intent = new Intent(this, LoginRegistActivity.class);
+        intent.putExtra("code", 1);
+        startActivity(intent);
+        finish();
     }
 }

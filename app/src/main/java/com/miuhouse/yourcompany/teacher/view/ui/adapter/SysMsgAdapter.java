@@ -12,6 +12,7 @@ import com.miuhouse.yourcompany.teacher.listener.OnListItemClick;
 import com.miuhouse.yourcompany.teacher.model.SysMsgEntity;
 import com.miuhouse.yourcompany.teacher.view.ui.base.BaseRVAdapter;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -46,7 +47,7 @@ public class SysMsgAdapter extends BaseRVAdapter{
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         SysMsgHolder mholder = (SysMsgHolder) holder;
         SysMsgEntity msg = (SysMsgEntity) list.get(position);
-        mholder.time.setText(msg.getSendTime()+"");
+        mholder.time.setText(new SimpleDateFormat("HH:mm").format(msg.getSendTime()));
         mholder.content.setText(msg.getDescription());
     }
 }

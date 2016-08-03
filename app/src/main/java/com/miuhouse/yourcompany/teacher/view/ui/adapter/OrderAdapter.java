@@ -129,7 +129,9 @@ public class OrderAdapter extends BaseRVAdapter{
             if (System.currentTimeMillis() < endTime) {
                 String strTime = strHour + ":" + strMinute;
                 button.setText(strTime);
-            } else {
+            }else if (beginTime == 0 || endTime == 0) {
+
+            }else {
                 Intent intent = new Intent("com.miuhouse.yourcompany.teacher.ACTION.TIMESUP");
                 intent.putExtra("position", position);
                 context.sendBroadcast(intent);

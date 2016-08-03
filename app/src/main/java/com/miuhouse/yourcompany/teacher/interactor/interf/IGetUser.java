@@ -9,5 +9,5 @@ import com.miuhouse.yourcompany.teacher.model.User;
  */
 public interface IGetUser {
     void getUserInfo(String name,String password,Response.Listener<User> listener,Response.ErrorListener errorListener);
-    void getRegistInfo(String name,String password,Response.Listener<BaseBean> listener,Response.ErrorListener errorListener);
+    void getRegistInfo(int typeMark,String name,String password,Response.Listener<BaseBean> listener,Response.ErrorListener errorListener);
 }

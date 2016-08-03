@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * 数字与对应文本的集合
@@ -11,14 +12,14 @@ import java.util.Map;
  */
 public class Values {
 
-    public static Map<Integer, String> teacherVerifyStatuses = new HashMap<>();
-    public static Map<String, String> orderStatuses = new HashMap<>();
-    public static Map<Integer, String> stars = new HashMap<>();
-    public static Map<Integer, String> studentGrades = new HashMap<>();
-    public static Map<Integer, String> teacherGrades = new HashMap<>();
-    public static Map<Integer, String> majorDemand = new HashMap<>();
-    public static Map<Integer, String> gendersDemand = new HashMap<>();
-    public static Map<Integer, String> msgTypes = new HashMap<>();
+    public static Map<Integer, String> teacherVerifyStatuses = new TreeMap<>();
+    public static Map<String, String> orderStatuses = new TreeMap<>();
+    public static Map<Integer, String> stars = new TreeMap<>();
+    public static Map<Integer, String> studentGrades = new TreeMap<>();
+    public static Map<Integer, String> teacherGrades = new TreeMap<>();
+    public static Map<Integer, String> majorDemand = new TreeMap<>();
+    public static Map<Integer, String> gendersDemand = new TreeMap<>();
+    public static Map<Integer, String> msgTypes = new TreeMap<>();
 
     static {
         teacherVerifyStatuses.put(1, "未认证");

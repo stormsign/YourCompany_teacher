@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.miuhouse.yourcompany.teacher.R;
+import com.miuhouse.yourcompany.teacher.db.AccountDBTask;
 import com.miuhouse.yourcompany.teacher.http.VolleyManager;
 import com.miuhouse.yourcompany.teacher.model.BaseBean;
 import com.miuhouse.yourcompany.teacher.model.WithdrawAccountBean;
@@ -20,6 +21,7 @@ import com.miuhouse.yourcompany.teacher.presenter.WithdrawMoneyPresenter;
 import com.miuhouse.yourcompany.teacher.presenter.interf.IWithdrawMoneyPresenter;
 import com.miuhouse.yourcompany.teacher.utils.Constants;
 import com.miuhouse.yourcompany.teacher.utils.L;
+import com.miuhouse.yourcompany.teacher.utils.SPUtils;
 import com.miuhouse.yourcompany.teacher.view.ui.activity.interf.IWithdrawMoneyView;
 import com.miuhouse.yourcompany.teacher.view.ui.base.BaseActivity;
 import com.miuhouse.yourcompany.teacher.view.ui.base.BaseView;
@@ -35,7 +37,7 @@ import java.util.Map;
  */
 public class WithdrawMoneyActivity extends BaseActivity implements IWithdrawMoneyView {
 
-    private static final int REQUEST=1;
+    private static final int REQUEST = 1;
 
     private IWithdrawMoneyPresenter withdrawMoneyPresenter;
 
@@ -91,18 +93,23 @@ public class WithdrawMoneyActivity extends BaseActivity implements IWithdrawMone
             public void afterTextChanged(Editable s) {
                 if (!s.toString().equals(currentAmount)) {
                     etWithdrawMoney.removeTextChangedListener(this);
-                    String replaceable = String.format("[%s, \\s.]", NumberFormat.getCurrencyInstance(Locale.CHINA).getCurrency().getSymbol(Locale.CHINA));
-                    String cleanString = s.toString().replaceAll(replaceable, "");
-
+//                    String replaceable = String.format("[%s, \\s.]", NumberFormat.getCurrencyInstance(Locale.CHINA).getCurrency().getSymbol(Locale.CHINA));
+//                    String cleanString = s.toString().replaceAll(replaceable, "");
+                    String cleanString = s.toString();
+//                       cleanString.length()-cleanString.indexOf(".")>2;
+                    L.i("TAG", "length=" + String.valueOf(cleanString.length() - cleanString.indexOf(".")));
+                    if (cleanString.length() - cleanString.indexOf(".") > 2) {
+                        return;
+                    }
                     if (cleanString.equals("") || new BigDecimal(cleanString).toString().equals("0")) {
                         etWithdrawMoney.setText(null);
                     } else {
                         L.i("TAG", "cleanString=" + cleanString);
-                        double parsed = Double.parseDouble(cleanString);
-                        String formatted = NumberFormat.getCurrencyInstance(Locale.CHINA).format((parsed / 100));
-                        currentAmount = formatted;
-                        etWithdrawMoney.setText(formatted);
-                        etWithdrawMoney.setSelection(formatted.length());
+//                        double parsed = Double.parseDouble(cleanString);
+//                        String formatted = NumberFormat.getCurrencyInstance(Locale.CHINA).format(parsed/100);
+//                        currentAmount = formatted;
+                        etWithdrawMoney.setText(cleanString);
+                        etWithdrawMoney.setSelection(cleanString.length());
                     }
                     etWithdrawMoney.addTextChangedListener(this);
                 }
@@ -118,18 +125,11 @@ public class WithdrawMoneyActivity extends BaseActivity implements IWithdrawMone
         btnWithdrawMoney.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String replaceable = String.format("[%s, \\s.]", NumberFormat.getCurrencyInstance(Locale.CHINA).getCurrency().getSymbol(Locale.CHINA));
-                String cleanString = etWithdrawMoney.getText().toString().replaceAll(replaceable, "");
+//                String replaceable = String.format("[%s, \\s.]", NumberFormat.getCurrencyInstance(Locale.CHINA).getCurrency().getSymbol(Locale.CHINA));
+                String cleanString = etWithdrawMoney.getText().toString();
                 L.i("TAG", "cleanString=" + cleanString);
-                double parsed = Double.parseDouble(cleanString);
-                L.i("TAG", "cleanString=" + parsed);
 
-//                int amount = Integer.valueOf(new BigDecimal(cleanString).toString());
-                String formatted = String.valueOf(parsed / 100);
-
-                L.i("TAG", "amount=" + formatted);
-
-                withdrawMoneyPresenter.getWithDrawMoney(null, accountId, accountName, new BigDecimal(formatted.toString()), accountType);
+                withdrawMoneyPresenter.getWithDrawMoney(null, accountId, accountName, new BigDecimal(cleanString), accountType);
 
             }
         });
@@ -162,8 +162,8 @@ public class WithdrawMoneyActivity extends BaseActivity implements IWithdrawMone
     public void sendRequest() {
         String urlPath = Constants.URL_VALUE + "getAccountDefault";
         Map<String, Object> map = new HashMap<>();
-        map.put("teacherId", "4028b88155c4dd070155c4dd8a340000");
-        VolleyManager.getInstance().sendGsonRequest(null, urlPath, map, "6eca806dffed65f70f6d50a3b435069b", WithdrawAccountBean.class, new Response.Listener<WithdrawAccountBean>() {
+        map.put("teacherId", AccountDBTask.getAccount().getId());
+        VolleyManager.getInstance().sendGsonRequest(null, urlPath, map, SPUtils.getData(SPUtils.TOKEN, null), WithdrawAccountBean.class, new Response.Listener<WithdrawAccountBean>() {
             @Override
             public void onResponse(WithdrawAccountBean response) {
                 if (response.getAccount() != null) {
@@ -191,8 +191,8 @@ public class WithdrawMoneyActivity extends BaseActivity implements IWithdrawMone
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-      if (requestCode==REQUEST&&resultCode==RESULT_OK){
-          sendRequest();
-      }
+        if (requestCode == REQUEST && resultCode == RESULT_OK) {
+            sendRequest();
+        }
     }
 }

@@ -41,7 +41,7 @@ public class OrderDetailActivity extends BaseActivity implements IOrderDetailAct
     private TextView schedule;
     private TextView demend;
     private LinearLayout call;
-    private RelativeLayout content;
+    private LinearLayout content;
     private IOrderDetailPresenter presenter;
     private TextView classCount;
     private TextView totalPrice;
@@ -119,7 +119,7 @@ public class OrderDetailActivity extends BaseActivity implements IOrderDetailAct
         schedule = (TextView) findViewById(R.id.schedule);
         demend = (TextView) findViewById(R.id.demand);
         call = (LinearLayout) findViewById(R.id.call);
-        content = (RelativeLayout) findViewById(R.id.content);
+        content = (LinearLayout) findViewById(R.id.content);
         actual = (TextView) findViewById(R.id.actual);
         bottom = (RelativeLayout) findViewById(R.id.bottom);
         button = (TextView) findViewById(R.id.button);
@@ -256,16 +256,6 @@ public class OrderDetailActivity extends BaseActivity implements IOrderDetailAct
     @Override
     public void showError(int type) {
         viewOverrideManager.showLoading(type, null);
-    }
-
-    @Override
-    public void hideLoading() {
-        super.hideLoading();
-    }
-
-    @Override
-    public void hideError() {
-        super.hideError();
     }
 
     @Override

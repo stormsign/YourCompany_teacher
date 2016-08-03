@@ -9,6 +9,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.miuhouse.yourcompany.teacher.R;
+import com.miuhouse.yourcompany.teacher.utils.Util;
 import com.orhanobut.dialogplus.OnItemClickListener;
 
 import java.util.List;
@@ -17,11 +18,11 @@ import java.util.List;
  * Created by kings on 7/12/2016.
  */
 public class ChoiceAdapter extends ArrayAdapter<String> {
-    private int choicePosition;
+    private String selectedStr;
 
-    public ChoiceAdapter(Context context, List<String> list, int choicePosition) {
+    public ChoiceAdapter(Context context, List<String> list, String selectedStr) {
         super(context, 0, list);
-        this.choicePosition = choicePosition;
+        this.selectedStr = selectedStr;
     }
 
     @Override
@@ -35,11 +36,14 @@ public class ChoiceAdapter extends ArrayAdapter<String> {
             vh = (ViewHolder) convertView.getTag();
         }
         vh.tvDescription.setText(getItem(position));
-        if (position == choicePosition) {
-            vh.radioButton.setChecked(true);
-        } else {
-            vh.radioButton.setChecked(false);
+        if (!Util.isEmpty(selectedStr)) {
+            if (selectedStr.equals(getItem(position))) {
+                vh.radioButton.setChecked(true);
+            } else {
+                vh.radioButton.setChecked(false);
+            }
         }
+
         return convertView;
     }
 
@@ -50,7 +54,9 @@ public class ChoiceAdapter extends ArrayAdapter<String> {
         public ViewHolder(View view) {
             tvDescription = (TextView) view.findViewById(R.id.tv_description);
             radioButton = (RadioButton) view.findViewById(R.id.radio_genders);
-        };
+        }
+
+        ;
     }
 
 }

@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.miuhouse.yourcompany.teacher.R;
+import com.miuhouse.yourcompany.teacher.utils.Util;
 import com.miuhouse.yourcompany.teacher.view.ui.base.BaseActivity;
 
 /**
@@ -13,6 +14,7 @@ import com.miuhouse.yourcompany.teacher.view.ui.base.BaseActivity;
 public class ChangeRecommendActivity extends BaseActivity {
     private String strNiceName;
     private EditText editText;
+
     @Override
     protected String setTitle() {
         return "老师介绍";
@@ -26,7 +28,12 @@ public class ChangeRecommendActivity extends BaseActivity {
     @Override
     protected void initViewAndEvents() {
 
-       editText = (EditText) findViewById(R.id.edit_recommend);
+        editText = (EditText) findViewById(R.id.edit_recommend);
+        String recommend = getIntent().getStringExtra("recommend");
+        editText.setText(recommend);
+        if (!Util.isEmpty(recommend)) {
+            editText.setSelection(recommend.length());
+        }
     }
 
     @Override

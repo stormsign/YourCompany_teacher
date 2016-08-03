@@ -49,7 +49,7 @@
     <string name="order_status_chosen">已选择你作为上课老师</string>
     <string name="order_status_cancel">已取消</string>
     <!-- 我的资料-->
-    <string name="change_username">使用真是姓名</string>
+    <string name="change_username">使用真实姓名</string>
     <!--<string name="msg_type_11">到账通知</string>-->
     <!--<string name="msg_type_6">退款通知</string>-->
     <string name="msg_type_3">上课通知</string>
@@ -74,5 +74,6 @@
     <string name="exception_no_network">网络有些问题，请稍后再试</string>
     <string name="order_status_not_chosen">已选择其他老师</string>
 
+    <string name="copyright">Copyright © miaofangkeji All rights reserved.</string>
 
 </resources>

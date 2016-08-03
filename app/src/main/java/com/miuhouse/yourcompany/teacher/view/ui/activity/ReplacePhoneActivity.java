@@ -65,7 +65,9 @@ public class ReplacePhoneActivity extends BaseActivity implements IUserInformati
         etReplacePhone = (EditText) findViewById(R.id.et_replace_phone);
         etCode = (EditText) findViewById(R.id.et_code);
         tvGetVcode = (TextView) findViewById(R.id.tv_get_vcode);
-
+        if (phone != null) {
+            phone = phone.replace(phone.substring(3, 7), "****");
+        }
         tvCurrentPhone.setText(phone);
 
         etReplacePhone.addTextChangedListener(new TextWatcher() {

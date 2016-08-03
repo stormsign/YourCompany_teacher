@@ -1,11 +1,15 @@
 package com.miuhouse.yourcompany.teacher.view.ui.activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
@@ -27,16 +31,20 @@ import com.miuhouse.yourcompany.teacher.view.ui.base.BaseActivity;
 import com.miuhouse.yourcompany.teacher.view.widget.LovelyChoiceDialog;
 
 import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
-//import com.yalantis.ucrop.UCrop;
-//import com.yalantis.ucrop.UCrop;
+import com.yalantis.ucrop.UCrop;
+import com.yalantis.ucrop.UCrop;
 
 /**
  * Created by kings on 7/8/2016.
  */
 public class UserInformationActivity extends BaseActivity implements View.OnClickListener, IUserInformationView, MyAsyn.AsyncResponse {
+
+    private static final String SAMPLE_CROPPED_IMAGE_NAME = "SampleCropImage";
     private static final int USER_NAME = 0;
     private static final int USER_UNIVERSITY = 1;
     private static final int USER_MAJOR = 2;
@@ -58,6 +66,7 @@ public class UserInformationActivity extends BaseActivity implements View.OnClic
     private ImageView imgAvatar;
     private TextView tvPbxType;
     private ScrollView content;
+    private ProgressBar progressBar;
 
     private String strUserName;
     private String strUniversity;
@@ -66,6 +75,11 @@ public class UserInformationActivity extends BaseActivity implements View.OnClic
     private String strGenders;
     private String strGrades;
     private String strEducations;
+    private String strHeadUrl;
+
+    //保存成功返回给AccountFragment的用户名和头像地址
+    private String strRequestName;
+    private String strRequestHeadUrl;
 
     private int gendersPosition;
 
@@ -76,7 +90,6 @@ public class UserInformationActivity extends BaseActivity implements View.OnClic
     private ArrayList<String> pbxTypeList = new ArrayList<>();
 
     private IUserInformationPresenter userInformationPresenter;
-    private String strHeadUrl;
 
     private TeacherInfo teacherInfo;
 
@@ -114,6 +127,7 @@ public class UserInformationActivity extends BaseActivity implements View.OnClic
         tvEducations = (TextView) findViewById(R.id.tv_education);
         tvPbxType = (TextView) findViewById(R.id.tv_pbxtype);
         imgAvatar = (ImageView) findViewById(R.id.avatar);
+        progressBar = (ProgressBar) findViewById(R.id.progressbar);
 
         userInformationPresenter = new UserInformationPresenter(this);
     }
@@ -138,15 +152,18 @@ public class UserInformationActivity extends BaseActivity implements View.OnClic
      */
     @Override
     public void onRightClick() {
+        progressBar.setVisibility(View.VISIBLE);
         int intGenders = Values.getKey(Values.gendersDemand, strGenders);
-        L.i("TAG", "strEducations=" + strEducations);
         int intEducations = DictDBTask.getDcValue("college_grade", strEducations);
-        L.i("TAG", "intEducations=" + DictDBTask.getDcValue("college_grade", strEducations));
 
         int intGrades = Values.getKey(Values.teacherGrades, strGrades);
         List<Integer> list = new ArrayList<>();
         for (String str : pbxTypeList) {
-            list.add(Values.getKey(Values.majorDemand, str));
+            if (Values.getKey(Values.majorDemand, str) == 0) {
+                list.add(Integer.parseInt(str));
+            } else {
+                list.add(Values.getKey(Values.majorDemand, str));
+            }
         }
         userInformationPresenter.doChangeUserInformation(null, albumList, strUserName, intGenders, strUniversity, strMajor, intEducations, intGrades, list, strRecommend, strHeadUrl);
     }
@@ -177,7 +194,7 @@ public class UserInformationActivity extends BaseActivity implements View.OnClic
                 break;
             case R.id.relative_sex:
                 genders = Values.getListValue(Values.gendersDemand);
-                showSingleChoiceDialog(genders, "性别", USER_GENDERS);
+                showSingleChoiceDialog(strGenders, genders, "性别", USER_GENDERS);
                 break;
             case R.id.relative_schollage:
                 //类型选择
@@ -185,11 +202,14 @@ public class UserInformationActivity extends BaseActivity implements View.OnClic
                 break;
             case R.id.relative_grade:
                 grades = Values.getListValue(Values.teacherGrades);
-                showSingleChoiceDialog(grades, "年级", USER_GRADES);
+                for (String str : grades) {
+                    L.i("TAG", "grades=" + str);
+                }
+                showSingleChoiceDialog(strGrades, grades, "年级", USER_GRADES);
                 break;
             case R.id.relative_education:
                 educations = DictDBTask.getDcNameList("college_grade");
-                showSingleChoiceDialog(educations, "学历", USER_EDUCATIONS);
+                showSingleChoiceDialog(strEducations, educations, "学历", USER_EDUCATIONS);
                 break;
             case R.id.relative_university:
                 Intent intentUniversity = new Intent(this, ChangeUserNameActivity.class);
@@ -205,6 +225,7 @@ public class UserInformationActivity extends BaseActivity implements View.OnClic
                 break;
             case R.id.relative_recommend:
                 Intent intentRecommend = new Intent(this, ChangeRecommendActivity.class);
+                intentRecommend.putExtra("recommend", strRecommend);
                 startActivityForResult(intentRecommend, USER_RECOMMEND);
                 break;
             case R.id.relative_images:
@@ -234,7 +255,31 @@ public class UserInformationActivity extends BaseActivity implements View.OnClic
 //                mResultText.setText(sb.toString());
                 L.i("TAG", "sb.toString()=" + sb.toString());
                 File file = new File(sb.toString());
+                Uri sourceUri = Uri.fromFile(file);
+                String destinationFileName = System.currentTimeMillis() + ".png";
+                UCrop.Options oPtions = new UCrop.Options();
+                oPtions.setCropFrameColor(getResources().getColor(R.color.themeColor));
+                oPtions.setActiveWidgetColor(getResources().getColor(R.color.themeColor));
+                oPtions.setStatusBarColor(getResources().getColor(R.color.themeColor));
+                oPtions.setToolbarColor(getResources().getColor(R.color.themeColor));
+                UCrop.of(sourceUri, Uri.fromFile(new File(getCacheDir(), destinationFileName))).withOptions(oPtions)
+                        .withAspectRatio(9, 9)
+                        .withMaxResultSize(Util.dip2px(this, 50), Util.dip2px(this, 50))
+                        .start(this);
             }
+        }
+        if (requestCode == UCrop.REQUEST_CROP && resultCode == RESULT_OK) {
+            final Uri resultUri = UCrop.getOutput(data);
+            try {
+                File file = new File(new URI(resultUri.toString()));
+                Glide.with(this).load(resultUri).centerCrop().override(Util.dip2px(this, 50), Util.dip2px(this, 50)).into(imgAvatar);
+                new MyAsyn(this, this, file, "pbx/teacherhead_android").execute();
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+
+        } else if (resultCode == UCrop.RESULT_ERROR) {
+            final Throwable cropError = UCrop.getError(data);
         }
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
@@ -255,7 +300,10 @@ public class UserInformationActivity extends BaseActivity implements View.OnClic
                     tvRecommend.setText(strRecommend);
                     break;
                 case REQUEST_ALBUM:
-                    albumList.clear();
+
+                    if (data.getStringArrayListExtra(PhotoAlbumActivity.EXTRA_RESULT).size() > 0) {
+                        albumList.clear();
+                    }
                     albumList.addAll(data.getStringArrayListExtra(PhotoAlbumActivity.EXTRA_RESULT));
                     break;
             }
@@ -263,8 +311,8 @@ public class UserInformationActivity extends BaseActivity implements View.OnClic
 
     }
 
-    private void showSingleChoiceDialog(final List<String> arrays, String title, final int index) {
-        ArrayAdapter<String> adapter = new ChoiceAdapter(this, arrays, gendersPosition);
+    private void showSingleChoiceDialog(String selectedStr, List<String> arrays, String title, final int index) {
+        ArrayAdapter<String> adapter = new ChoiceAdapter(this, arrays, selectedStr);
         final LovelyChoiceDialog lovelyChoiceDialog = new LovelyChoiceDialog(this);
         lovelyChoiceDialog.setTopColorRes(R.color.backgroundcolor_common).goneIconView().setTitle(title).setItems(adapter, new LovelyChoiceDialog.OnItemSelectedListener<String>() {
             @Override
@@ -292,15 +340,12 @@ public class UserInformationActivity extends BaseActivity implements View.OnClic
                 .setItemsMultiChoice(items, new LovelyChoiceDialog.OnItemsSelectedListener<String>() {
                     @Override
                     public void onItemsSelected(List<Integer> positions, List<String> items) {
-                        L.i("TAG", "items=" + items.size());
                         pbxTypeList.clear();
                         pbxTypeList.addAll(items);
                         tvPbxType.setText(getPdxTypeTwo(pbxTypeList));
 //
                     }
                 })
-//                .setConfirmButtonText(R.string.confirm)
-//                .setSavedInstanceState(savedInstanceState)
                 .show();
     }
 
@@ -311,7 +356,16 @@ public class UserInformationActivity extends BaseActivity implements View.OnClic
      */
     @Override
     public void UpdateSuccess(BaseBean baseBean) {
+        if (progressBar.getVisibility() == View.VISIBLE) {
+            progressBar.setVisibility(View.GONE);
+        }
 
+        Toast.makeText(this, baseBean.getMsg(), Toast.LENGTH_LONG).show();
+        if (baseBean.getCode() == 0) {
+            strRequestName = tvNicename.getText().toString();
+            strRequestHeadUrl = strHeadUrl;
+        }
+        onBackClick();
     }
 
     /**
@@ -324,10 +378,12 @@ public class UserInformationActivity extends BaseActivity implements View.OnClic
     public void getUserInfo(User user) {
 
         teacherInfo = user.getTeacherInfo();
-
-        strEducations = DictDBTask.getDcName("college_grade", teacherInfo.getEducation());
-        strGenders = Values.getValue(Values.gendersDemand, teacherInfo.getSex());
-        strGrades = Values.getValue(Values.teacherGrades, teacherInfo.getGrade());
+        if (!Util.isEmpty(teacherInfo.getEducation()))
+            strEducations = DictDBTask.getDcName("college_grade", Integer.parseInt(teacherInfo.getEducation()));
+        if (!Util.isEmpty(teacherInfo.getSex()))
+            strGenders = Values.getValue(Values.gendersDemand, Integer.parseInt(teacherInfo.getSex()));
+        if (!Util.isEmpty(teacherInfo.getGrade()))
+            strGrades = Values.getValue(Values.teacherGrades, Integer.parseInt(teacherInfo.getGrade()));
 
         strRecommend = teacherInfo.getIntroduction();
         tvRecommend.setText(strRecommend);
@@ -380,6 +436,7 @@ public class UserInformationActivity extends BaseActivity implements View.OnClic
         if (headUrl != null && headUrl.getImages().size() > 0) {
             strHeadUrl = headUrl.getImages().get(0);
         }
+        L.i("TAG", "strHeadUrl=" + strHeadUrl);
     }
 
     @Override
@@ -397,4 +454,18 @@ public class UserInformationActivity extends BaseActivity implements View.OnClic
     public void request() {
         getUserInfo();
     }
+
+    @Override
+    public void onBackClick() {
+        Intent intent = new Intent();
+        intent.putExtra("name", strRequestName);
+        intent.putExtra("headUrl", strRequestHeadUrl);
+        setResult(RESULT_OK, intent);
+        finish();
+    }
+
+//    private void showProgressDialog() {
+//        progressDialog = new ProgressDialog(this);
+//        progressDialog.show();
+//    }
 }

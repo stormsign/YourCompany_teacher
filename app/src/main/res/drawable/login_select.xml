@@ -17,14 +17,14 @@
     <item android:state_enabled="false">
         <shape android:shape="rectangle">
             <corners android:radius="20dp" />
-            <solid android:color="#ff9d08" />
+            <solid android:color="#ffcb7b" />
         </shape>
     </item>
 
     <item>
         <shape android:shape="rectangle">
             <corners android:radius="20dp" />
-            <solid android:color="#ff9d08" />
+            <solid android:color="#ffcb7b" />
         </shape>
     </item>
 </selector>
