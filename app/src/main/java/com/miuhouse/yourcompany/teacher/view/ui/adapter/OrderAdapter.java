@@ -81,8 +81,8 @@ public class OrderAdapter extends BaseRVAdapter{
         setOrderStatus(mholder.orderStatus, order.getOrderStatus());
         if (!Util.isEmpty(order.getUserHeader())) {
             Glide.with(context).load(order.getUserHeader())
-                    .placeholder(R.mipmap.asy)
-                    .error(R.mipmap.ic_launcher)
+                    .placeholder(R.mipmap.ico_head_default)
+                    .error(R.mipmap.ico_head_default)
                     .into(mholder.studentHead);
         }
         mholder.studentName.setText(order.getCname());

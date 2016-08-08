@@ -52,7 +52,9 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
                 baseView.setFitsSystemWindows(false);
         }
 //        设置异常页面管理
-        viewOverrideManager = new ViewOverrideManager(getOverrideParentView());
+        if (viewOverrideManager==null){     //viewOverriderManager需要经常做非空判断，否则其内部对象很可能会抛空指针异常
+            viewOverrideManager = new ViewOverrideManager(getOverrideParentView());
+        }
         request();
     }
 

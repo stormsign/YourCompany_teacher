@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgroundcolor_common"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@mipmap/ico_morendizhi"
+            android:drawablePadding="5dp"
+            android:text="默认使用位置"
+            android:textColor="@color/themeColor"
+            android:textSize="@dimen/text_15" />
+
+        <TextView
+            android:id="@+id/tv_default_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="北京市海淀区"
+            android:textColor="@color/textDarkone"
+            android:textSize="@dimen/text_15"
+
+            />
+    </LinearLayout>
+</LinearLayout>

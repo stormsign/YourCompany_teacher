@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.miuhouse.yourcompany.teacher.R;
+import com.miuhouse.yourcompany.teacher.application.App;
 import com.miuhouse.yourcompany.teacher.http.VolleyManager;
 import com.miuhouse.yourcompany.teacher.listener.OnListItemClick;
 import com.miuhouse.yourcompany.teacher.model.BaseBean;
@@ -19,6 +20,7 @@ import com.miuhouse.yourcompany.teacher.model.PayAccountBean;
 import com.miuhouse.yourcompany.teacher.model.PayAccountListBean;
 import com.miuhouse.yourcompany.teacher.utils.Constants;
 import com.miuhouse.yourcompany.teacher.utils.L;
+import com.miuhouse.yourcompany.teacher.utils.SPUtils;
 import com.miuhouse.yourcompany.teacher.view.ui.adapter.PayTypeAdapter;
 import com.miuhouse.yourcompany.teacher.view.ui.base.BaseActivity;
 
@@ -86,8 +88,8 @@ public class ChooseWithdrawAccountActivity extends BaseActivity {
     private void sendReques() {
         String urlPath = Constants.URL_VALUE + "accountList";
         Map<String, Object> map = new HashMap<>();
-        map.put("teacherId", "4028b88155c4dd070155c4dd8a340000");
-        VolleyManager.getInstance().sendGsonRequest(null, urlPath, map, "6eca806dffed65f70f6d50a3b435069b", PayAccountListBean.class, new Response.Listener<PayAccountListBean>() {
+        map.put("teacherId", App.getInstance().getTeacherId());
+        VolleyManager.getInstance().sendGsonRequest(null, urlPath, map, SPUtils.getData(SPUtils.TOKEN, null), PayAccountListBean.class, new Response.Listener<PayAccountListBean>() {
             @Override
             public void onResponse(PayAccountListBean response) {
                 if (payAccountList.size() > 0)
@@ -128,9 +130,9 @@ public class ChooseWithdrawAccountActivity extends BaseActivity {
     public void sendRequest() {
         String urlPath = Constants.URL_VALUE + "accountDefault";
         Map<String, Object> map = new HashMap<>();
-        map.put("teacherId", "4028b88155c4dd070155c4dd8a340000");
+        map.put("teacherId", App.getInstance().getTeacherId());
         map.put("id", accounId);
-        VolleyManager.getInstance().sendGsonRequest(null, urlPath, map, "6eca806dffed65f70f6d50a3b435069b", BaseBean.class, new Response.Listener<BaseBean>() {
+        VolleyManager.getInstance().sendGsonRequest(null, urlPath, map, SPUtils.getData(SPUtils.TOKEN, null), BaseBean.class, new Response.Listener<BaseBean>() {
             @Override
             public void onResponse(BaseBean response) {
                 Toast.makeText(context, response.getMsg(), Toast.LENGTH_LONG).show();

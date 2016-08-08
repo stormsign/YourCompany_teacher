@@ -1,16 +1,13 @@
 package com.miuhouse.yourcompany.teacher.view.ui.activity;
 
-import android.app.Notification;
-import android.app.NotificationManager;
+import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.NotificationCompat;
 import android.view.View;
 import android.widget.RelativeLayout;
 
@@ -28,9 +25,11 @@ import com.miuhouse.yourcompany.teacher.view.ui.adapter.MainPageAdapter;
 import com.miuhouse.yourcompany.teacher.view.ui.base.BaseActivity;
 import com.miuhouse.yourcompany.teacher.view.ui.base.BaseFragment;
 import com.miuhouse.yourcompany.teacher.view.ui.fragment.MessagesFragment;
+import com.miuhouse.yourcompany.teacher.view.ui.fragment.OrdersFragment;
 import com.miuhouse.yourcompany.teacher.view.widget.ViewPagerIndicator;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 
@@ -92,6 +91,25 @@ public class MainActivity extends BaseActivity implements OnReceiveListener {
 
         DictManager.getInstance(this).init();
 
+
+        Intent intent = new Intent("CLASS_ALARM_ACTION");
+        intent.putExtra("orderid", "orderidxxx");
+        PendingIntent pi = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.add(Calendar.SECOND, 10);
+        am.set(AlarmManager.RTC_WAKEUP,
+                calendar.getTimeInMillis(),
+                pi);
+
+
+        PendingIntent pi2 = PendingIntent.getBroadcast(this, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        calendar.add(Calendar.SECOND, 5);
+        am.set(AlarmManager.RTC_WAKEUP,
+                calendar.getTimeInMillis(),
+                pi2);
+
     }
 
     @Override
@@ -114,43 +132,24 @@ public class MainActivity extends BaseActivity implements OnReceiveListener {
     public void onRightClick() {
         L.i("right!!!");
 //        hideLoading();
-        startActivity(new Intent(MainActivity.this, LoginRegistActivity.class));
+//        startActivity(new Intent(MainActivity.this, LoginRegistActivity.class));
 
 //        showNotification();
     }
 
-    private void showNotification() {
-        NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-        builder.setSmallIcon(R.mipmap.asy);
-        builder.setContentTitle("ContentTitle");
-        builder.setContentText("ContentText");
-//        builder.setSubText("subtext");
-//        Notification notification = builder.build();
-        builder.setAutoCancel(true);
-        builder.setTicker("ticker");
-//        builder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ico_map_radio_bus_pressd));
-        builder.setContentIntent(PendingIntent.getActivity(this
-                , 1
-                , new Intent(this, LoginRegistActivity.class)
-                , PendingIntent.FLAG_CANCEL_CURRENT));
-        Notification notification = null;
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-            notification = builder.getNotification();
-        } else {
-            notification = builder.build();
-        }
-        notification.flags = Notification.FLAG_AUTO_CANCEL;
-        notification.defaults = Notification.DEFAULT_SOUND
-                | Notification.DEFAULT_LIGHTS
-                | Notification.DEFAULT_VIBRATE;
-        nm.notify(190, notification);
-
-    }
-
     @Override
     public void onReceive(Context context, Intent intent) {
-        ((MessagesFragment)FragmentFactory.getFragment(BaseFragment.MESSAGES)).refreshTop();
+        int type = intent.getIntExtra("type", 0);
+        if (type == 0){
+            return ;
+        }
+        if (type == 1){
+            (FragmentFactory.getFragment(BaseFragment.MYORDERS)).onResume();
+            ((OrdersFragment) FragmentFactory.getFragment(BaseFragment.ORDERS)).changeListToggle(false);
+        }else if (type == 3 ||
+                type == 4) {
+            ((MessagesFragment) FragmentFactory.getFragment(BaseFragment.MESSAGES)).refreshTop();
+        }
     }
 
     @Override

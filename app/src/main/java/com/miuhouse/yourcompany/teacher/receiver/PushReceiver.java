@@ -1,5 +1,7 @@
 package com.miuhouse.yourcompany.teacher.receiver;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 
@@ -17,18 +19,13 @@ import java.util.List;
 /**
  * Created by khb on 2016/7/14.
  */
-public class PushReceiver extends PushMessageReceiver{
+public class PushReceiver extends PushMessageReceiver {
     @Override
     public void onBind(Context context, int errorCode, String appid, String userId, String channelId, String requestId) {
         String responseString = "onBind errorCode=" + errorCode + " appid=" + appid + " userId=" + userId + " channelId=" + channelId + " requestId=" + requestId;
+
+        SPUtils.saveData(channelId, null);
         L.i("TAG", responseString);
-//        if (channelId != null) {
-//            SettingHelper.setEditor(context, "channelId", Long.parseLong(channelId));
-//        }
-//        SettingHelper.setEditor(context, "userId", userId);
-//        if (userId != null && channelId != null && SettingUtility.firstStartBaidu()) {
-//            update(channelId, userId, context);
-//        }
     }
 
     @Override
@@ -81,12 +78,19 @@ public class PushReceiver extends PushMessageReceiver{
             JSONObject jObject = new JSONObject(customContentString);
             int type = jObject.getInt("type");
 
-            switch (type){
+            switch (type) {
                 case 1:     //订单通知
-
+                    L.i("订单通知");
+                    Intent intent = new Intent("CLASS_ALARM_ACTION");
+                    intent.putExtra("orderid", "");
+                    PendingIntent pi = PendingIntent.getBroadcast(context, 0, intent, 0);
+                    AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+                    am.set(AlarmManager.RTC_WAKEUP,
+                            new java.util.Date(2016,8,8,14,50,0).getTime(),
+                            pi);
                     break;
                 case 2:     //上课提醒
-
+                    L.i("上课提醒");
                     break;
                 case 3:      //账户变动， 账户通知
                     int count3 = SPUtils.getData(Constants.UNREAD_PURSEMSG_COUNT, 0);
@@ -103,6 +107,7 @@ public class PushReceiver extends PushMessageReceiver{
             }
 
             Intent intent = new Intent(Constants.INTENT_ACTOIN_RECEIVE);
+            intent.putExtra("type", type);
             context.sendBroadcast(intent);
         } catch (JSONException e) {
             e.printStackTrace();

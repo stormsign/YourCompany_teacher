@@ -43,6 +43,7 @@ public class BrowserActivity extends BaseActivity {
 
     @Override
     protected String setTitle() {
+        titleStr = getIntent().getStringExtra("title");
         return titleStr;
     }
 
@@ -55,7 +56,6 @@ public class BrowserActivity extends BaseActivity {
     protected void initViewAndEvents() {
 
         url = getIntent().getStringExtra(BROWSER_KEY);
-        titleStr = getIntent().getStringExtra("title");
 //        if (url == null) {
 //            isSplash = true;
 //            url = FinalData.URL_INDEX;

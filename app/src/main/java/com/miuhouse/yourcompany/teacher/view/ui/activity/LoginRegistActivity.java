@@ -28,7 +28,6 @@ import com.miuhouse.yourcompany.teacher.R;
 import com.miuhouse.yourcompany.teacher.application.App;
 import com.miuhouse.yourcompany.teacher.model.BaseBean;
 import com.miuhouse.yourcompany.teacher.model.User;
-
 import com.miuhouse.yourcompany.teacher.presenter.LoginPresenter;
 import com.miuhouse.yourcompany.teacher.presenter.interf.ILoginPresenter;
 import com.miuhouse.yourcompany.teacher.utils.Constants;
@@ -91,8 +90,14 @@ public class LoginRegistActivity extends AppCompatActivity implements ILoginView
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        L.i("LOGIN ACTIVITY");
+        if ((getIntent().getFlags()&Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0){
+            finish();
+            return;
+        }
         int code = getIntent().getIntExtra("code", 0);
         if (code != 1 && App.getInstance().isLogin()) {
+//            ActivityManager.getInstance().finishAll();
             startActivity(new Intent(this, MainActivity.class));
             finish();
         }
@@ -570,6 +575,7 @@ public class LoginRegistActivity extends AppCompatActivity implements ILoginView
         showProgressBar(false);
         mDialog.dismiss();
         if (user != null && user.getCode() == 0) {
+//            ActivityManager.getInstance().finishAll();
             startActivity(new Intent(this, MainActivity.class));
             Toast.makeText(this, user.getMsg(), Toast.LENGTH_LONG).show();
         } else {
@@ -590,8 +596,8 @@ public class LoginRegistActivity extends AppCompatActivity implements ILoginView
     }
 
     private void showProgressBar(boolean show) {
-//        mProgressbar.setVisibility(show ? View.VISIBLE : View.GONE);
-//        login.setVisibility(show ? View.GONE : View.VISIBLE);
+        mProgressbar.setVisibility(show ? View.VISIBLE : View.GONE);
+        login.setVisibility(show ? View.GONE : View.VISIBLE);
     }
 
     @Override

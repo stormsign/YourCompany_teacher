@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.miuhouse.yourcompany.teacher.R;
+import com.miuhouse.yourcompany.teacher.utils.L;
 
 /**
  * Created by khb on 2016/6/7.
@@ -30,6 +31,8 @@ public class ViewOverrideManager implements ValueAnimator.AnimatorUpdateListener
     public static final int NO_STUDENT = 3;
     public static final int NO_ORDER = 4;
     public static final int NO_NETWORK = 5;
+    public static final int NO_ADDRESS=6;
+
     private View view;
     private TextView tvMsg;
     private ImageView img;
@@ -38,21 +41,27 @@ public class ViewOverrideManager implements ValueAnimator.AnimatorUpdateListener
 
     public ViewOverrideManager(View view) {
         this.parentView = view;
+        if (parentView!=null) {
+            this.view = LayoutInflater.from(parentView.getContext()).inflate(R.layout.view_override, null);
+        }
 //        init();
     }
 
     private void init() {
-        if (null == parentView){
-            return ;
+        if (null == parentView) {
+            return;
         }
         layoutParams = parentView.getLayoutParams();
         if (null != parentView.getParent()) {
             container = (ViewGroup) parentView.getParent();
-        } /*else if (parentView.getRootView().findViewById(android.R.id.content) == null){
-            container = (ViewGroup) parentView.findViewById(android.R.id.content);
-        }*/ else{
+        } else {
             ViewGroup root = (ViewGroup) parentView.getRootView();
             container = (ViewGroup) root.findViewById(android.R.id.content);
+        }
+        if (null == container) {
+//            container = (ViewGroup) parentView;
+            L.i("内部对象为空");
+            return;
         }
         for (int i = 0; i < container.getChildCount(); i++) {
             if (parentView == container.getChildAt(i)) {
@@ -65,6 +74,10 @@ public class ViewOverrideManager implements ValueAnimator.AnimatorUpdateListener
     private void showLayout(View view) {
         if (null == container) {
             init();
+        }
+        if (null == container){
+//            container = (ViewGroup) parentView.getRootView();
+            return;
         }
         if (container.getChildAt(viewIndex) != view) {
             ViewGroup parent = (ViewGroup) view.getParent();
@@ -97,8 +110,10 @@ public class ViewOverrideManager implements ValueAnimator.AnimatorUpdateListener
             }
         });
         Context context = view.getContext();
+        isContinue = false;
         switch (type){
             case LOADING:
+                isContinue = true;
                 animateLoading();
                 break;
             case NO_MSG:
@@ -127,13 +142,18 @@ public class ViewOverrideManager implements ValueAnimator.AnimatorUpdateListener
                 button.setText("重试");
                 button.setVisibility(View.VISIBLE);
                 break;
+            case  NO_ADDRESS:
+                img.setImageResource(R.mipmap.img_no_student);
+                tvMsg.setText(context.getResources().getString(R.string.exception_no_address));
+                button.setText("添加新位置");
+                button.setVisibility(View.VISIBLE);
+                break;
             default:
                 break;
         }
     }
 
     public void showLoading(String msg, boolean isShowProgress) {
-        view = LayoutInflater.from(parentView.getContext()).inflate(R.layout.view_override, null);
 //        ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.progressbar);
         img = (ImageView) view.findViewById(R.id.img);
         tvMsg = (TextView) view.findViewById(R.id.msg);

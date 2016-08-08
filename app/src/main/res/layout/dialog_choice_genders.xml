@@ -26,5 +26,6 @@
         android:layout_gravity="right"
         android:clickable="false"
         android:focusable="false"
+        style="@style/BrandedSwitch.control"
         />
 </RelativeLayout>

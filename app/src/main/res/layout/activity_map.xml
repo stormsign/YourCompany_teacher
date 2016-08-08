@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgroundcolor_common"
+    android:orientation="vertical">
+
+    <!--<Button-->
+        <!--android:id="@+id/searchButton"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="搜索" />-->
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+        <AutoCompleteTextView
+            android:id="@+id/keyWord"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:completionThreshold="1"
+            android:dropDownVerticalOffset="1.0dip"
+            android:hint="请输入关键字"
+            android:textColorHint="@color/textDarktwo"
+            android:imeOptions="actionDone"
+            android:inputType="text|textAutoComplete"
+            android:paddingRight="10.0dip"
+            android:singleLine="true"
+            android:textColor="#000000"
+            android:textSize="16.0sp"
+            android:drawableLeft="@mipmap/shape"
+            android:drawablePadding="5dp"
+            />
+        <!--<EditText-->
+            <!--android:id="@+id/location_edit"-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="40dp"-->
+            <!--android:layout_alignParentTop="true"-->
+            <!--android:layout_marginBottom="8dp"-->
+            <!--android:layout_marginLeft="20dp"-->
+            <!--android:layout_marginRight="20dp"-->
+            <!--android:layout_marginTop="8dip"-->
+            <!--android:background="@color/white"-->
+            <!--android:editable="true"-->
+            <!--android:hint="输入搜索关键字"-->
+            <!--android:paddingBottom="5dp"-->
+            <!--android:paddingLeft="10dp"-->
+            <!--android:paddingTop="5dp"-->
+            <!--android:singleLine="true"-->
+            <!--android:textSize="15.0dip" />-->
+
+
+        <fragment
+            android:id="@+id/map"
+            class="com.amap.api.maps2d.SupportMapFragment"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/keyWord"
+            android:clickable="true" />
+        <!--android:background="@drawable/bg_tacos"-->
+
+        <!--<RelativeLayout-->
+            <!--android:id="@+id/rl_location_detail"-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@+id/map"-->
+            <!--android:visibility="visible">-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/tv_location_name"-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginLeft="10dp"-->
+                <!--android:paddingTop="12dp"-->
+                <!--android:singleLine="true"-->
+                <!--android:textColor="@color/textDarkone"-->
+                <!--android:textSize="@dimen/text_16" />-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/tv_location_address"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_below="@id/tv_location_name"-->
+                <!--android:layout_gravity="center_vertical"-->
+                <!--android:layout_marginLeft="10dp"-->
+                <!--android:layout_marginTop="6dp"-->
+                <!--android:paddingBottom="12dp"-->
+                <!--android:singleLine="true"-->
+                <!--android:textColor="@color/textDarkfour"-->
+                <!--android:textSize="@dimen/text_13" />-->
+
+            <!-- <Button -->
+            <!-- android:id="@+id/bt_finish" -->
+            <!-- android:layout_width="fill_parent" -->
+            <!-- android:layout_height="wrap_content" -->
+            <!-- android:layout_below="@id/tv_location_address" -->
+            <!-- android:layout_centerHorizontal="true" -->
+            <!-- android:layout_marginBottom="8dp" -->
+            <!-- android:layout_marginTop="8dp" -->
+            <!-- android:background="@color/btn_blue_pressed" -->
+            <!-- android:gravity="center" -->
+            <!-- android:padding="10dp" -->
+            <!-- android:text="确定" -->
+            <!-- android:textColor="@color/black" -->
+            <!-- android:textSize="@dimen/text_17" /> -->
+        <!--</RelativeLayout>-->
+
+        <!--<ListView-->
+            <!--android:id="@+id/listview"-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@+id/rl_location_detail"-->
+            <!--android:background="@color/white"-->
+            <!--android:divider="@color/view_line"-->
+            <!--android:dividerHeight="1px"-->
+            <!--android:headerDividersEnabled="false"-->
+            <!--android:scrollbars="none"-->
+            <!--android:scrollingCache="true" />-->
+    </RelativeLayout>
+
+</LinearLayout>

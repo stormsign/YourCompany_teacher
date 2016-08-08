@@ -26,33 +26,33 @@ public class OrderDetailPresenter implements IOrderDetailPresenter {
 
     @Override
     public void getOrderDetail(String teacherId, String orderInfoId) {
+        activity.showLoading(null);
         interactor.getInfo(teacherId, orderInfoId, new OnLoadCallBack() {
             @Override
             public void onPreLoad() {
-                activity.showLoading(null);
+
             }
 
             @Override
             public void onLoadSuccess(Object data) {
-
                 activity.hideLoading();
                 OrderInteractor.OrderListBean bean
                             = (OrderInteractor.OrderListBean) data;
                 if (bean.getCode() == 1) {
-                        activity.onTokenExpired();
-                        return;
-                    }
+                    activity.onTokenExpired();
+                    return;
+                }
                 if (null != bean) {
-                        if (bean.getCode() == 0) {
-                            if (null != bean.getOrderList()) {
-                                activity.fillView(bean.getOrderList());
-                            } else {
-//                        activity.showError("无数据");
-                            }
+                    if (bean.getCode() == 0) {
+                        if (null != bean.getOrderList()) {
+                            activity.fillView(bean.getOrderList());
                         } else {
-//                    activity.showError("请求失败"+bean.getMsg());
+//                        activity.showError("无数据");
                         }
+                    } else {
+//                    activity.showError("请求失败"+bean.getMsg());
                     }
+                }
             }
 
             @Override

@@ -64,6 +64,20 @@ public class ActivityManager {
         return null;
     }
 
+    public Activity getBottomActivity(){
+        if (null != activityStack && !activityStack.empty()){
+            return activityStack.firstElement();
+        }
+        return null;
+    }
+
+    public int getStackSize(){
+        if (null != activityStack && !activityStack.empty()){
+           return activityStack.size();
+        }
+        return 0;
+    }
+
     /**
      * 退出栈内所有Activity
      */

@@ -28,6 +28,7 @@ import com.miuhouse.yourcompany.teacher.utils.L;
 import com.miuhouse.yourcompany.teacher.utils.SPUtils;
 import com.miuhouse.yourcompany.teacher.utils.Util;
 import com.miuhouse.yourcompany.teacher.view.ui.activity.AccountBlanceActivity;
+import com.miuhouse.yourcompany.teacher.view.ui.activity.AddressActivity;
 import com.miuhouse.yourcompany.teacher.view.ui.activity.BrowserActivity;
 import com.miuhouse.yourcompany.teacher.view.ui.activity.MyCommentActivity;
 import com.miuhouse.yourcompany.teacher.view.ui.activity.OrdersManageActivity;
@@ -36,6 +37,7 @@ import com.miuhouse.yourcompany.teacher.view.ui.activity.UserInformationActivity
 import com.miuhouse.yourcompany.teacher.view.ui.activity.interf.IUserInformationView;
 import com.miuhouse.yourcompany.teacher.view.ui.base.BaseFragment;
 import com.miuhouse.yourcompany.teacher.view.ui.fragment.interf.IAccountFragment;
+import com.miuhouse.yourcompany.teacher.view.widget.ViewOverrideManager;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -83,6 +85,7 @@ public class AccountFragment extends BaseFragment implements IAccountFragment, I
         view.findViewById(R.id.relative_setting).setOnClickListener(this);
         view.findViewById(R.id.relative_certification).setOnClickListener(this);
         view.findViewById(R.id.relative_feedback).setOnClickListener(this);
+        view.findViewById(R.id.relative_address).setOnClickListener(this);
 
         contentLinear = (LinearLayout) view.findViewById(R.id.content);
         tvName = (TextView) view.findViewById(R.id.tv_name);
@@ -184,6 +187,9 @@ public class AccountFragment extends BaseFragment implements IAccountFragment, I
                 intentF.putExtra("title", "意见反馈");
                 startActivity(intentF);
                 break;
+            case R.id.relative_address:
+                startActivity(new Intent(getActivity(), AddressActivity.class));
+                break;
         }
     }
 
@@ -207,12 +213,12 @@ public class AccountFragment extends BaseFragment implements IAccountFragment, I
         });
     }
 
-    @Override
-    public void showLoading(String msg) {
-//        super.showLoading(msg);
-        L.i("TAG", "msg=" + msg);
-        viewOverrideManager.showLoading(msg, true);
-    }
+//    @Override
+//    public void showLoading(String msg) {
+////        super.showLoading(msg);
+//        L.i("TAG", "msg=" + msg);
+//        viewOverrideManager.showLoading(msg, true);
+//    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -228,4 +234,10 @@ public class AccountFragment extends BaseFragment implements IAccountFragment, I
                 Glide.with(this).load(headUrl).centerCrop().override(Util.dip2px(getActivity(), 50), Util.dip2px(getActivity(), 50)).into(imgAvatar);
         }
     }
+
+    @Override
+    public void showError(int type) {
+    }
+
+
 }

@@ -8,6 +8,7 @@ import com.miuhouse.yourcompany.teacher.model.User;
 import com.miuhouse.yourcompany.teacher.utils.AesUtil;
 import com.miuhouse.yourcompany.teacher.utils.Constants;
 import com.miuhouse.yourcompany.teacher.utils.L;
+import com.miuhouse.yourcompany.teacher.utils.SPUtils;
 import com.miuhouse.yourcompany.teacher.view.ui.activity.LoginRegistActivity;
 
 import java.util.HashMap;
@@ -31,9 +32,7 @@ public class GetUserInfo implements IGetUser {
             e.printStackTrace();
         }
         map.put("type", 4);
-        L.i("TAG", "name=" + name);
-        L.i("TAG", "password=" + password);
-        L.i("TAG", "urlPath=" + urlPath);
+        map.put("deviceType", SPUtils.getData(SPUtils.DEVICE_TYPE, null));
         VolleyManager.getInstance().sendGsonRequest("login", urlPath, map, User.class, listener, errorListener);
     }
 
@@ -55,6 +54,7 @@ public class GetUserInfo implements IGetUser {
             e.printStackTrace();
         }
         map.put("type", 4);
+        map.put("deviceType", SPUtils.getData(SPUtils.DEVICE_TYPE, null));
         VolleyManager.getInstance().sendGsonRequest("register", urlPath, map, BaseBean.class, listener, errorListener);
     }
 }

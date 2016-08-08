@@ -10,6 +10,7 @@ import com.miuhouse.yourcompany.teacher.application.App;
  */
 public class SPUtils {
     public static final String TOKEN="token";
+    public static final String DEVICE_TYPE="deviceType";
     private static SharedPreferences sharedPreferences;
 
     //写入

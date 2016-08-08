@@ -9,7 +9,7 @@
         <EditText
             android:id="@+id/edit_recommend"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="200dp"
             android:hint="个人介绍..."
             android:textColor="@color/textDarkone"
             android:textColorHint="@color/textDarkfour"

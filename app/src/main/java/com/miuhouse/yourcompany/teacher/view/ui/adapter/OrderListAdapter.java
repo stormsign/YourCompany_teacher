@@ -42,14 +42,14 @@ public class OrderListAdapter extends BaseRVAdapter {
         final OrderEntity entity = (OrderEntity) list.get(position);
         final OrderListHolder mholder = (OrderListHolder)holder;
 
-        entity.setUserHeader("http://p3.music.126.net/nUGiKZdgmElnsyx0ThbYrA==/2946691185724731.jpg?param=180y180");
-
+//        entity.setUserHeader("http://p3.music.126.net/nUGiKZdgmElnsyx0ThbYrA==/2946691185724731.jpg?param=180y180");
+        entity.setUserHeader(":");
 
         mholder.name.setText(entity.getCname());
         if (null != entity.getUserHeader()) {
             Glide.with(context).load(entity.getUserHeader())
-                    .placeholder(R.mipmap.asy)
-                    .error(R.mipmap.ic_launcher)
+                    .placeholder(R.mipmap.ico_head_default)
+                    .error(R.mipmap.ico_head_default)
                     .into(mholder.header);
         }
         setOrderType(mholder.orderType, entity.getMajorDemand());

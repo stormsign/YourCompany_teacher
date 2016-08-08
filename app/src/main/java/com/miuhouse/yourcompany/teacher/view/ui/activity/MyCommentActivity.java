@@ -4,6 +4,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.RelativeLayout;
 
 import com.miuhouse.yourcompany.teacher.R;
 import com.miuhouse.yourcompany.teacher.model.Evaluate;
@@ -26,6 +27,8 @@ public class MyCommentActivity extends BaseActivity implements SwipeRefreshLayou
 
     private SwipeRefreshLayout refresh;
     private RecyclerView recyclerComment;
+    private RelativeLayout relativeContent;
+
     private MyCommentAdapter adapter;
     private List<Evaluate> list = new ArrayList<>();
     private IMyCommentPresenter myCommentPresenter;
@@ -47,6 +50,7 @@ public class MyCommentActivity extends BaseActivity implements SwipeRefreshLayou
 
         refresh = (SwipeRefreshLayout) findViewById(R.id.refresh);
         recyclerComment = (RecyclerView) findViewById(R.id.recycler_my_comment);
+        relativeContent = (RelativeLayout)findViewById(R.id.relative_content);
         refresh.setColorSchemeResources(android.R.color.holo_orange_light);
         refresh.setOnRefreshListener(this);
         recyclerComment.setLayoutManager(new LinearLayoutManager(context));
@@ -88,7 +92,7 @@ public class MyCommentActivity extends BaseActivity implements SwipeRefreshLayou
 
     @Override
     protected View getOverrideParentView() {
-        return null;
+        return relativeContent;
     }
 
     @Override

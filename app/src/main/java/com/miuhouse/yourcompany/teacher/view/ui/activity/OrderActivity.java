@@ -39,6 +39,7 @@ public class OrderActivity extends BaseActivity implements IOrderActivity {
 
     private IOrderPresenter presenter ;
     private RelativeLayout content;
+    private boolean isMyOrder;
 
     @Override
     protected String setTitle() {
@@ -54,6 +55,7 @@ public class OrderActivity extends BaseActivity implements IOrderActivity {
     protected void initViewAndEvents() {
         presenter = new OrderPresenter(this);
         order = (OrderEntity) getIntent().getSerializableExtra("order");
+        isMyOrder = getIntent().getBooleanExtra("isMyOrder", false);
         header = (CircularImageViewHome) findViewById(R.id.header);
         name = (TextView) findViewById(R.id.name);
         orderType = (TextView) findViewById(R.id.orderType);
@@ -66,8 +68,8 @@ public class OrderActivity extends BaseActivity implements IOrderActivity {
         detail = (TextView) findViewById(R.id.detail);
         if (null!= order.getUserHeader()){
             Glide.with(activity).load(order.getUserHeader())
-                    .placeholder(R.mipmap.asy)
-                    .error(R.mipmap.ic_launcher)
+                    .placeholder(R.mipmap.ico_head_default)
+                    .error(R.mipmap.ico_head_default)
                     .into(header);
         }
         name.setText(order.getCname());
@@ -80,8 +82,10 @@ public class OrderActivity extends BaseActivity implements IOrderActivity {
         totalPrice.setText("￥"+order.getAmount());
         detail.setText(order.getDescription());
         TextView grabOrder = (TextView) findViewById(R.id.grabOrder);
-        if (!order.getOrderStatus().equals("2")){
+        if (isMyOrder){
             grabOrder.setVisibility(View.GONE);
+//        }else if (!order.getOrderStatus().equals("2")){
+//            grabOrder.setVisibility(View.GONE);
         }else {
             grabOrder.setOnClickListener(new View.OnClickListener() {
                 @Override

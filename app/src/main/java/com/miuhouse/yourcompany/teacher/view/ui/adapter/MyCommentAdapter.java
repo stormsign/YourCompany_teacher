@@ -69,7 +69,7 @@ public class MyCommentAdapter extends BaseRVAdapter {
         CommentHolder commentHolder = (CommentHolder) holder;
         commentHolder.tvName.setText(evaluate.getParentName());
         commentHolder.tvContent.setText(evaluate.getEvaluateContent());
-        Glide.with(context).load(evaluate.getParentHeadUrl()).override(Util.dip2px(context, 40), Util.dip2px(context, 40)).placeholder(R.mipmap.ic_launcher).centerCrop().into(commentHolder.imgAvatar);
+        Glide.with(context).load(evaluate.getParentHeadUrl()).override(Util.dip2px(context, 40), Util.dip2px(context, 40)).placeholder(R.mipmap.ico_head_default).centerCrop().into(commentHolder.imgAvatar);
         commentHolder.tvTime.setText(Util.formatTime(evaluate.getEvaluateTime()));
         commentHolder.tvType.setText(Values.getValue(Values.majorDemand, Integer.parseInt(evaluate.getMajorDemand())));
         switch (Integer.parseInt(evaluate.getMajorDemand())) {

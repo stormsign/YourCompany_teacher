@@ -12,11 +12,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.miuhouse.yourcompany.teacher.R;
+import com.miuhouse.yourcompany.teacher.application.ActivityManager;
 import com.miuhouse.yourcompany.teacher.db.AccountDBTask;
 import com.miuhouse.yourcompany.teacher.interactor.OrderManageInteractor;
 import com.miuhouse.yourcompany.teacher.model.OrderEntity;
 import com.miuhouse.yourcompany.teacher.presenter.OrderManagePresenter;
 import com.miuhouse.yourcompany.teacher.utils.L;
+import com.miuhouse.yourcompany.teacher.view.ui.activity.MainActivity;
 import com.miuhouse.yourcompany.teacher.view.ui.activity.OrderDetailActivity;
 import com.miuhouse.yourcompany.teacher.view.ui.adapter.OrderAdapter;
 import com.miuhouse.yourcompany.teacher.view.ui.base.BaseFragment;
@@ -184,9 +186,8 @@ public class FragmentC extends BaseFragment implements IOrderManageFragment, Swi
             viewOverrideManager.showLoading(type, new ViewOverrideManager.OnExceptionalClick() {
                 @Override
                 public void onExceptionalClick() {
-                    page = 1;
-                    presenter.getCOrders(teacherId, page);
-                    hideError();
+                    ActivityManager.getInstance().finishAll();
+                    startActivity(new Intent(context, MainActivity.class));
                 }
             });
         }

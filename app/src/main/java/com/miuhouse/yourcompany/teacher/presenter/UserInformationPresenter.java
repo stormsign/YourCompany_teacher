@@ -44,7 +44,7 @@ public class UserInformationPresenter implements IUserInformationPresenter {
 
     @Override
     public void getUserInfo(String teacherId) {
-        userInformationView.showLoading("正在加载中..");
+        userInformationView.showLoading("正在加载中...");
         userInformation.getUserInfo(teacherId, new Response.Listener<User>() {
             @Override
             public void onResponse(User response) {
@@ -73,7 +73,7 @@ public class UserInformationPresenter implements IUserInformationPresenter {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                userInformationView.showError(ViewOverrideManager.NO_NETWORK);
             }
         });
     }

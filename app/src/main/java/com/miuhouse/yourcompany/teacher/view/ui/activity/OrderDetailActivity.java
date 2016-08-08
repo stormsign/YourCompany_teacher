@@ -1,14 +1,19 @@
 package com.miuhouse.yourcompany.teacher.view.ui.activity;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.miuhouse.yourcompany.teacher.R;
@@ -16,6 +21,7 @@ import com.miuhouse.yourcompany.teacher.application.App;
 import com.miuhouse.yourcompany.teacher.model.OrderEntity;
 import com.miuhouse.yourcompany.teacher.presenter.OrderDetailPresenter;
 import com.miuhouse.yourcompany.teacher.presenter.interf.IOrderDetailPresenter;
+import com.miuhouse.yourcompany.teacher.utils.L;
 import com.miuhouse.yourcompany.teacher.utils.Util;
 import com.miuhouse.yourcompany.teacher.utils.Values;
 import com.miuhouse.yourcompany.teacher.view.ui.activity.interf.IOrderDetailActivity;
@@ -41,7 +47,7 @@ public class OrderDetailActivity extends BaseActivity implements IOrderDetailAct
     private TextView schedule;
     private TextView demend;
     private LinearLayout call;
-    private LinearLayout content;
+    private RelativeLayout content;
     private IOrderDetailPresenter presenter;
     private TextView classCount;
     private TextView totalPrice;
@@ -119,7 +125,7 @@ public class OrderDetailActivity extends BaseActivity implements IOrderDetailAct
         schedule = (TextView) findViewById(R.id.schedule);
         demend = (TextView) findViewById(R.id.demand);
         call = (LinearLayout) findViewById(R.id.call);
-        content = (LinearLayout) findViewById(R.id.content);
+        content = (RelativeLayout) findViewById(R.id.content);
         actual = (TextView) findViewById(R.id.actual);
         bottom = (RelativeLayout) findViewById(R.id.bottom);
         button = (TextView) findViewById(R.id.button);
@@ -129,7 +135,6 @@ public class OrderDetailActivity extends BaseActivity implements IOrderDetailAct
         teacherId = App.getInstance().getTeacherId();
 //        orderInfoId = "4028b88155c4836f0155c48f0a020006";
         presenter.getOrderDetail(teacherId, orderInfoId);
-
     }
 
     @Override
@@ -137,8 +142,8 @@ public class OrderDetailActivity extends BaseActivity implements IOrderDetailAct
         this.order = order;
         if (!Util.isEmpty(order.getUserHeader())){
             Glide.with(activity).load(order.getUserHeader())
-                    .placeholder(R.mipmap.asy)
-                    .error(R.mipmap.ic_launcher)
+                    .placeholder(R.mipmap.ico_head_default)
+                    .error(R.mipmap.ico_head_default)
                     .into(studentHead);
         }
         studentName.setText("学生：" + order.getCname());
@@ -242,11 +247,49 @@ public class OrderDetailActivity extends BaseActivity implements IOrderDetailAct
 
     @Override
     public void call(String number) {
-        //传入服务， parse（）解析号码
-        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + number));
-        //通知activtity处理传入的call服务
-        startActivity(intent);
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE)
+                != PackageManager.PERMISSION_GRANTED){
+            L.i("read phone state GRANTED");
+        }else {
+            L.i("read phone state DENIED");
+
+        }
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE)
+                != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CALL_PHONE)) {
+//                Toast.makeText(this, "大哥，跪求通过权限", Toast.LENGTH_LONG).show();
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CALL_PHONE}, 1);
+            }else {
+                Toast.makeText(this, "权限已被禁止，要想重新开启，请在手机的权限管理中找到"+getResources().getString(R.string.app_name)+"应用，找到拨打电话权限并选择允许", Toast.LENGTH_LONG).show();
+            }
+        }else {
+            //传入服务， parse（）解析号码
+            Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + 0000000000));
+            //通知activtity处理传入的call服务
+            startActivity(intent);
+        }
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == 1){
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                //传入服务， parse（）解析号码
+                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + 0000000000));
+                //通知activtity处理传入的call服务
+                startActivity(intent);
+            }else{
+                Toast.makeText(this, "权限被拒绝", Toast.LENGTH_LONG).show();
+            }
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+
+
+
 
     @Override
     public void showLoading(String msg) {

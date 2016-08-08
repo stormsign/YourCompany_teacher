@@ -44,8 +44,8 @@ public class MyOrderAdapter extends BaseRVAdapter {
         mholder.name.setText(entity.getCname());
         if (null != entity.getUserHeader()) {
             Glide.with(context).load(entity.getUserHeader())
-                    .placeholder(R.mipmap.asy)
-                    .error(R.mipmap.ic_launcher)
+                    .placeholder(R.mipmap.ico_head_default)
+                    .error(R.mipmap.ico_head_default)
                     .into(mholder.header);
         }
         setOrderType(mholder.orderType, entity.getMajorDemand());

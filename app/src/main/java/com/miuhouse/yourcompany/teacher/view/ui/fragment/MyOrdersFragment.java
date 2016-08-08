@@ -143,7 +143,8 @@ public class MyOrdersFragment extends BaseFragment implements IOrdersListFragmen
     public void onItemClick(Object data) {
         OrderEntity order = (OrderEntity) data;
         startActivity(new Intent(context, OrderActivity.class)
-                .putExtra("order", order));
+                .putExtra("order", order)
+                .putExtra("isMyOrder", true));
     }
 
     @Override
